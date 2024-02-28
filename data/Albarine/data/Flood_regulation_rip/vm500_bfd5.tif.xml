@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xml:lang="es"><Esri><CreaDate>20230330</CreaDate><CreaTime>13222700</CreaTime><ArcGISFormat>1.0</ArcGISFormat><SyncOnce>TRUE</SyncOnce><DataProperties><lineage><Process ToolSource="c:\program files (x86)\arcgis\desktop10.8\ArcToolbox\Toolboxes\Conversion Tools.tbx\PolygonToRaster" Date="20230330" Time="132227">PolygonToRaster vm500_bfd5 BFD5 D:\GONZALO\DRYVER\ES_Modelling\WS_floodplains\fr\vm500_bfd5.tif CELL_CENTER NONE C:\work\FR\elev_fr.flt</Process></lineage></DataProperties></Esri></metadata>
