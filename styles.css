@@ -1,0 +1,46 @@
+input[type="number"] {
+  max-width: 100%;
+}
+
+#error_filemap{color: red;
+       font-size: 10px;
+       font-style: bold;
+      }
+                                 
+div.outer {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+/* Customize fonts */
+body, label, input, button, select { 
+  font-family: 'Helvetica Neue', Helvetica;
+  font-weight: 100;
+}
+h1, h2, h3, h4 { font-weight: 300; }
+
+/* If not using map tiles, show a white background */
+.leaflet-container {
+  background-color: white !important;
+}
+
+/* Adjust the position of the layer control */
+.leaflet-control-layers {
+  top: calc(50px + 10px); /* Adjust this value to move the layer control down */
+}
+
+/* Adjust the position of the Leaflet zoom control */
+.leaflet-control-zoom {
+  bottom: 0px; /* Adjust this value as needed */
+  right:  0px;
+}
+/* Adjust the position of the Leaflet legend */
+.leaflet-control.legend {
+  top: 60px;
+  right: 0px;
+}

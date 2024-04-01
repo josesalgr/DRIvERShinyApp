@@ -1,0 +1,2986 @@
+@context
+jams.components.core.SpatialContext	HRULoop	1
+@ancestors
+jams.components.core.TemporalContext	TimeLoop	9999
+@filters
+@attributes
+ID	value
+@types
+JAMSLong	JAMSDouble
+@data
+TimeLoop	1960-01-01 00:00
+@start
+-1	+1.25884E000
+@end
+TimeLoop	1960-02-01 00:00
+@start
+-1	+3.32025E-01
+@end
+TimeLoop	1960-03-01 00:00
+@start
+-1	+8.81066E-01
+@end
+TimeLoop	1960-04-01 00:00
+@start
+-1	+5.45330E000
+@end
+TimeLoop	1960-05-01 00:00
+@start
+-1	+9.90716E000
+@end
+TimeLoop	1960-06-01 00:00
+@start
+-1	+1.86590E001
+@end
+TimeLoop	1960-07-01 00:00
+@start
+-1	+7.76172E000
+@end
+TimeLoop	1960-08-01 00:00
+@start
+-1	+4.04740E000
+@end
+TimeLoop	1960-09-01 00:00
+@start
+-1	+3.26130E000
+@end
+TimeLoop	1960-10-01 00:00
+@start
+-1	+6.42058E-03
+@end
+TimeLoop	1960-11-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1960-12-01 00:00
+@start
+-1	+3.23973E000
+@end
+TimeLoop	1961-01-01 00:00
+@start
+-1	+3.12463E000
+@end
+TimeLoop	1961-02-01 00:00
+@start
+-1	+1.43919E-01
+@end
+TimeLoop	1961-03-01 00:00
+@start
+-1	+1.34871E000
+@end
+TimeLoop	1961-04-01 00:00
+@start
+-1	+3.92591E000
+@end
+TimeLoop	1961-05-01 00:00
+@start
+-1	+5.48476E000
+@end
+TimeLoop	1961-06-01 00:00
+@start
+-1	+5.25994E000
+@end
+TimeLoop	1961-07-01 00:00
+@start
+-1	+8.03747E000
+@end
+TimeLoop	1961-08-01 00:00
+@start
+-1	+1.51133E001
+@end
+TimeLoop	1961-09-01 00:00
+@start
+-1	+3.63689E001
+@end
+TimeLoop	1961-10-01 00:00
+@start
+-1	+1.00288E001
+@end
+TimeLoop	1961-11-01 00:00
+@start
+-1	+2.06157E000
+@end
+TimeLoop	1961-12-01 00:00
+@start
+-1	+1.15246E000
+@end
+TimeLoop	1962-01-01 00:00
+@start
+-1	+2.41140E-01
+@end
+TimeLoop	1962-02-01 00:00
+@start
+-1	+1.10949E000
+@end
+TimeLoop	1962-03-01 00:00
+@start
+-1	+1.09413E000
+@end
+TimeLoop	1962-04-01 00:00
+@start
+-1	+8.05041E-01
+@end
+TimeLoop	1962-05-01 00:00
+@start
+-1	+2.96434E000
+@end
+TimeLoop	1962-06-01 00:00
+@start
+-1	+1.01629E001
+@end
+TimeLoop	1962-07-01 00:00
+@start
+-1	+2.59414E001
+@end
+TimeLoop	1962-08-01 00:00
+@start
+-1	+4.38305E001
+@end
+TimeLoop	1962-09-01 00:00
+@start
+-1	+3.55186E001
+@end
+TimeLoop	1962-10-01 00:00
+@start
+-1	+8.00635E000
+@end
+TimeLoop	1962-11-01 00:00
+@start
+-1	+3.62025E000
+@end
+TimeLoop	1962-12-01 00:00
+@start
+-1	+2.72941E000
+@end
+TimeLoop	1963-01-01 00:00
+@start
+-1	+1.08896E000
+@end
+TimeLoop	1963-02-01 00:00
+@start
+-1	+1.81099E000
+@end
+TimeLoop	1963-03-01 00:00
+@start
+-1	+5.52287E-01
+@end
+TimeLoop	1963-04-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1963-05-01 00:00
+@start
+-1	+4.04357E000
+@end
+TimeLoop	1963-06-01 00:00
+@start
+-1	+1.99712E-01
+@end
+TimeLoop	1963-07-01 00:00
+@start
+-1	+3.35305E000
+@end
+TimeLoop	1963-08-01 00:00
+@start
+-1	+3.83718E000
+@end
+TimeLoop	1963-09-01 00:00
+@start
+-1	+1.93199E000
+@end
+TimeLoop	1963-10-01 00:00
+@start
+-1	+8.56988E000
+@end
+TimeLoop	1963-11-01 00:00
+@start
+-1	+9.27108E-01
+@end
+TimeLoop	1963-12-01 00:00
+@start
+-1	+4.39813E000
+@end
+TimeLoop	1964-01-01 00:00
+@start
+-1	+7.16225E000
+@end
+TimeLoop	1964-02-01 00:00
+@start
+-1	+2.32524E000
+@end
+TimeLoop	1964-03-01 00:00
+@start
+-1	+2.85047E-01
+@end
+TimeLoop	1964-04-01 00:00
+@start
+-1	+1.67163E000
+@end
+TimeLoop	1964-05-01 00:00
+@start
+-1	+2.28029E000
+@end
+TimeLoop	1964-06-01 00:00
+@start
+-1	+1.39243E001
+@end
+TimeLoop	1964-07-01 00:00
+@start
+-1	+3.06928E001
+@end
+TimeLoop	1964-08-01 00:00
+@start
+-1	+3.20842E001
+@end
+TimeLoop	1964-09-01 00:00
+@start
+-1	+1.82148E001
+@end
+TimeLoop	1964-10-01 00:00
+@start
+-1	+3.51863E000
+@end
+TimeLoop	1964-11-01 00:00
+@start
+-1	+6.23329E000
+@end
+TimeLoop	1964-12-01 00:00
+@start
+-1	+1.89447E000
+@end
+TimeLoop	1965-01-01 00:00
+@start
+-1	+2.10246E000
+@end
+TimeLoop	1965-02-01 00:00
+@start
+-1	+4.49076E000
+@end
+TimeLoop	1965-03-01 00:00
+@start
+-1	+2.25333E000
+@end
+TimeLoop	1965-04-01 00:00
+@start
+-1	+8.52226E-01
+@end
+TimeLoop	1965-05-01 00:00
+@start
+-1	+1.06283E000
+@end
+TimeLoop	1965-06-01 00:00
+@start
+-1	+3.43874E000
+@end
+TimeLoop	1965-07-01 00:00
+@start
+-1	+2.24239E000
+@end
+TimeLoop	1965-08-01 00:00
+@start
+-1	+4.92357E000
+@end
+TimeLoop	1965-09-01 00:00
+@start
+-1	+2.84709E-01
+@end
+TimeLoop	1965-10-01 00:00
+@start
+-1	+4.01122E000
+@end
+TimeLoop	1965-11-01 00:00
+@start
+-1	+4.31586E-01
+@end
+TimeLoop	1965-12-01 00:00
+@start
+-1	+6.55016E-02
+@end
+TimeLoop	1966-01-01 00:00
+@start
+-1	+3.55130E000
+@end
+TimeLoop	1966-02-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1966-03-01 00:00
+@start
+-1	+2.57860E-01
+@end
+TimeLoop	1966-04-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1966-05-01 00:00
+@start
+-1	+1.87917E000
+@end
+TimeLoop	1966-06-01 00:00
+@start
+-1	+5.85550E000
+@end
+TimeLoop	1966-07-01 00:00
+@start
+-1	+3.99091E000
+@end
+TimeLoop	1966-08-01 00:00
+@start
+-1	+9.49781E000
+@end
+TimeLoop	1966-09-01 00:00
+@start
+-1	+1.20576E001
+@end
+TimeLoop	1966-10-01 00:00
+@start
+-1	+4.51598E000
+@end
+TimeLoop	1966-11-01 00:00
+@start
+-1	+1.82355E000
+@end
+TimeLoop	1966-12-01 00:00
+@start
+-1	+7.22633E000
+@end
+TimeLoop	1967-01-01 00:00
+@start
+-1	+3.76213E000
+@end
+TimeLoop	1967-02-01 00:00
+@start
+-1	+1.20723E000
+@end
+TimeLoop	1967-03-01 00:00
+@start
+-1	+2.20540E-02
+@end
+TimeLoop	1967-04-01 00:00
+@start
+-1	+3.08697E000
+@end
+TimeLoop	1967-05-01 00:00
+@start
+-1	+9.78946E-01
+@end
+TimeLoop	1967-06-01 00:00
+@start
+-1	+3.68579E000
+@end
+TimeLoop	1967-07-01 00:00
+@start
+-1	+5.41751E000
+@end
+TimeLoop	1967-08-01 00:00
+@start
+-1	+8.55837E000
+@end
+TimeLoop	1967-09-01 00:00
+@start
+-1	+4.58855E000
+@end
+TimeLoop	1967-10-01 00:00
+@start
+-1	+3.74246E000
+@end
+TimeLoop	1967-11-01 00:00
+@start
+-1	+7.67385E-02
+@end
+TimeLoop	1967-12-01 00:00
+@start
+-1	+3.93170E000
+@end
+TimeLoop	1968-01-01 00:00
+@start
+-1	+4.50400E000
+@end
+TimeLoop	1968-02-01 00:00
+@start
+-1	+3.68665E-01
+@end
+TimeLoop	1968-03-01 00:00
+@start
+-1	+1.42455E000
+@end
+TimeLoop	1968-04-01 00:00
+@start
+-1	+2.16791E000
+@end
+TimeLoop	1968-05-01 00:00
+@start
+-1	+6.56095E-01
+@end
+TimeLoop	1968-06-01 00:00
+@start
+-1	+4.84981E000
+@end
+TimeLoop	1968-07-01 00:00
+@start
+-1	+7.81444E000
+@end
+TimeLoop	1968-08-01 00:00
+@start
+-1	+2.12885E000
+@end
+TimeLoop	1968-09-01 00:00
+@start
+-1	+2.12307E-01
+@end
+TimeLoop	1968-10-01 00:00
+@start
+-1	+1.42431E000
+@end
+TimeLoop	1968-11-01 00:00
+@start
+-1	+2.57989E-01
+@end
+TimeLoop	1968-12-01 00:00
+@start
+-1	+3.83801E000
+@end
+TimeLoop	1969-01-01 00:00
+@start
+-1	+2.17648E000
+@end
+TimeLoop	1969-02-01 00:00
+@start
+-1	+1.86939E000
+@end
+TimeLoop	1969-03-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1969-04-01 00:00
+@start
+-1	+1.00124E000
+@end
+TimeLoop	1969-05-01 00:00
+@start
+-1	+2.66081E000
+@end
+TimeLoop	1969-06-01 00:00
+@start
+-1	+2.68321E-02
+@end
+TimeLoop	1969-07-01 00:00
+@start
+-1	+3.84387E000
+@end
+TimeLoop	1969-08-01 00:00
+@start
+-1	+1.04166E001
+@end
+TimeLoop	1969-09-01 00:00
+@start
+-1	+5.38393E000
+@end
+TimeLoop	1969-10-01 00:00
+@start
+-1	+1.00747E001
+@end
+TimeLoop	1969-11-01 00:00
+@start
+-1	+1.97663E000
+@end
+TimeLoop	1969-12-01 00:00
+@start
+-1	+4.97460E000
+@end
+TimeLoop	1970-01-01 00:00
+@start
+-1	+1.41330E000
+@end
+TimeLoop	1970-02-01 00:00
+@start
+-1	+3.11423E-01
+@end
+TimeLoop	1970-03-01 00:00
+@start
+-1	+2.01612E000
+@end
+TimeLoop	1970-04-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1970-05-01 00:00
+@start
+-1	+6.62306E-01
+@end
+TimeLoop	1970-06-01 00:00
+@start
+-1	+1.25835E000
+@end
+TimeLoop	1970-07-01 00:00
+@start
+-1	+5.00271E000
+@end
+TimeLoop	1970-08-01 00:00
+@start
+-1	+5.16848E000
+@end
+TimeLoop	1970-09-01 00:00
+@start
+-1	+5.25249E000
+@end
+TimeLoop	1970-10-01 00:00
+@start
+-1	+3.87556E000
+@end
+TimeLoop	1970-11-01 00:00
+@start
+-1	+4.35450E000
+@end
+TimeLoop	1970-12-01 00:00
+@start
+-1	+2.66520E000
+@end
+TimeLoop	1971-01-01 00:00
+@start
+-1	+3.76743E000
+@end
+TimeLoop	1971-02-01 00:00
+@start
+-1	+2.82655E-01
+@end
+TimeLoop	1971-03-01 00:00
+@start
+-1	+1.95275E000
+@end
+TimeLoop	1971-04-01 00:00
+@start
+-1	+1.77564E000
+@end
+TimeLoop	1971-05-01 00:00
+@start
+-1	+2.76312E000
+@end
+TimeLoop	1971-06-01 00:00
+@start
+-1	+2.75725E-01
+@end
+TimeLoop	1971-07-01 00:00
+@start
+-1	+6.41102E000
+@end
+TimeLoop	1971-08-01 00:00
+@start
+-1	+1.38959E001
+@end
+TimeLoop	1971-09-01 00:00
+@start
+-1	+1.04273E001
+@end
+TimeLoop	1971-10-01 00:00
+@start
+-1	+6.98048E000
+@end
+TimeLoop	1971-11-01 00:00
+@start
+-1	+3.48411E000
+@end
+TimeLoop	1971-12-01 00:00
+@start
+-1	+4.14010E000
+@end
+TimeLoop	1972-01-01 00:00
+@start
+-1	+1.72740E000
+@end
+TimeLoop	1972-02-01 00:00
+@start
+-1	+5.56398E-01
+@end
+TimeLoop	1972-03-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1972-04-01 00:00
+@start
+-1	+8.45989E-01
+@end
+TimeLoop	1972-05-01 00:00
+@start
+-1	+2.60088E000
+@end
+TimeLoop	1972-06-01 00:00
+@start
+-1	+2.16572E000
+@end
+TimeLoop	1972-07-01 00:00
+@start
+-1	+4.37496E000
+@end
+TimeLoop	1972-08-01 00:00
+@start
+-1	+1.04454E001
+@end
+TimeLoop	1972-09-01 00:00
+@start
+-1	+4.61165E000
+@end
+TimeLoop	1972-10-01 00:00
+@start
+-1	+6.02629E000
+@end
+TimeLoop	1972-11-01 00:00
+@start
+-1	+1.43334E000
+@end
+TimeLoop	1972-12-01 00:00
+@start
+-1	+3.08569E000
+@end
+TimeLoop	1973-01-01 00:00
+@start
+-1	+3.80281E000
+@end
+TimeLoop	1973-02-01 00:00
+@start
+-1	+1.50083E000
+@end
+TimeLoop	1973-03-01 00:00
+@start
+-1	+1.21062E000
+@end
+TimeLoop	1973-04-01 00:00
+@start
+-1	+4.50945E-03
+@end
+TimeLoop	1973-05-01 00:00
+@start
+-1	+2.76180E000
+@end
+TimeLoop	1973-06-01 00:00
+@start
+-1	+3.91163E000
+@end
+TimeLoop	1973-07-01 00:00
+@start
+-1	+6.17989E000
+@end
+TimeLoop	1973-08-01 00:00
+@start
+-1	+6.85119E000
+@end
+TimeLoop	1973-09-01 00:00
+@start
+-1	+1.20315E001
+@end
+TimeLoop	1973-10-01 00:00
+@start
+-1	+3.83508E000
+@end
+TimeLoop	1973-11-01 00:00
+@start
+-1	+3.29643E000
+@end
+TimeLoop	1973-12-01 00:00
+@start
+-1	+2.86594E000
+@end
+TimeLoop	1974-01-01 00:00
+@start
+-1	+1.00287E000
+@end
+TimeLoop	1974-02-01 00:00
+@start
+-1	+4.94726E-01
+@end
+TimeLoop	1974-03-01 00:00
+@start
+-1	+2.07192E000
+@end
+TimeLoop	1974-04-01 00:00
+@start
+-1	+3.58959E000
+@end
+TimeLoop	1974-05-01 00:00
+@start
+-1	+1.31338E000
+@end
+TimeLoop	1974-06-01 00:00
+@start
+-1	+1.37639E000
+@end
+TimeLoop	1974-07-01 00:00
+@start
+-1	+5.70189E000
+@end
+TimeLoop	1974-08-01 00:00
+@start
+-1	+2.75910E001
+@end
+TimeLoop	1974-09-01 00:00
+@start
+-1	+6.85168E000
+@end
+TimeLoop	1974-10-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1974-11-01 00:00
+@start
+-1	+4.50945E-03
+@end
+TimeLoop	1974-12-01 00:00
+@start
+-1	+2.00936E-01
+@end
+TimeLoop	1975-01-01 00:00
+@start
+-1	+2.27446E-01
+@end
+TimeLoop	1975-02-01 00:00
+@start
+-1	+1.82678E000
+@end
+TimeLoop	1975-03-01 00:00
+@start
+-1	+8.22720E-01
+@end
+TimeLoop	1975-04-01 00:00
+@start
+-1	+1.44924E000
+@end
+TimeLoop	1975-05-01 00:00
+@start
+-1	+2.66407E000
+@end
+TimeLoop	1975-06-01 00:00
+@start
+-1	+9.30563E-01
+@end
+TimeLoop	1975-07-01 00:00
+@start
+-1	+5.15921E000
+@end
+TimeLoop	1975-08-01 00:00
+@start
+-1	+1.48573E001
+@end
+TimeLoop	1975-09-01 00:00
+@start
+-1	+1.54928E000
+@end
+TimeLoop	1975-10-01 00:00
+@start
+-1	+4.67130E000
+@end
+TimeLoop	1975-11-01 00:00
+@start
+-1	+1.71368E-01
+@end
+TimeLoop	1975-12-01 00:00
+@start
+-1	+2.51686E000
+@end
+TimeLoop	1976-01-01 00:00
+@start
+-1	+2.66659E000
+@end
+TimeLoop	1976-02-01 00:00
+@start
+-1	+8.88602E-01
+@end
+TimeLoop	1976-03-01 00:00
+@start
+-1	+7.83202E-01
+@end
+TimeLoop	1976-04-01 00:00
+@start
+-1	+4.18075E000
+@end
+TimeLoop	1976-05-01 00:00
+@start
+-1	+8.92252E000
+@end
+TimeLoop	1976-06-01 00:00
+@start
+-1	+2.26356E001
+@end
+TimeLoop	1976-07-01 00:00
+@start
+-1	+2.77169E001
+@end
+TimeLoop	1976-08-01 00:00
+@start
+-1	+3.03809E001
+@end
+TimeLoop	1976-09-01 00:00
+@start
+-1	+2.57794E000
+@end
+TimeLoop	1976-10-01 00:00
+@start
+-1	+7.49812E-01
+@end
+TimeLoop	1976-11-01 00:00
+@start
+-1	+1.46279E000
+@end
+TimeLoop	1976-12-01 00:00
+@start
+-1	+3.23576E000
+@end
+TimeLoop	1977-01-01 00:00
+@start
+-1	+2.12514E000
+@end
+TimeLoop	1977-02-01 00:00
+@start
+-1	+1.74501E-01
+@end
+TimeLoop	1977-03-01 00:00
+@start
+-1	+1.50817E-02
+@end
+TimeLoop	1977-04-01 00:00
+@start
+-1	+4.44034E-03
+@end
+TimeLoop	1977-05-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1977-06-01 00:00
+@start
+-1	+1.02468E000
+@end
+TimeLoop	1977-07-01 00:00
+@start
+-1	+1.83869E000
+@end
+TimeLoop	1977-08-01 00:00
+@start
+-1	+1.67662E000
+@end
+TimeLoop	1977-09-01 00:00
+@start
+-1	+5.98387E000
+@end
+TimeLoop	1977-10-01 00:00
+@start
+-1	+4.77271E000
+@end
+TimeLoop	1977-11-01 00:00
+@start
+-1	+1.29674E000
+@end
+TimeLoop	1977-12-01 00:00
+@start
+-1	+1.24421E000
+@end
+TimeLoop	1978-01-01 00:00
+@start
+-1	+2.61029E000
+@end
+TimeLoop	1978-02-01 00:00
+@start
+-1	+1.82881E000
+@end
+TimeLoop	1978-03-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1978-04-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1978-05-01 00:00
+@start
+-1	+1.64678E-01
+@end
+TimeLoop	1978-06-01 00:00
+@start
+-1	+2.57332E000
+@end
+TimeLoop	1978-07-01 00:00
+@start
+-1	+2.88492E000
+@end
+TimeLoop	1978-08-01 00:00
+@start
+-1	+4.03346E000
+@end
+TimeLoop	1978-09-01 00:00
+@start
+-1	+8.58591E000
+@end
+TimeLoop	1978-10-01 00:00
+@start
+-1	+6.29002E000
+@end
+TimeLoop	1978-11-01 00:00
+@start
+-1	+5.90597E000
+@end
+TimeLoop	1978-12-01 00:00
+@start
+-1	+8.02213E-01
+@end
+TimeLoop	1979-01-01 00:00
+@start
+-1	+2.70245E000
+@end
+TimeLoop	1979-02-01 00:00
+@start
+-1	+1.33704E000
+@end
+TimeLoop	1979-03-01 00:00
+@start
+-1	+8.01870E-01
+@end
+TimeLoop	1979-04-01 00:00
+@start
+-1	+9.95967E-02
+@end
+TimeLoop	1979-05-01 00:00
+@start
+-1	+2.98208E000
+@end
+TimeLoop	1979-06-01 00:00
+@start
+-1	+2.53505E000
+@end
+TimeLoop	1979-07-01 00:00
+@start
+-1	+1.07908E001
+@end
+TimeLoop	1979-08-01 00:00
+@start
+-1	+1.02934E001
+@end
+TimeLoop	1979-09-01 00:00
+@start
+-1	+9.40544E000
+@end
+TimeLoop	1979-10-01 00:00
+@start
+-1	+4.38003E000
+@end
+TimeLoop	1979-11-01 00:00
+@start
+-1	+1.62386E000
+@end
+TimeLoop	1979-12-01 00:00
+@start
+-1	+3.88375E000
+@end
+TimeLoop	1980-01-01 00:00
+@start
+-1	+2.84637E000
+@end
+TimeLoop	1980-02-01 00:00
+@start
+-1	+3.01792E-02
+@end
+TimeLoop	1980-03-01 00:00
+@start
+-1	+6.40812E-01
+@end
+TimeLoop	1980-04-01 00:00
+@start
+-1	+1.74434E000
+@end
+TimeLoop	1980-05-01 00:00
+@start
+-1	+3.18544E000
+@end
+TimeLoop	1980-06-01 00:00
+@start
+-1	+3.69775E-01
+@end
+TimeLoop	1980-07-01 00:00
+@start
+-1	+5.59836E-01
+@end
+TimeLoop	1980-08-01 00:00
+@start
+-1	+8.02574E000
+@end
+TimeLoop	1980-09-01 00:00
+@start
+-1	+4.61652E000
+@end
+TimeLoop	1980-10-01 00:00
+@start
+-1	+2.30228E000
+@end
+TimeLoop	1980-11-01 00:00
+@start
+-1	+1.49055E000
+@end
+TimeLoop	1980-12-01 00:00
+@start
+-1	+2.39529E000
+@end
+TimeLoop	1981-01-01 00:00
+@start
+-1	+4.32610E000
+@end
+TimeLoop	1981-02-01 00:00
+@start
+-1	+1.58713E000
+@end
+TimeLoop	1981-03-01 00:00
+@start
+-1	+5.93569E-04
+@end
+TimeLoop	1981-04-01 00:00
+@start
+-1	+3.47726E000
+@end
+TimeLoop	1981-05-01 00:00
+@start
+-1	+9.53155E-01
+@end
+TimeLoop	1981-06-01 00:00
+@start
+-1	+3.09822E000
+@end
+TimeLoop	1981-07-01 00:00
+@start
+-1	+1.24660E000
+@end
+TimeLoop	1981-08-01 00:00
+@start
+-1	+1.00753E001
+@end
+TimeLoop	1981-09-01 00:00
+@start
+-1	+9.44762E000
+@end
+TimeLoop	1981-10-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1981-11-01 00:00
+@start
+-1	+3.65588E000
+@end
+TimeLoop	1981-12-01 00:00
+@start
+-1	+2.23511E000
+@end
+TimeLoop	1982-01-01 00:00
+@start
+-1	+1.42624E-01
+@end
+TimeLoop	1982-02-01 00:00
+@start
+-1	+1.97029E-01
+@end
+TimeLoop	1982-03-01 00:00
+@start
+-1	+3.25042E-02
+@end
+TimeLoop	1982-04-01 00:00
+@start
+-1	+5.86320E000
+@end
+TimeLoop	1982-05-01 00:00
+@start
+-1	+5.84442E000
+@end
+TimeLoop	1982-06-01 00:00
+@start
+-1	+3.96124E-01
+@end
+TimeLoop	1982-07-01 00:00
+@start
+-1	+1.52536E001
+@end
+TimeLoop	1982-08-01 00:00
+@start
+-1	+1.40580E000
+@end
+TimeLoop	1982-09-01 00:00
+@start
+-1	+2.73287E000
+@end
+TimeLoop	1982-10-01 00:00
+@start
+-1	+4.01286E-02
+@end
+TimeLoop	1982-11-01 00:00
+@start
+-1	+1.32010E000
+@end
+TimeLoop	1982-12-01 00:00
+@start
+-1	+1.31109E000
+@end
+TimeLoop	1983-01-01 00:00
+@start
+-1	+5.03681E-01
+@end
+TimeLoop	1983-02-01 00:00
+@start
+-1	+2.79472E000
+@end
+TimeLoop	1983-03-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1983-04-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1983-05-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1983-06-01 00:00
+@start
+-1	+6.32828E000
+@end
+TimeLoop	1983-07-01 00:00
+@start
+-1	+1.33544E001
+@end
+TimeLoop	1983-08-01 00:00
+@start
+-1	+1.91816E001
+@end
+TimeLoop	1983-09-01 00:00
+@start
+-1	+2.26115E000
+@end
+TimeLoop	1983-10-01 00:00
+@start
+-1	+6.15936E000
+@end
+TimeLoop	1983-11-01 00:00
+@start
+-1	+8.43030E000
+@end
+TimeLoop	1983-12-01 00:00
+@start
+-1	+2.04855E000
+@end
+TimeLoop	1984-01-01 00:00
+@start
+-1	+2.92316E000
+@end
+TimeLoop	1984-02-01 00:00
+@start
+-1	+2.41481E000
+@end
+TimeLoop	1984-03-01 00:00
+@start
+-1	+1.79329E000
+@end
+TimeLoop	1984-04-01 00:00
+@start
+-1	+2.47102E000
+@end
+TimeLoop	1984-05-01 00:00
+@start
+-1	+2.92050E000
+@end
+TimeLoop	1984-06-01 00:00
+@start
+-1	+3.63536E000
+@end
+TimeLoop	1984-07-01 00:00
+@start
+-1	+1.73495E001
+@end
+TimeLoop	1984-08-01 00:00
+@start
+-1	+2.57014E001
+@end
+TimeLoop	1984-09-01 00:00
+@start
+-1	+6.04859E000
+@end
+TimeLoop	1984-10-01 00:00
+@start
+-1	+2.29772E000
+@end
+TimeLoop	1984-11-01 00:00
+@start
+-1	+2.30039E000
+@end
+TimeLoop	1984-12-01 00:00
+@start
+-1	+9.93618E-01
+@end
+TimeLoop	1985-01-01 00:00
+@start
+-1	+3.95588E000
+@end
+TimeLoop	1985-02-01 00:00
+@start
+-1	+5.05370E-02
+@end
+TimeLoop	1985-03-01 00:00
+@start
+-1	+9.65754E-01
+@end
+TimeLoop	1985-04-01 00:00
+@start
+-1	+1.69759E000
+@end
+TimeLoop	1985-05-01 00:00
+@start
+-1	+8.93330E-01
+@end
+TimeLoop	1985-06-01 00:00
+@start
+-1	+7.16183E-01
+@end
+TimeLoop	1985-07-01 00:00
+@start
+-1	+4.52376E000
+@end
+TimeLoop	1985-08-01 00:00
+@start
+-1	+6.44046E000
+@end
+TimeLoop	1985-09-01 00:00
+@start
+-1	+1.22346E001
+@end
+TimeLoop	1985-10-01 00:00
+@start
+-1	+1.55999E001
+@end
+TimeLoop	1985-11-01 00:00
+@start
+-1	+2.69218E000
+@end
+TimeLoop	1985-12-01 00:00
+@start
+-1	+1.73138E000
+@end
+TimeLoop	1986-01-01 00:00
+@start
+-1	+1.27779E000
+@end
+TimeLoop	1986-02-01 00:00
+@start
+-1	+3.25402E000
+@end
+TimeLoop	1986-03-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1986-04-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1986-05-01 00:00
+@start
+-1	+8.43755E-01
+@end
+TimeLoop	1986-06-01 00:00
+@start
+-1	+3.69856E000
+@end
+TimeLoop	1986-07-01 00:00
+@start
+-1	+1.48332E001
+@end
+TimeLoop	1986-08-01 00:00
+@start
+-1	+1.46706E001
+@end
+TimeLoop	1986-09-01 00:00
+@start
+-1	+8.21179E000
+@end
+TimeLoop	1986-10-01 00:00
+@start
+-1	+5.93719E000
+@end
+TimeLoop	1986-11-01 00:00
+@start
+-1	+1.84590E000
+@end
+TimeLoop	1986-12-01 00:00
+@start
+-1	+2.12271E000
+@end
+TimeLoop	1987-01-01 00:00
+@start
+-1	+5.54848E000
+@end
+TimeLoop	1987-02-01 00:00
+@start
+-1	+6.96327E-01
+@end
+TimeLoop	1987-03-01 00:00
+@start
+-1	+1.22952E-01
+@end
+TimeLoop	1987-04-01 00:00
+@start
+-1	+1.63516E000
+@end
+TimeLoop	1987-05-01 00:00
+@start
+-1	+1.82220E000
+@end
+TimeLoop	1987-06-01 00:00
+@start
+-1	+4.39067E-01
+@end
+TimeLoop	1987-07-01 00:00
+@start
+-1	+1.14431E000
+@end
+TimeLoop	1987-08-01 00:00
+@start
+-1	+5.84286E000
+@end
+TimeLoop	1987-09-01 00:00
+@start
+-1	+9.48486E000
+@end
+TimeLoop	1987-10-01 00:00
+@start
+-1	+2.47351E-01
+@end
+TimeLoop	1987-11-01 00:00
+@start
+-1	+1.17407E000
+@end
+TimeLoop	1987-12-01 00:00
+@start
+-1	+8.60207E-01
+@end
+TimeLoop	1988-01-01 00:00
+@start
+-1	+6.20405E-02
+@end
+TimeLoop	1988-02-01 00:00
+@start
+-1	+2.16867E-01
+@end
+TimeLoop	1988-03-01 00:00
+@start
+-1	+2.10744E000
+@end
+TimeLoop	1988-04-01 00:00
+@start
+-1	+2.68321E-02
+@end
+TimeLoop	1988-05-01 00:00
+@start
+-1	+5.47814E-01
+@end
+TimeLoop	1988-06-01 00:00
+@start
+-1	+2.30920E000
+@end
+TimeLoop	1988-07-01 00:00
+@start
+-1	+6.31110E000
+@end
+TimeLoop	1988-08-01 00:00
+@start
+-1	+2.09232E001
+@end
+TimeLoop	1988-09-01 00:00
+@start
+-1	+9.24592E000
+@end
+TimeLoop	1988-10-01 00:00
+@start
+-1	+1.24972E000
+@end
+TimeLoop	1988-11-01 00:00
+@start
+-1	+6.81808E000
+@end
+TimeLoop	1988-12-01 00:00
+@start
+-1	+1.06427E000
+@end
+TimeLoop	1989-01-01 00:00
+@start
+-1	+3.82190E000
+@end
+TimeLoop	1989-02-01 00:00
+@start
+-1	+6.80158E000
+@end
+TimeLoop	1989-03-01 00:00
+@start
+-1	+5.80310E-01
+@end
+TimeLoop	1989-04-01 00:00
+@start
+-1	+5.48512E-01
+@end
+TimeLoop	1989-05-01 00:00
+@start
+-1	+3.49875E000
+@end
+TimeLoop	1989-06-01 00:00
+@start
+-1	+1.25998E001
+@end
+TimeLoop	1989-07-01 00:00
+@start
+-1	+2.82630E001
+@end
+TimeLoop	1989-08-01 00:00
+@start
+-1	+4.30463E001
+@end
+TimeLoop	1989-09-01 00:00
+@start
+-1	+2.93062E001
+@end
+TimeLoop	1989-10-01 00:00
+@start
+-1	+6.08726E000
+@end
+TimeLoop	1989-11-01 00:00
+@start
+-1	+2.91335E000
+@end
+TimeLoop	1989-12-01 00:00
+@start
+-1	+2.00325E000
+@end
+TimeLoop	1990-01-01 00:00
+@start
+-1	+6.32810E000
+@end
+TimeLoop	1990-02-01 00:00
+@start
+-1	+1.11487E-01
+@end
+TimeLoop	1990-03-01 00:00
+@start
+-1	+3.36000E000
+@end
+TimeLoop	1990-04-01 00:00
+@start
+-1	+1.30556E000
+@end
+TimeLoop	1990-05-01 00:00
+@start
+-1	+3.61673E000
+@end
+TimeLoop	1990-06-01 00:00
+@start
+-1	+9.00103E-01
+@end
+TimeLoop	1990-07-01 00:00
+@start
+-1	+1.03931E001
+@end
+TimeLoop	1990-08-01 00:00
+@start
+-1	+2.92063E001
+@end
+TimeLoop	1990-09-01 00:00
+@start
+-1	+1.48503E001
+@end
+TimeLoop	1990-10-01 00:00
+@start
+-1	+2.71057E000
+@end
+TimeLoop	1990-11-01 00:00
+@start
+-1	+9.26771E-02
+@end
+TimeLoop	1990-12-01 00:00
+@start
+-1	+5.51578E000
+@end
+TimeLoop	1991-01-01 00:00
+@start
+-1	+2.53722E000
+@end
+TimeLoop	1991-02-01 00:00
+@start
+-1	+3.33073E000
+@end
+TimeLoop	1991-03-01 00:00
+@start
+-1	+6.89376E-02
+@end
+TimeLoop	1991-04-01 00:00
+@start
+-1	+4.61105E000
+@end
+TimeLoop	1991-05-01 00:00
+@start
+-1	+3.12184E000
+@end
+TimeLoop	1991-06-01 00:00
+@start
+-1	+1.37634E000
+@end
+TimeLoop	1991-07-01 00:00
+@start
+-1	+2.10847E001
+@end
+TimeLoop	1991-08-01 00:00
+@start
+-1	+3.66201E001
+@end
+TimeLoop	1991-09-01 00:00
+@start
+-1	+3.07894E001
+@end
+TimeLoop	1991-10-01 00:00
+@start
+-1	+1.62379E000
+@end
+TimeLoop	1991-11-01 00:00
+@start
+-1	+4.50323E-01
+@end
+TimeLoop	1991-12-01 00:00
+@start
+-1	+4.50681E000
+@end
+TimeLoop	1992-01-01 00:00
+@start
+-1	+2.92999E000
+@end
+TimeLoop	1992-02-01 00:00
+@start
+-1	+1.08460E000
+@end
+TimeLoop	1992-03-01 00:00
+@start
+-1	+2.24479E000
+@end
+TimeLoop	1992-04-01 00:00
+@start
+-1	+9.87570E-01
+@end
+TimeLoop	1992-05-01 00:00
+@start
+-1	+3.38091E000
+@end
+TimeLoop	1992-06-01 00:00
+@start
+-1	+9.74198E-02
+@end
+TimeLoop	1992-07-01 00:00
+@start
+-1	+2.73340E000
+@end
+TimeLoop	1992-08-01 00:00
+@start
+-1	+2.38244E001
+@end
+TimeLoop	1992-09-01 00:00
+@start
+-1	+6.05021E000
+@end
+TimeLoop	1992-10-01 00:00
+@start
+-1	+7.82007E-01
+@end
+TimeLoop	1992-11-01 00:00
+@start
+-1	+4.50945E-03
+@end
+TimeLoop	1992-12-01 00:00
+@start
+-1	+2.48718E000
+@end
+TimeLoop	1993-01-01 00:00
+@start
+-1	+5.20079E000
+@end
+TimeLoop	1993-02-01 00:00
+@start
+-1	+4.47404E000
+@end
+TimeLoop	1993-03-01 00:00
+@start
+-1	+5.86900E000
+@end
+TimeLoop	1993-04-01 00:00
+@start
+-1	+1.60981E000
+@end
+TimeLoop	1993-05-01 00:00
+@start
+-1	+1.76097E000
+@end
+TimeLoop	1993-06-01 00:00
+@start
+-1	+2.10796E000
+@end
+TimeLoop	1993-07-01 00:00
+@start
+-1	+1.61959E000
+@end
+TimeLoop	1993-08-01 00:00
+@start
+-1	+2.07999E001
+@end
+TimeLoop	1993-09-01 00:00
+@start
+-1	+4.20228E000
+@end
+TimeLoop	1993-10-01 00:00
+@start
+-1	+8.24000E-01
+@end
+TimeLoop	1993-11-01 00:00
+@start
+-1	+3.55475E000
+@end
+TimeLoop	1993-12-01 00:00
+@start
+-1	+4.73626E-01
+@end
+TimeLoop	1994-01-01 00:00
+@start
+-1	+1.33464E000
+@end
+TimeLoop	1994-02-01 00:00
+@start
+-1	+1.34469E-01
+@end
+TimeLoop	1994-03-01 00:00
+@start
+-1	+1.10936E000
+@end
+TimeLoop	1994-04-01 00:00
+@start
+-1	+1.23647E-01
+@end
+TimeLoop	1994-05-01 00:00
+@start
+-1	+2.01376E000
+@end
+TimeLoop	1994-06-01 00:00
+@start
+-1	+2.87194E000
+@end
+TimeLoop	1994-07-01 00:00
+@start
+-1	+1.62870E001
+@end
+TimeLoop	1994-08-01 00:00
+@start
+-1	+2.40897E001
+@end
+TimeLoop	1994-09-01 00:00
+@start
+-1	+5.00029E000
+@end
+TimeLoop	1994-10-01 00:00
+@start
+-1	+4.41447E000
+@end
+TimeLoop	1994-11-01 00:00
+@start
+-1	+7.32665E-01
+@end
+TimeLoop	1994-12-01 00:00
+@start
+-1	+1.55299E000
+@end
+TimeLoop	1995-01-01 00:00
+@start
+-1	+1.07662E000
+@end
+TimeLoop	1995-02-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1995-03-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1995-04-01 00:00
+@start
+-1	+2.65423E000
+@end
+TimeLoop	1995-05-01 00:00
+@start
+-1	+1.69122E000
+@end
+TimeLoop	1995-06-01 00:00
+@start
+-1	+3.58496E000
+@end
+TimeLoop	1995-07-01 00:00
+@start
+-1	+1.06603E001
+@end
+TimeLoop	1995-08-01 00:00
+@start
+-1	+2.57644E001
+@end
+TimeLoop	1995-09-01 00:00
+@start
+-1	+4.42426E000
+@end
+TimeLoop	1995-10-01 00:00
+@start
+-1	+6.12719E000
+@end
+TimeLoop	1995-11-01 00:00
+@start
+-1	+2.64749E000
+@end
+TimeLoop	1995-12-01 00:00
+@start
+-1	+2.52806E000
+@end
+TimeLoop	1996-01-01 00:00
+@start
+-1	+1.48646E000
+@end
+TimeLoop	1996-02-01 00:00
+@start
+-1	+1.18448E000
+@end
+TimeLoop	1996-03-01 00:00
+@start
+-1	+3.57053E-01
+@end
+TimeLoop	1996-04-01 00:00
+@start
+-1	+3.94512E000
+@end
+TimeLoop	1996-05-01 00:00
+@start
+-1	+1.96251E000
+@end
+TimeLoop	1996-06-01 00:00
+@start
+-1	+4.64359E000
+@end
+TimeLoop	1996-07-01 00:00
+@start
+-1	+8.56059E000
+@end
+TimeLoop	1996-08-01 00:00
+@start
+-1	+6.72310E000
+@end
+TimeLoop	1996-09-01 00:00
+@start
+-1	+7.69216E000
+@end
+TimeLoop	1996-10-01 00:00
+@start
+-1	+2.51770E000
+@end
+TimeLoop	1996-11-01 00:00
+@start
+-1	+3.77740E-01
+@end
+TimeLoop	1996-12-01 00:00
+@start
+-1	+1.32928E000
+@end
+TimeLoop	1997-01-01 00:00
+@start
+-1	+3.71010E000
+@end
+TimeLoop	1997-02-01 00:00
+@start
+-1	+1.48936E-01
+@end
+TimeLoop	1997-03-01 00:00
+@start
+-1	+4.24496E000
+@end
+TimeLoop	1997-04-01 00:00
+@start
+-1	+9.16174E000
+@end
+TimeLoop	1997-05-01 00:00
+@start
+-1	+1.68861E000
+@end
+TimeLoop	1997-06-01 00:00
+@start
+-1	+4.14607E000
+@end
+TimeLoop	1997-07-01 00:00
+@start
+-1	+3.91051E000
+@end
+TimeLoop	1997-08-01 00:00
+@start
+-1	+2.64569E001
+@end
+TimeLoop	1997-09-01 00:00
+@start
+-1	+1.61891E001
+@end
+TimeLoop	1997-10-01 00:00
+@start
+-1	+5.82125E000
+@end
+TimeLoop	1997-11-01 00:00
+@start
+-1	+1.11129E000
+@end
+TimeLoop	1997-12-01 00:00
+@start
+-1	+2.52944E-01
+@end
+TimeLoop	1998-01-01 00:00
+@start
+-1	+7.22006E-01
+@end
+TimeLoop	1998-02-01 00:00
+@start
+-1	+4.09676E000
+@end
+TimeLoop	1998-03-01 00:00
+@start
+-1	+2.00083E000
+@end
+TimeLoop	1998-04-01 00:00
+@start
+-1	+6.76168E-01
+@end
+TimeLoop	1998-05-01 00:00
+@start
+-1	+6.20447E000
+@end
+TimeLoop	1998-06-01 00:00
+@start
+-1	+3.77310E000
+@end
+TimeLoop	1998-07-01 00:00
+@start
+-1	+1.61205E001
+@end
+TimeLoop	1998-08-01 00:00
+@start
+-1	+2.25734E001
+@end
+TimeLoop	1998-09-01 00:00
+@start
+-1	+5.82570E000
+@end
+TimeLoop	1998-10-01 00:00
+@start
+-1	+9.68437E-01
+@end
+TimeLoop	1998-11-01 00:00
+@start
+-1	+1.59425E000
+@end
+TimeLoop	1998-12-01 00:00
+@start
+-1	+1.83333E000
+@end
+TimeLoop	1999-01-01 00:00
+@start
+-1	+1.23479E-02
+@end
+TimeLoop	1999-02-01 00:00
+@start
+-1	+1.37095E000
+@end
+TimeLoop	1999-03-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	1999-04-01 00:00
+@start
+-1	+1.74072E-02
+@end
+TimeLoop	1999-05-01 00:00
+@start
+-1	+7.04742E-01
+@end
+TimeLoop	1999-06-01 00:00
+@start
+-1	+3.92200E000
+@end
+TimeLoop	1999-07-01 00:00
+@start
+-1	+1.05295E001
+@end
+TimeLoop	1999-08-01 00:00
+@start
+-1	+2.04382E001
+@end
+TimeLoop	1999-09-01 00:00
+@start
+-1	+2.60656E001
+@end
+TimeLoop	1999-10-01 00:00
+@start
+-1	+4.13870E000
+@end
+TimeLoop	1999-11-01 00:00
+@start
+-1	+2.51658E000
+@end
+TimeLoop	1999-12-01 00:00
+@start
+-1	+5.84816E-01
+@end
+TimeLoop	2000-01-01 00:00
+@start
+-1	+2.54415E000
+@end
+TimeLoop	2000-02-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2000-03-01 00:00
+@start
+-1	+2.29317E000
+@end
+TimeLoop	2000-04-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2000-05-01 00:00
+@start
+-1	+3.67686E000
+@end
+TimeLoop	2000-06-01 00:00
+@start
+-1	+7.92272E000
+@end
+TimeLoop	2000-07-01 00:00
+@start
+-1	+4.43726E000
+@end
+TimeLoop	2000-08-01 00:00
+@start
+-1	+1.19248E001
+@end
+TimeLoop	2000-09-01 00:00
+@start
+-1	+1.02051E001
+@end
+TimeLoop	2000-10-01 00:00
+@start
+-1	+3.50244E000
+@end
+TimeLoop	2000-11-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2000-12-01 00:00
+@start
+-1	+6.42894E-03
+@end
+TimeLoop	2001-01-01 00:00
+@start
+-1	+1.67203E-05
+@end
+TimeLoop	2001-02-01 00:00
+@start
+-1	+2.67650E000
+@end
+TimeLoop	2001-03-01 00:00
+@start
+-1	+3.45967E-01
+@end
+TimeLoop	2001-04-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2001-05-01 00:00
+@start
+-1	+4.97879E-01
+@end
+TimeLoop	2001-06-01 00:00
+@start
+-1	+2.37099E000
+@end
+TimeLoop	2001-07-01 00:00
+@start
+-1	+4.07241E000
+@end
+TimeLoop	2001-08-01 00:00
+@start
+-1	+7.08758E000
+@end
+TimeLoop	2001-09-01 00:00
+@start
+-1	+4.28533E000
+@end
+TimeLoop	2001-10-01 00:00
+@start
+-1	+4.67755E000
+@end
+TimeLoop	2001-11-01 00:00
+@start
+-1	+4.88912E000
+@end
+TimeLoop	2001-12-01 00:00
+@start
+-1	+5.15432E000
+@end
+TimeLoop	2002-01-01 00:00
+@start
+-1	+3.02228E000
+@end
+TimeLoop	2002-02-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2002-03-01 00:00
+@start
+-1	+2.10458E000
+@end
+TimeLoop	2002-04-01 00:00
+@start
+-1	+4.88599E000
+@end
+TimeLoop	2002-05-01 00:00
+@start
+-1	+1.15597E000
+@end
+TimeLoop	2002-06-01 00:00
+@start
+-1	+5.00911E000
+@end
+TimeLoop	2002-07-01 00:00
+@start
+-1	+1.27007E001
+@end
+TimeLoop	2002-08-01 00:00
+@start
+-1	+1.08777E001
+@end
+TimeLoop	2002-09-01 00:00
+@start
+-1	+9.87145E000
+@end
+TimeLoop	2002-10-01 00:00
+@start
+-1	+2.85018E000
+@end
+TimeLoop	2002-11-01 00:00
+@start
+-1	+7.40518E-02
+@end
+TimeLoop	2002-12-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2003-01-01 00:00
+@start
+-1	+1.51579E000
+@end
+TimeLoop	2003-02-01 00:00
+@start
+-1	+2.31759E000
+@end
+TimeLoop	2003-03-01 00:00
+@start
+-1	+3.87887E000
+@end
+TimeLoop	2003-04-01 00:00
+@start
+-1	+4.65225E000
+@end
+TimeLoop	2003-05-01 00:00
+@start
+-1	+5.06106E000
+@end
+TimeLoop	2003-06-01 00:00
+@start
+-1	+2.11150E001
+@end
+TimeLoop	2003-07-01 00:00
+@start
+-1	+3.83211E001
+@end
+TimeLoop	2003-08-01 00:00
+@start
+-1	+4.36307E001
+@end
+TimeLoop	2003-09-01 00:00
+@start
+-1	+2.63111E001
+@end
+TimeLoop	2003-10-01 00:00
+@start
+-1	+1.87461E000
+@end
+TimeLoop	2003-11-01 00:00
+@start
+-1	+8.48054E-01
+@end
+TimeLoop	2003-12-01 00:00
+@start
+-1	+6.75281E-01
+@end
+TimeLoop	2004-01-01 00:00
+@start
+-1	+1.92493E000
+@end
+TimeLoop	2004-02-01 00:00
+@start
+-1	+2.15499E-01
+@end
+TimeLoop	2004-03-01 00:00
+@start
+-1	+4.80557E-01
+@end
+TimeLoop	2004-04-01 00:00
+@start
+-1	+2.11864E000
+@end
+TimeLoop	2004-05-01 00:00
+@start
+-1	+4.10441E000
+@end
+TimeLoop	2004-06-01 00:00
+@start
+-1	+1.46184E001
+@end
+TimeLoop	2004-07-01 00:00
+@start
+-1	+2.78118E001
+@end
+TimeLoop	2004-08-01 00:00
+@start
+-1	+1.90553E001
+@end
+TimeLoop	2004-09-01 00:00
+@start
+-1	+2.16897E001
+@end
+TimeLoop	2004-10-01 00:00
+@start
+-1	+3.51861E000
+@end
+TimeLoop	2004-11-01 00:00
+@start
+-1	+4.50177E000
+@end
+TimeLoop	2004-12-01 00:00
+@start
+-1	+2.00402E000
+@end
+TimeLoop	2005-01-01 00:00
+@start
+-1	+8.24351E-01
+@end
+TimeLoop	2005-02-01 00:00
+@start
+-1	+2.60253E000
+@end
+TimeLoop	2005-03-01 00:00
+@start
+-1	+2.13386E000
+@end
+TimeLoop	2005-04-01 00:00
+@start
+-1	+4.25729E-01
+@end
+TimeLoop	2005-05-01 00:00
+@start
+-1	+4.73338E000
+@end
+TimeLoop	2005-06-01 00:00
+@start
+-1	+1.14695E001
+@end
+TimeLoop	2005-07-01 00:00
+@start
+-1	+2.31975E001
+@end
+TimeLoop	2005-08-01 00:00
+@start
+-1	+2.10946E001
+@end
+TimeLoop	2005-09-01 00:00
+@start
+-1	+2.19857E001
+@end
+TimeLoop	2005-10-01 00:00
+@start
+-1	+6.22488E000
+@end
+TimeLoop	2005-11-01 00:00
+@start
+-1	+6.84463E000
+@end
+TimeLoop	2005-12-01 00:00
+@start
+-1	+2.37535E000
+@end
+TimeLoop	2006-01-01 00:00
+@start
+-1	+1.46850E000
+@end
+TimeLoop	2006-02-01 00:00
+@start
+-1	+2.93717E000
+@end
+TimeLoop	2006-03-01 00:00
+@start
+-1	+9.14682E-02
+@end
+TimeLoop	2006-04-01 00:00
+@start
+-1	+1.86354E000
+@end
+TimeLoop	2006-05-01 00:00
+@start
+-1	+2.38091E000
+@end
+TimeLoop	2006-06-01 00:00
+@start
+-1	+1.55859E001
+@end
+TimeLoop	2006-07-01 00:00
+@start
+-1	+2.13452E001
+@end
+TimeLoop	2006-08-01 00:00
+@start
+-1	+7.53317E000
+@end
+TimeLoop	2006-09-01 00:00
+@start
+-1	+1.16517E001
+@end
+TimeLoop	2006-10-01 00:00
+@start
+-1	+3.72958E000
+@end
+TimeLoop	2006-11-01 00:00
+@start
+-1	+5.82829E000
+@end
+TimeLoop	2006-12-01 00:00
+@start
+-1	+2.69480E000
+@end
+TimeLoop	2007-01-01 00:00
+@start
+-1	+4.68719E-01
+@end
+TimeLoop	2007-02-01 00:00
+@start
+-1	+5.14246E-01
+@end
+TimeLoop	2007-03-01 00:00
+@start
+-1	+5.07870E-01
+@end
+TimeLoop	2007-04-01 00:00
+@start
+-1	+6.00217E000
+@end
+TimeLoop	2007-05-01 00:00
+@start
+-1	+9.54158E-01
+@end
+TimeLoop	2007-06-01 00:00
+@start
+-1	+2.98730E-02
+@end
+TimeLoop	2007-07-01 00:00
+@start
+-1	+2.16028E000
+@end
+TimeLoop	2007-08-01 00:00
+@start
+-1	+4.22254E000
+@end
+TimeLoop	2007-09-01 00:00
+@start
+-1	+6.88744E000
+@end
+TimeLoop	2007-10-01 00:00
+@start
+-1	+1.00377E001
+@end
+TimeLoop	2007-11-01 00:00
+@start
+-1	+4.20520E000
+@end
+TimeLoop	2007-12-01 00:00
+@start
+-1	+3.18479E000
+@end
+TimeLoop	2008-01-01 00:00
+@start
+-1	+1.21608E000
+@end
+TimeLoop	2008-02-01 00:00
+@start
+-1	+2.80978E000
+@end
+TimeLoop	2008-03-01 00:00
+@start
+-1	+7.07451E-01
+@end
+TimeLoop	2008-04-01 00:00
+@start
+-1	+2.47070E-02
+@end
+TimeLoop	2008-05-01 00:00
+@start
+-1	+3.22767E000
+@end
+TimeLoop	2008-06-01 00:00
+@start
+-1	+1.48513E000
+@end
+TimeLoop	2008-07-01 00:00
+@start
+-1	+8.81875E000
+@end
+TimeLoop	2008-08-01 00:00
+@start
+-1	+1.38432E001
+@end
+TimeLoop	2008-09-01 00:00
+@start
+-1	+2.77831E000
+@end
+TimeLoop	2008-10-01 00:00
+@start
+-1	+2.79822E000
+@end
+TimeLoop	2008-11-01 00:00
+@start
+-1	+1.75558E-01
+@end
+TimeLoop	2008-12-01 00:00
+@start
+-1	+1.15042E000
+@end
+TimeLoop	2009-01-01 00:00
+@start
+-1	+1.70455E000
+@end
+TimeLoop	2009-02-01 00:00
+@start
+-1	+5.82184E-01
+@end
+TimeLoop	2009-03-01 00:00
+@start
+-1	+1.02788E-01
+@end
+TimeLoop	2009-04-01 00:00
+@start
+-1	+2.32395E000
+@end
+TimeLoop	2009-05-01 00:00
+@start
+-1	+6.11732E000
+@end
+TimeLoop	2009-06-01 00:00
+@start
+-1	+1.00407E001
+@end
+TimeLoop	2009-07-01 00:00
+@start
+-1	+1.94780E001
+@end
+TimeLoop	2009-08-01 00:00
+@start
+-1	+2.84729E001
+@end
+TimeLoop	2009-09-01 00:00
+@start
+-1	+2.20722E001
+@end
+TimeLoop	2009-10-01 00:00
+@start
+-1	+5.17845E000
+@end
+TimeLoop	2009-11-01 00:00
+@start
+-1	+4.32588E-01
+@end
+TimeLoop	2009-12-01 00:00
+@start
+-1	+9.97698E-01
+@end
+TimeLoop	2010-01-01 00:00
+@start
+-1	+3.74474E000
+@end
+TimeLoop	2010-02-01 00:00
+@start
+-1	+1.44863E000
+@end
+TimeLoop	2010-03-01 00:00
+@start
+-1	+9.53590E-01
+@end
+TimeLoop	2010-04-01 00:00
+@start
+-1	+4.05828E000
+@end
+TimeLoop	2010-05-01 00:00
+@start
+-1	+3.24794E000
+@end
+TimeLoop	2010-06-01 00:00
+@start
+-1	+2.09837E000
+@end
+TimeLoop	2010-07-01 00:00
+@start
+-1	+2.38269E001
+@end
+TimeLoop	2010-08-01 00:00
+@start
+-1	+2.37255E001
+@end
+TimeLoop	2010-09-01 00:00
+@start
+-1	+1.62108E001
+@end
+TimeLoop	2010-10-01 00:00
+@start
+-1	+3.15603E000
+@end
+TimeLoop	2010-11-01 00:00
+@start
+-1	+8.20557E-01
+@end
+TimeLoop	2010-12-01 00:00
+@start
+-1	+1.42952E000
+@end
+TimeLoop	2011-01-01 00:00
+@start
+-1	+2.57681E000
+@end
+TimeLoop	2011-02-01 00:00
+@start
+-1	+4.27080E000
+@end
+TimeLoop	2011-03-01 00:00
+@start
+-1	+1.82212E000
+@end
+TimeLoop	2011-04-01 00:00
+@start
+-1	+6.56405E000
+@end
+TimeLoop	2011-05-01 00:00
+@start
+-1	+1.22958E001
+@end
+TimeLoop	2011-06-01 00:00
+@start
+-1	+8.10713E000
+@end
+TimeLoop	2011-07-01 00:00
+@start
+-1	+1.25790E001
+@end
+TimeLoop	2011-08-01 00:00
+@start
+-1	+2.28661E001
+@end
+TimeLoop	2011-09-01 00:00
+@start
+-1	+1.92892E001
+@end
+TimeLoop	2011-10-01 00:00
+@start
+-1	+7.43773E000
+@end
+TimeLoop	2011-11-01 00:00
+@start
+-1	+5.98674E000
+@end
+TimeLoop	2011-12-01 00:00
+@start
+-1	+4.77940E-01
+@end
+TimeLoop	2012-01-01 00:00
+@start
+-1	+2.64103E000
+@end
+TimeLoop	2012-02-01 00:00
+@start
+-1	+4.36863E000
+@end
+TimeLoop	2012-03-01 00:00
+@start
+-1	+2.17985E000
+@end
+TimeLoop	2012-04-01 00:00
+@start
+-1	+1.34409E000
+@end
+TimeLoop	2012-05-01 00:00
+@start
+-1	+1.06873E000
+@end
+TimeLoop	2012-06-01 00:00
+@start
+-1	+2.03375E000
+@end
+TimeLoop	2012-07-01 00:00
+@start
+-1	+9.58129E000
+@end
+TimeLoop	2012-08-01 00:00
+@start
+-1	+2.78406E001
+@end
+TimeLoop	2012-09-01 00:00
+@start
+-1	+1.75994E001
+@end
+TimeLoop	2012-10-01 00:00
+@start
+-1	+2.88640E000
+@end
+TimeLoop	2012-11-01 00:00
+@start
+-1	+1.91682E000
+@end
+TimeLoop	2012-12-01 00:00
+@start
+-1	+3.07792E000
+@end
+TimeLoop	2013-01-01 00:00
+@start
+-1	+2.39148E000
+@end
+TimeLoop	2013-02-01 00:00
+@start
+-1	+2.78018E000
+@end
+TimeLoop	2013-03-01 00:00
+@start
+-1	+6.06703E-01
+@end
+TimeLoop	2013-04-01 00:00
+@start
+-1	+7.66685E-01
+@end
+TimeLoop	2013-05-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2013-06-01 00:00
+@start
+-1	+2.07627E000
+@end
+TimeLoop	2013-07-01 00:00
+@start
+-1	+6.93594E000
+@end
+TimeLoop	2013-08-01 00:00
+@start
+-1	+1.22614E001
+@end
+TimeLoop	2013-09-01 00:00
+@start
+-1	+1.07815E001
+@end
+TimeLoop	2013-10-01 00:00
+@start
+-1	+6.47676E-01
+@end
+TimeLoop	2013-11-01 00:00
+@start
+-1	+5.35347E-02
+@end
+TimeLoop	2013-12-01 00:00
+@start
+-1	+3.19888E000
+@end
+TimeLoop	2014-01-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2014-02-01 00:00
+@start
+-1	+2.57498E-02
+@end
+TimeLoop	2014-03-01 00:00
+@start
+-1	+1.85347E000
+@end
+TimeLoop	2014-04-01 00:00
+@start
+-1	+5.79503E000
+@end
+TimeLoop	2014-05-01 00:00
+@start
+-1	+2.06413E000
+@end
+TimeLoop	2014-06-01 00:00
+@start
+-1	+1.65296E001
+@end
+TimeLoop	2014-07-01 00:00
+@start
+-1	+2.64096E000
+@end
+TimeLoop	2014-08-01 00:00
+@start
+-1	+5.22205E000
+@end
+TimeLoop	2014-09-01 00:00
+@start
+-1	+1.32870E001
+@end
+TimeLoop	2014-10-01 00:00
+@start
+-1	+3.94908E000
+@end
+TimeLoop	2014-11-01 00:00
+@start
+-1	+1.86761E000
+@end
+TimeLoop	2014-12-01 00:00
+@start
+-1	+5.20284E-01
+@end
+TimeLoop	2015-01-01 00:00
+@start
+-1	+1.22308E000
+@end
+TimeLoop	2015-02-01 00:00
+@start
+-1	+1.84591E000
+@end
+TimeLoop	2015-03-01 00:00
+@start
+-1	+1.18354E-01
+@end
+TimeLoop	2015-04-01 00:00
+@start
+-1	+3.35327E000
+@end
+TimeLoop	2015-05-01 00:00
+@start
+-1	+3.62466E000
+@end
+TimeLoop	2015-06-01 00:00
+@start
+-1	+7.34242E000
+@end
+TimeLoop	2015-07-01 00:00
+@start
+-1	+2.82610E001
+@end
+TimeLoop	2015-08-01 00:00
+@start
+-1	+3.53741E001
+@end
+TimeLoop	2015-09-01 00:00
+@start
+-1	+1.50730E001
+@end
+TimeLoop	2015-10-01 00:00
+@start
+-1	+5.63897E000
+@end
+TimeLoop	2015-11-01 00:00
+@start
+-1	+5.19544E000
+@end
+TimeLoop	2015-12-01 00:00
+@start
+-1	+2.10413E000
+@end
+TimeLoop	2016-01-01 00:00
+@start
+-1	+8.29534E-01
+@end
+TimeLoop	2016-02-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2016-03-01 00:00
+@start
+-1	+2.07549E-01
+@end
+TimeLoop	2016-04-01 00:00
+@start
+-1	+2.12515E-03
+@end
+TimeLoop	2016-05-01 00:00
+@start
+-1	+6.85380E-01
+@end
+TimeLoop	2016-06-01 00:00
+@start
+-1	+7.05108E-01
+@end
+TimeLoop	2016-07-01 00:00
+@start
+-1	+5.92586E000
+@end
+TimeLoop	2016-08-01 00:00
+@start
+-1	+2.29007E001
+@end
+TimeLoop	2016-09-01 00:00
+@start
+-1	+2.75847E001
+@end
+TimeLoop	2016-10-01 00:00
+@start
+-1	+6.45032E000
+@end
+TimeLoop	2016-11-01 00:00
+@start
+-1	+8.48805E-01
+@end
+TimeLoop	2016-12-01 00:00
+@start
+-1	+9.37650E000
+@end
+TimeLoop	2017-01-01 00:00
+@start
+-1	+6.41354E000
+@end
+TimeLoop	2017-02-01 00:00
+@start
+-1	+2.75228E000
+@end
+TimeLoop	2017-03-01 00:00
+@start
+-1	+1.64308E000
+@end
+TimeLoop	2017-04-01 00:00
+@start
+-1	+7.06383E000
+@end
+TimeLoop	2017-05-01 00:00
+@start
+-1	+3.57012E000
+@end
+TimeLoop	2017-06-01 00:00
+@start
+-1	+1.27103E001
+@end
+TimeLoop	2017-07-01 00:00
+@start
+-1	+1.82237E001
+@end
+TimeLoop	2017-08-01 00:00
+@start
+-1	+3.35794E001
+@end
+TimeLoop	2017-09-01 00:00
+@start
+-1	+2.03320E001
+@end
+TimeLoop	2017-10-01 00:00
+@start
+-1	+7.81765E000
+@end
+TimeLoop	2017-11-01 00:00
+@start
+-1	+2.54211E000
+@end
+TimeLoop	2017-12-01 00:00
+@start
+-1	+1.51231E000
+@end
+TimeLoop	2018-01-01 00:00
+@start
+-1	+2.03795E-01
+@end
+TimeLoop	2018-02-01 00:00
+@start
+-1	+1.09733E000
+@end
+TimeLoop	2018-03-01 00:00
+@start
+-1	+5.70596E-01
+@end
+TimeLoop	2018-04-01 00:00
+@start
+-1	+3.09742E000
+@end
+TimeLoop	2018-05-01 00:00
+@start
+-1	+2.29210E000
+@end
+TimeLoop	2018-06-01 00:00
+@start
+-1	+2.82310E000
+@end
+TimeLoop	2018-07-01 00:00
+@start
+-1	+2.60364E001
+@end
+TimeLoop	2018-08-01 00:00
+@start
+-1	+3.64023E001
+@end
+TimeLoop	2018-09-01 00:00
+@start
+-1	+4.08034E001
+@end
+TimeLoop	2018-10-01 00:00
+@start
+-1	+1.51020E001
+@end
+TimeLoop	2018-11-01 00:00
+@start
+-1	+3.09603E000
+@end
+TimeLoop	2018-12-01 00:00
+@start
+-1	+1.26815E-01
+@end
+TimeLoop	2019-01-01 00:00
+@start
+-1	+2.50521E000
+@end
+TimeLoop	2019-02-01 00:00
+@start
+-1	+9.02631E-02
+@end
+TimeLoop	2019-03-01 00:00
+@start
+-1	+1.35703E000
+@end
+TimeLoop	2019-04-01 00:00
+@start
+-1	+3.11844E000
+@end
+TimeLoop	2019-05-01 00:00
+@start
+-1	+1.93515E000
+@end
+TimeLoop	2019-06-01 00:00
+@start
+-1	+3.94520E000
+@end
+TimeLoop	2019-07-01 00:00
+@start
+-1	+2.46263E001
+@end
+TimeLoop	2019-08-01 00:00
+@start
+-1	+3.13488E001
+@end
+TimeLoop	2019-09-01 00:00
+@start
+-1	+3.52678E001
+@end
+TimeLoop	2019-10-01 00:00
+@start
+-1	+2.84872E000
+@end
+TimeLoop	2019-11-01 00:00
+@start
+-1	+5.81996E-02
+@end
+TimeLoop	2019-12-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2020-01-01 00:00
+@start
+-1	+3.05467E000
+@end
+TimeLoop	2020-02-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2020-03-01 00:00
+@start
+-1	+2.34220E000
+@end
+TimeLoop	2020-04-01 00:00
+@start
+-1	+1.07552E001
+@end
+TimeLoop	2020-05-01 00:00
+@start
+-1	+2.30443E000
+@end
+TimeLoop	2020-06-01 00:00
+@start
+-1	+6.20396E000
+@end
+TimeLoop	2020-07-01 00:00
+@start
+-1	+2.96150E001
+@end
+TimeLoop	2020-08-01 00:00
+@start
+-1	+4.33563E001
+@end
+TimeLoop	2020-09-01 00:00
+@start
+-1	+3.80398E001
+@end
+TimeLoop	2020-10-01 00:00
+@start
+-1	+8.08473E000
+@end
+TimeLoop	2020-11-01 00:00
+@start
+-1	+8.27344E000
+@end
+TimeLoop	2020-12-01 00:00
+@start
+-1	+2.37538E000
+@end
+TimeLoop	2021-01-01 00:00
+@start
+-1	+3.12845E000
+@end
+TimeLoop	2021-02-01 00:00
+@start
+-1	+1.39857E000
+@end
+TimeLoop	2021-03-01 00:00
+@start
+-1	+2.46022E000
+@end
+TimeLoop	2021-04-01 00:00
+@start
+-1	+6.22367E000
+@end
+TimeLoop	2021-05-01 00:00
+@start
+-1	+7.59576E-01
+@end
+TimeLoop	2021-06-01 00:00
+@start
+-1	+3.59730E000
+@end
+TimeLoop	2021-07-01 00:00
+@start
+-1	+4.56509E000
+@end
+TimeLoop	2021-08-01 00:00
+@start
+-1	+9.11452E000
+@end
+TimeLoop	2021-09-01 00:00
+@start
+-1	+1.90751E001
+@end
+TimeLoop	2021-10-01 00:00
+@start
+-1	+1.14915E001
+@end
+TimeLoop	2021-11-01 00:00
+@start
+-1	+6.91944E000
+@end
+TimeLoop	2021-12-01 00:00
+@start
+-1	+5.21471E000
+@end

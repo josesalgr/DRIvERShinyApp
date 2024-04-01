@@ -1,0 +1,4138 @@
+@context
+jams.components.core.SpatialContext	HRULoop	1
+@ancestors
+jams.components.core.TemporalContext	TimeLoop	9999
+@filters
+@attributes
+ID	value
+@types
+JAMSLong	JAMSDouble
+@data
+TimeLoop	2015-01-01 00:00
+@start
+-1	+6.80734E000
+@end
+TimeLoop	2015-02-01 00:00
+@start
+-1	+2.97988E000
+@end
+TimeLoop	2015-03-01 00:00
+@start
+-1	+4.21603E000
+@end
+TimeLoop	2015-04-01 00:00
+@start
+-1	+3.00724E000
+@end
+TimeLoop	2015-05-01 00:00
+@start
+-1	+1.22725E001
+@end
+TimeLoop	2015-06-01 00:00
+@start
+-1	+1.52290E001
+@end
+TimeLoop	2015-07-01 00:00
+@start
+-1	+1.71857E001
+@end
+TimeLoop	2015-08-01 00:00
+@start
+-1	+2.04188E001
+@end
+TimeLoop	2015-09-01 00:00
+@start
+-1	+1.74499E001
+@end
+TimeLoop	2015-10-01 00:00
+@start
+-1	+7.47608E000
+@end
+TimeLoop	2015-11-01 00:00
+@start
+-1	+1.20871E000
+@end
+TimeLoop	2015-12-01 00:00
+@start
+-1	+2.69128E000
+@end
+TimeLoop	2016-01-01 00:00
+@start
+-1	+2.45968E000
+@end
+TimeLoop	2016-02-01 00:00
+@start
+-1	+7.20351E-01
+@end
+TimeLoop	2016-03-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2016-04-01 00:00
+@start
+-1	+7.07845E000
+@end
+TimeLoop	2016-05-01 00:00
+@start
+-1	+3.33641E000
+@end
+TimeLoop	2016-06-01 00:00
+@start
+-1	+6.86272E000
+@end
+TimeLoop	2016-07-01 00:00
+@start
+-1	+1.61824E001
+@end
+TimeLoop	2016-08-01 00:00
+@start
+-1	+2.05742E001
+@end
+TimeLoop	2016-09-01 00:00
+@start
+-1	+1.48125E001
+@end
+TimeLoop	2016-10-01 00:00
+@start
+-1	+7.34011E000
+@end
+TimeLoop	2016-11-01 00:00
+@start
+-1	+2.59256E000
+@end
+TimeLoop	2016-12-01 00:00
+@start
+-1	+2.90886E000
+@end
+TimeLoop	2017-01-01 00:00
+@start
+-1	+4.98347E-01
+@end
+TimeLoop	2017-02-01 00:00
+@start
+-1	+4.58378E000
+@end
+TimeLoop	2017-03-01 00:00
+@start
+-1	+1.48261E000
+@end
+TimeLoop	2017-04-01 00:00
+@start
+-1	+6.95320E-01
+@end
+TimeLoop	2017-05-01 00:00
+@start
+-1	+5.97074E000
+@end
+TimeLoop	2017-06-01 00:00
+@start
+-1	+1.48949E000
+@end
+TimeLoop	2017-07-01 00:00
+@start
+-1	+1.08956E001
+@end
+TimeLoop	2017-08-01 00:00
+@start
+-1	+8.89140E000
+@end
+TimeLoop	2017-09-01 00:00
+@start
+-1	+1.34219E001
+@end
+TimeLoop	2017-10-01 00:00
+@start
+-1	+9.57617E000
+@end
+TimeLoop	2017-11-01 00:00
+@start
+-1	+4.66457E000
+@end
+TimeLoop	2017-12-01 00:00
+@start
+-1	+1.27116E000
+@end
+TimeLoop	2018-01-01 00:00
+@start
+-1	+6.02590E-01
+@end
+TimeLoop	2018-02-01 00:00
+@start
+-1	+5.78121E-02
+@end
+TimeLoop	2018-03-01 00:00
+@start
+-1	+4.82495E000
+@end
+TimeLoop	2018-04-01 00:00
+@start
+-1	+1.64556E000
+@end
+TimeLoop	2018-05-01 00:00
+@start
+-1	+9.12073E-01
+@end
+TimeLoop	2018-06-01 00:00
+@start
+-1	+2.40022E000
+@end
+TimeLoop	2018-07-01 00:00
+@start
+-1	+4.07757E000
+@end
+TimeLoop	2018-08-01 00:00
+@start
+-1	+1.46016E001
+@end
+TimeLoop	2018-09-01 00:00
+@start
+-1	+8.28606E000
+@end
+TimeLoop	2018-10-01 00:00
+@start
+-1	+9.45709E000
+@end
+TimeLoop	2018-11-01 00:00
+@start
+-1	+3.25929E000
+@end
+TimeLoop	2018-12-01 00:00
+@start
+-1	+7.95542E-01
+@end
+TimeLoop	2019-01-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2019-02-01 00:00
+@start
+-1	+7.96744E-01
+@end
+TimeLoop	2019-03-01 00:00
+@start
+-1	+6.59394E000
+@end
+TimeLoop	2019-04-01 00:00
+@start
+-1	+9.27666E000
+@end
+TimeLoop	2019-05-01 00:00
+@start
+-1	+8.01509E000
+@end
+TimeLoop	2019-06-01 00:00
+@start
+-1	+3.63427E000
+@end
+TimeLoop	2019-07-01 00:00
+@start
+-1	+1.01536E001
+@end
+TimeLoop	2019-08-01 00:00
+@start
+-1	+2.02128E001
+@end
+TimeLoop	2019-09-01 00:00
+@start
+-1	+1.59079E001
+@end
+TimeLoop	2019-10-01 00:00
+@start
+-1	+2.52188E000
+@end
+TimeLoop	2019-11-01 00:00
+@start
+-1	+2.23355E000
+@end
+TimeLoop	2019-12-01 00:00
+@start
+-1	+1.47548E000
+@end
+TimeLoop	2020-01-01 00:00
+@start
+-1	+3.06732E000
+@end
+TimeLoop	2020-02-01 00:00
+@start
+-1	+3.26129E000
+@end
+TimeLoop	2020-03-01 00:00
+@start
+-1	+4.94035E000
+@end
+TimeLoop	2020-04-01 00:00
+@start
+-1	+4.60537E000
+@end
+TimeLoop	2020-05-01 00:00
+@start
+-1	+8.56629E-01
+@end
+TimeLoop	2020-06-01 00:00
+@start
+-1	+4.68104E000
+@end
+TimeLoop	2020-07-01 00:00
+@start
+-1	+1.46171E001
+@end
+TimeLoop	2020-08-01 00:00
+@start
+-1	+1.67416E001
+@end
+TimeLoop	2020-09-01 00:00
+@start
+-1	+5.40743E000
+@end
+TimeLoop	2020-10-01 00:00
+@start
+-1	+1.00237E001
+@end
+TimeLoop	2020-11-01 00:00
+@start
+-1	+3.27799E000
+@end
+TimeLoop	2020-12-01 00:00
+@start
+-1	+7.22491E-01
+@end
+TimeLoop	2021-01-01 00:00
+@start
+-1	+6.41899E-01
+@end
+TimeLoop	2021-02-01 00:00
+@start
+-1	+6.14320E000
+@end
+TimeLoop	2021-03-01 00:00
+@start
+-1	+2.90772E000
+@end
+TimeLoop	2021-04-01 00:00
+@start
+-1	+8.17228E000
+@end
+TimeLoop	2021-05-01 00:00
+@start
+-1	+2.24846E-01
+@end
+TimeLoop	2021-06-01 00:00
+@start
+-1	+5.16581E000
+@end
+TimeLoop	2021-07-01 00:00
+@start
+-1	+1.15465E001
+@end
+TimeLoop	2021-08-01 00:00
+@start
+-1	+1.89666E001
+@end
+TimeLoop	2021-09-01 00:00
+@start
+-1	+1.02393E001
+@end
+TimeLoop	2021-10-01 00:00
+@start
+-1	+4.85270E000
+@end
+TimeLoop	2021-11-01 00:00
+@start
+-1	+4.55653E000
+@end
+TimeLoop	2021-12-01 00:00
+@start
+-1	+8.10389E-01
+@end
+TimeLoop	2022-01-01 00:00
+@start
+-1	+3.95543E-01
+@end
+TimeLoop	2022-02-01 00:00
+@start
+-1	+3.99307E-01
+@end
+TimeLoop	2022-03-01 00:00
+@start
+-1	+3.14492E000
+@end
+TimeLoop	2022-04-01 00:00
+@start
+-1	+3.68794E000
+@end
+TimeLoop	2022-05-01 00:00
+@start
+-1	+7.56290E000
+@end
+TimeLoop	2022-06-01 00:00
+@start
+-1	+8.66962E000
+@end
+TimeLoop	2022-07-01 00:00
+@start
+-1	+1.94172E001
+@end
+TimeLoop	2022-08-01 00:00
+@start
+-1	+1.83849E001
+@end
+TimeLoop	2022-09-01 00:00
+@start
+-1	+1.38941E001
+@end
+TimeLoop	2022-10-01 00:00
+@start
+-1	+1.65243E000
+@end
+TimeLoop	2022-11-01 00:00
+@start
+-1	+1.74982E000
+@end
+TimeLoop	2022-12-01 00:00
+@start
+-1	+6.12456E000
+@end
+TimeLoop	2023-01-01 00:00
+@start
+-1	+2.87060E000
+@end
+TimeLoop	2023-02-01 00:00
+@start
+-1	+5.31370E-01
+@end
+TimeLoop	2023-03-01 00:00
+@start
+-1	+2.11107E000
+@end
+TimeLoop	2023-04-01 00:00
+@start
+-1	+6.05170E000
+@end
+TimeLoop	2023-05-01 00:00
+@start
+-1	+1.20812E000
+@end
+TimeLoop	2023-06-01 00:00
+@start
+-1	+1.82290E000
+@end
+TimeLoop	2023-07-01 00:00
+@start
+-1	+6.78526E000
+@end
+TimeLoop	2023-08-01 00:00
+@start
+-1	+1.83769E001
+@end
+TimeLoop	2023-09-01 00:00
+@start
+-1	+1.51518E001
+@end
+TimeLoop	2023-10-01 00:00
+@start
+-1	+7.43912E000
+@end
+TimeLoop	2023-11-01 00:00
+@start
+-1	+5.45634E000
+@end
+TimeLoop	2023-12-01 00:00
+@start
+-1	+2.77599E000
+@end
+TimeLoop	2024-01-01 00:00
+@start
+-1	+5.97708E-01
+@end
+TimeLoop	2024-02-01 00:00
+@start
+-1	+4.89547E000
+@end
+TimeLoop	2024-03-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2024-04-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2024-05-01 00:00
+@start
+-1	+3.66059E000
+@end
+TimeLoop	2024-06-01 00:00
+@start
+-1	+6.20952E000
+@end
+TimeLoop	2024-07-01 00:00
+@start
+-1	+4.45619E000
+@end
+TimeLoop	2024-08-01 00:00
+@start
+-1	+1.74601E001
+@end
+TimeLoop	2024-09-01 00:00
+@start
+-1	+2.37505E001
+@end
+TimeLoop	2024-10-01 00:00
+@start
+-1	+1.16799E001
+@end
+TimeLoop	2024-11-01 00:00
+@start
+-1	+4.13026E000
+@end
+TimeLoop	2024-12-01 00:00
+@start
+-1	+1.40228E000
+@end
+TimeLoop	2025-01-01 00:00
+@start
+-1	+3.59690E000
+@end
+TimeLoop	2025-02-01 00:00
+@start
+-1	+2.32757E000
+@end
+TimeLoop	2025-03-01 00:00
+@start
+-1	+1.52832E-01
+@end
+TimeLoop	2025-04-01 00:00
+@start
+-1	+2.29137E000
+@end
+TimeLoop	2025-05-01 00:00
+@start
+-1	+6.41906E000
+@end
+TimeLoop	2025-06-01 00:00
+@start
+-1	+7.30507E000
+@end
+TimeLoop	2025-07-01 00:00
+@start
+-1	+1.10900E001
+@end
+TimeLoop	2025-08-01 00:00
+@start
+-1	+1.20273E001
+@end
+TimeLoop	2025-09-01 00:00
+@start
+-1	+1.80136E001
+@end
+TimeLoop	2025-10-01 00:00
+@start
+-1	+6.47495E000
+@end
+TimeLoop	2025-11-01 00:00
+@start
+-1	+1.22816E000
+@end
+TimeLoop	2025-12-01 00:00
+@start
+-1	+6.00483E-01
+@end
+TimeLoop	2026-01-01 00:00
+@start
+-1	+6.83816E000
+@end
+TimeLoop	2026-02-01 00:00
+@start
+-1	+5.24207E000
+@end
+TimeLoop	2026-03-01 00:00
+@start
+-1	+3.06984E-01
+@end
+TimeLoop	2026-04-01 00:00
+@start
+-1	+4.91867E000
+@end
+TimeLoop	2026-05-01 00:00
+@start
+-1	+6.22326E000
+@end
+TimeLoop	2026-06-01 00:00
+@start
+-1	+8.92760E000
+@end
+TimeLoop	2026-07-01 00:00
+@start
+-1	+1.92231E001
+@end
+TimeLoop	2026-08-01 00:00
+@start
+-1	+1.54839E001
+@end
+TimeLoop	2026-09-01 00:00
+@start
+-1	+8.17158E000
+@end
+TimeLoop	2026-10-01 00:00
+@start
+-1	+5.36235E000
+@end
+TimeLoop	2026-11-01 00:00
+@start
+-1	+2.85174E000
+@end
+TimeLoop	2026-12-01 00:00
+@start
+-1	+1.44828E000
+@end
+TimeLoop	2027-01-01 00:00
+@start
+-1	+4.60184E000
+@end
+TimeLoop	2027-02-01 00:00
+@start
+-1	+5.42710E000
+@end
+TimeLoop	2027-03-01 00:00
+@start
+-1	+5.68970E000
+@end
+TimeLoop	2027-04-01 00:00
+@start
+-1	+7.94476E-01
+@end
+TimeLoop	2027-05-01 00:00
+@start
+-1	+8.90805E-01
+@end
+TimeLoop	2027-06-01 00:00
+@start
+-1	+3.57017E000
+@end
+TimeLoop	2027-07-01 00:00
+@start
+-1	+4.24674E000
+@end
+TimeLoop	2027-08-01 00:00
+@start
+-1	+1.54466E001
+@end
+TimeLoop	2027-09-01 00:00
+@start
+-1	+1.80495E001
+@end
+TimeLoop	2027-10-01 00:00
+@start
+-1	+7.44339E000
+@end
+TimeLoop	2027-11-01 00:00
+@start
+-1	+3.08092E000
+@end
+TimeLoop	2027-12-01 00:00
+@start
+-1	+2.59866E-01
+@end
+TimeLoop	2028-01-01 00:00
+@start
+-1	+4.06447E000
+@end
+TimeLoop	2028-02-01 00:00
+@start
+-1	+3.95885E000
+@end
+TimeLoop	2028-03-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2028-04-01 00:00
+@start
+-1	+1.79670E-01
+@end
+TimeLoop	2028-05-01 00:00
+@start
+-1	+6.59371E000
+@end
+TimeLoop	2028-06-01 00:00
+@start
+-1	+1.32658E001
+@end
+TimeLoop	2028-07-01 00:00
+@start
+-1	+1.83242E001
+@end
+TimeLoop	2028-08-01 00:00
+@start
+-1	+1.96047E001
+@end
+TimeLoop	2028-09-01 00:00
+@start
+-1	+1.88073E001
+@end
+TimeLoop	2028-10-01 00:00
+@start
+-1	+2.15788E000
+@end
+TimeLoop	2028-11-01 00:00
+@start
+-1	+3.59906E000
+@end
+TimeLoop	2028-12-01 00:00
+@start
+-1	+3.84872E000
+@end
+TimeLoop	2029-01-01 00:00
+@start
+-1	+2.21885E000
+@end
+TimeLoop	2029-02-01 00:00
+@start
+-1	+2.79249E-02
+@end
+TimeLoop	2029-03-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2029-04-01 00:00
+@start
+-1	+8.57315E-02
+@end
+TimeLoop	2029-05-01 00:00
+@start
+-1	+2.92200E000
+@end
+TimeLoop	2029-06-01 00:00
+@start
+-1	+1.55104E001
+@end
+TimeLoop	2029-07-01 00:00
+@start
+-1	+1.71608E001
+@end
+TimeLoop	2029-08-01 00:00
+@start
+-1	+1.92204E001
+@end
+TimeLoop	2029-09-01 00:00
+@start
+-1	+1.29880E001
+@end
+TimeLoop	2029-10-01 00:00
+@start
+-1	+3.15594E000
+@end
+TimeLoop	2029-11-01 00:00
+@start
+-1	+1.07640E000
+@end
+TimeLoop	2029-12-01 00:00
+@start
+-1	+8.31189E-01
+@end
+TimeLoop	2030-01-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2030-02-01 00:00
+@start
+-1	+2.59631E000
+@end
+TimeLoop	2030-03-01 00:00
+@start
+-1	+1.17078E000
+@end
+TimeLoop	2030-04-01 00:00
+@start
+-1	+2.53072E000
+@end
+TimeLoop	2030-05-01 00:00
+@start
+-1	+2.32305E000
+@end
+TimeLoop	2030-06-01 00:00
+@start
+-1	+1.55092E001
+@end
+TimeLoop	2030-07-01 00:00
+@start
+-1	+1.76127E001
+@end
+TimeLoop	2030-08-01 00:00
+@start
+-1	+1.55076E001
+@end
+TimeLoop	2030-09-01 00:00
+@start
+-1	+2.18644E001
+@end
+TimeLoop	2030-10-01 00:00
+@start
+-1	+1.22147E001
+@end
+TimeLoop	2030-11-01 00:00
+@start
+-1	+2.54972E000
+@end
+TimeLoop	2030-12-01 00:00
+@start
+-1	+5.22908E000
+@end
+TimeLoop	2031-01-01 00:00
+@start
+-1	+2.81775E000
+@end
+TimeLoop	2031-02-01 00:00
+@start
+-1	+3.40704E000
+@end
+TimeLoop	2031-03-01 00:00
+@start
+-1	+1.32023E-01
+@end
+TimeLoop	2031-04-01 00:00
+@start
+-1	+5.50275E000
+@end
+TimeLoop	2031-05-01 00:00
+@start
+-1	+1.07830E001
+@end
+TimeLoop	2031-06-01 00:00
+@start
+-1	+8.75877E000
+@end
+TimeLoop	2031-07-01 00:00
+@start
+-1	+1.47258E001
+@end
+TimeLoop	2031-08-01 00:00
+@start
+-1	+1.98928E001
+@end
+TimeLoop	2031-09-01 00:00
+@start
+-1	+2.00097E001
+@end
+TimeLoop	2031-10-01 00:00
+@start
+-1	+5.98735E000
+@end
+TimeLoop	2031-11-01 00:00
+@start
+-1	+4.63697E000
+@end
+TimeLoop	2031-12-01 00:00
+@start
+-1	+2.98259E000
+@end
+TimeLoop	2032-01-01 00:00
+@start
+-1	+8.78232E-02
+@end
+TimeLoop	2032-02-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2032-03-01 00:00
+@start
+-1	+2.50673E000
+@end
+TimeLoop	2032-04-01 00:00
+@start
+-1	+8.11227E-01
+@end
+TimeLoop	2032-05-01 00:00
+@start
+-1	+6.89642E000
+@end
+TimeLoop	2032-06-01 00:00
+@start
+-1	+1.46515E001
+@end
+TimeLoop	2032-07-01 00:00
+@start
+-1	+1.81546E001
+@end
+TimeLoop	2032-08-01 00:00
+@start
+-1	+1.98346E001
+@end
+TimeLoop	2032-09-01 00:00
+@start
+-1	+1.95715E001
+@end
+TimeLoop	2032-10-01 00:00
+@start
+-1	+1.16234E001
+@end
+TimeLoop	2032-11-01 00:00
+@start
+-1	+3.98093E000
+@end
+TimeLoop	2032-12-01 00:00
+@start
+-1	+2.16421E000
+@end
+TimeLoop	2033-01-01 00:00
+@start
+-1	+2.22971E000
+@end
+TimeLoop	2033-02-01 00:00
+@start
+-1	+1.27021E000
+@end
+TimeLoop	2033-03-01 00:00
+@start
+-1	+1.00985E000
+@end
+TimeLoop	2033-04-01 00:00
+@start
+-1	+9.48281E-02
+@end
+TimeLoop	2033-05-01 00:00
+@start
+-1	+9.60772E000
+@end
+TimeLoop	2033-06-01 00:00
+@start
+-1	+9.65488E000
+@end
+TimeLoop	2033-07-01 00:00
+@start
+-1	+1.43067E001
+@end
+TimeLoop	2033-08-01 00:00
+@start
+-1	+1.97476E001
+@end
+TimeLoop	2033-09-01 00:00
+@start
+-1	+1.85465E001
+@end
+TimeLoop	2033-10-01 00:00
+@start
+-1	+9.42980E000
+@end
+TimeLoop	2033-11-01 00:00
+@start
+-1	+1.77847E000
+@end
+TimeLoop	2033-12-01 00:00
+@start
+-1	+2.10148E000
+@end
+TimeLoop	2034-01-01 00:00
+@start
+-1	+6.50618E000
+@end
+TimeLoop	2034-02-01 00:00
+@start
+-1	+1.69193E000
+@end
+TimeLoop	2034-03-01 00:00
+@start
+-1	+2.31839E000
+@end
+TimeLoop	2034-04-01 00:00
+@start
+-1	+8.52648E000
+@end
+TimeLoop	2034-05-01 00:00
+@start
+-1	+7.93072E000
+@end
+TimeLoop	2034-06-01 00:00
+@start
+-1	+6.57331E000
+@end
+TimeLoop	2034-07-01 00:00
+@start
+-1	+1.69181E001
+@end
+TimeLoop	2034-08-01 00:00
+@start
+-1	+1.98984E001
+@end
+TimeLoop	2034-09-01 00:00
+@start
+-1	+8.63420E000
+@end
+TimeLoop	2034-10-01 00:00
+@start
+-1	+4.38256E000
+@end
+TimeLoop	2034-11-01 00:00
+@start
+-1	+9.08111E-02
+@end
+TimeLoop	2034-12-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2035-01-01 00:00
+@start
+-1	+1.29216E000
+@end
+TimeLoop	2035-02-01 00:00
+@start
+-1	+3.40003E000
+@end
+TimeLoop	2035-03-01 00:00
+@start
+-1	+2.14976E000
+@end
+TimeLoop	2035-04-01 00:00
+@start
+-1	+3.18100E000
+@end
+TimeLoop	2035-05-01 00:00
+@start
+-1	+3.96792E000
+@end
+TimeLoop	2035-06-01 00:00
+@start
+-1	+4.57984E000
+@end
+TimeLoop	2035-07-01 00:00
+@start
+-1	+9.11069E000
+@end
+TimeLoop	2035-08-01 00:00
+@start
+-1	+1.97105E001
+@end
+TimeLoop	2035-09-01 00:00
+@start
+-1	+1.76883E001
+@end
+TimeLoop	2035-10-01 00:00
+@start
+-1	+8.84090E000
+@end
+TimeLoop	2035-11-01 00:00
+@start
+-1	+6.73045E000
+@end
+TimeLoop	2035-12-01 00:00
+@start
+-1	+2.28701E000
+@end
+TimeLoop	2036-01-01 00:00
+@start
+-1	+6.89903E-01
+@end
+TimeLoop	2036-02-01 00:00
+@start
+-1	+5.35835E000
+@end
+TimeLoop	2036-03-01 00:00
+@start
+-1	+6.77250E000
+@end
+TimeLoop	2036-04-01 00:00
+@start
+-1	+6.56440E000
+@end
+TimeLoop	2036-05-01 00:00
+@start
+-1	+5.79737E000
+@end
+TimeLoop	2036-06-01 00:00
+@start
+-1	+1.85520E001
+@end
+TimeLoop	2036-07-01 00:00
+@start
+-1	+1.96080E001
+@end
+TimeLoop	2036-08-01 00:00
+@start
+-1	+2.03321E001
+@end
+TimeLoop	2036-09-01 00:00
+@start
+-1	+1.51515E001
+@end
+TimeLoop	2036-10-01 00:00
+@start
+-1	+2.25858E000
+@end
+TimeLoop	2036-11-01 00:00
+@start
+-1	+6.87103E000
+@end
+TimeLoop	2036-12-01 00:00
+@start
+-1	+1.41435E000
+@end
+TimeLoop	2037-01-01 00:00
+@start
+-1	+2.99751E000
+@end
+TimeLoop	2037-02-01 00:00
+@start
+-1	+2.33077E000
+@end
+TimeLoop	2037-03-01 00:00
+@start
+-1	+3.98016E000
+@end
+TimeLoop	2037-04-01 00:00
+@start
+-1	+5.69856E000
+@end
+TimeLoop	2037-05-01 00:00
+@start
+-1	+5.45794E000
+@end
+TimeLoop	2037-06-01 00:00
+@start
+-1	+4.28305E000
+@end
+TimeLoop	2037-07-01 00:00
+@start
+-1	+1.50814E001
+@end
+TimeLoop	2037-08-01 00:00
+@start
+-1	+1.73006E001
+@end
+TimeLoop	2037-09-01 00:00
+@start
+-1	+2.02912E001
+@end
+TimeLoop	2037-10-01 00:00
+@start
+-1	+7.96748E000
+@end
+TimeLoop	2037-11-01 00:00
+@start
+-1	+1.70500E000
+@end
+TimeLoop	2037-12-01 00:00
+@start
+-1	+7.90099E-01
+@end
+TimeLoop	2038-01-01 00:00
+@start
+-1	+4.54509E000
+@end
+TimeLoop	2038-02-01 00:00
+@start
+-1	+1.99093E000
+@end
+TimeLoop	2038-03-01 00:00
+@start
+-1	+7.94639E000
+@end
+TimeLoop	2038-04-01 00:00
+@start
+-1	+9.67379E000
+@end
+TimeLoop	2038-05-01 00:00
+@start
+-1	+6.29802E000
+@end
+TimeLoop	2038-06-01 00:00
+@start
+-1	+2.56665E000
+@end
+TimeLoop	2038-07-01 00:00
+@start
+-1	+1.71924E001
+@end
+TimeLoop	2038-08-01 00:00
+@start
+-1	+2.05233E001
+@end
+TimeLoop	2038-09-01 00:00
+@start
+-1	+2.04085E001
+@end
+TimeLoop	2038-10-01 00:00
+@start
+-1	+6.19411E000
+@end
+TimeLoop	2038-11-01 00:00
+@start
+-1	+5.40162E000
+@end
+TimeLoop	2038-12-01 00:00
+@start
+-1	+2.41499E000
+@end
+TimeLoop	2039-01-01 00:00
+@start
+-1	+1.55986E000
+@end
+TimeLoop	2039-02-01 00:00
+@start
+-1	+6.66996E-01
+@end
+TimeLoop	2039-03-01 00:00
+@start
+-1	+7.82960E000
+@end
+TimeLoop	2039-04-01 00:00
+@start
+-1	+2.13347E000
+@end
+TimeLoop	2039-05-01 00:00
+@start
+-1	+1.51579E000
+@end
+TimeLoop	2039-06-01 00:00
+@start
+-1	+5.25635E000
+@end
+TimeLoop	2039-07-01 00:00
+@start
+-1	+7.97012E000
+@end
+TimeLoop	2039-08-01 00:00
+@start
+-1	+1.91998E001
+@end
+TimeLoop	2039-09-01 00:00
+@start
+-1	+1.85188E001
+@end
+TimeLoop	2039-10-01 00:00
+@start
+-1	+5.43658E000
+@end
+TimeLoop	2039-11-01 00:00
+@start
+-1	+2.18026E-01
+@end
+TimeLoop	2039-12-01 00:00
+@start
+-1	+2.10581E000
+@end
+TimeLoop	2040-01-01 00:00
+@start
+-1	+6.10947E000
+@end
+TimeLoop	2040-02-01 00:00
+@start
+-1	+2.57219E000
+@end
+TimeLoop	2040-03-01 00:00
+@start
+-1	+5.65146E000
+@end
+TimeLoop	2040-04-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2040-05-01 00:00
+@start
+-1	+1.05623E000
+@end
+TimeLoop	2040-06-01 00:00
+@start
+-1	+7.68191E000
+@end
+TimeLoop	2040-07-01 00:00
+@start
+-1	+9.80842E000
+@end
+TimeLoop	2040-08-01 00:00
+@start
+-1	+1.88873E001
+@end
+TimeLoop	2040-09-01 00:00
+@start
+-1	+1.72680E001
+@end
+TimeLoop	2040-10-01 00:00
+@start
+-1	+3.83366E000
+@end
+TimeLoop	2040-11-01 00:00
+@start
+-1	+5.60079E000
+@end
+TimeLoop	2040-12-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2041-01-01 00:00
+@start
+-1	+5.03779E000
+@end
+TimeLoop	2041-02-01 00:00
+@start
+-1	+8.17241E000
+@end
+TimeLoop	2041-03-01 00:00
+@start
+-1	+2.80282E-01
+@end
+TimeLoop	2041-04-01 00:00
+@start
+-1	+4.36359E000
+@end
+TimeLoop	2041-05-01 00:00
+@start
+-1	+7.48698E000
+@end
+TimeLoop	2041-06-01 00:00
+@start
+-1	+1.80972E001
+@end
+TimeLoop	2041-07-01 00:00
+@start
+-1	+2.21360E001
+@end
+TimeLoop	2041-08-01 00:00
+@start
+-1	+1.99817E001
+@end
+TimeLoop	2041-09-01 00:00
+@start
+-1	+7.20056E000
+@end
+TimeLoop	2041-10-01 00:00
+@start
+-1	+5.66462E000
+@end
+TimeLoop	2041-11-01 00:00
+@start
+-1	+2.96904E000
+@end
+TimeLoop	2041-12-01 00:00
+@start
+-1	+1.21769E000
+@end
+TimeLoop	2042-01-01 00:00
+@start
+-1	+3.88692E000
+@end
+TimeLoop	2042-02-01 00:00
+@start
+-1	+2.02148E000
+@end
+TimeLoop	2042-03-01 00:00
+@start
+-1	+7.12465E000
+@end
+TimeLoop	2042-04-01 00:00
+@start
+-1	+5.23681E000
+@end
+TimeLoop	2042-05-01 00:00
+@start
+-1	+2.58971E000
+@end
+TimeLoop	2042-06-01 00:00
+@start
+-1	+2.40854E000
+@end
+TimeLoop	2042-07-01 00:00
+@start
+-1	+9.40160E000
+@end
+TimeLoop	2042-08-01 00:00
+@start
+-1	+1.75996E001
+@end
+TimeLoop	2042-09-01 00:00
+@start
+-1	+1.06935E001
+@end
+TimeLoop	2042-10-01 00:00
+@start
+-1	+9.94452E000
+@end
+TimeLoop	2042-11-01 00:00
+@start
+-1	+9.66364E000
+@end
+TimeLoop	2042-12-01 00:00
+@start
+-1	+2.67502E000
+@end
+TimeLoop	2043-01-01 00:00
+@start
+-1	+1.74249E000
+@end
+TimeLoop	2043-02-01 00:00
+@start
+-1	+2.65920E000
+@end
+TimeLoop	2043-03-01 00:00
+@start
+-1	+4.31383E-03
+@end
+TimeLoop	2043-04-01 00:00
+@start
+-1	+4.29551E000
+@end
+TimeLoop	2043-05-01 00:00
+@start
+-1	+2.44167E000
+@end
+TimeLoop	2043-06-01 00:00
+@start
+-1	+7.11812E000
+@end
+TimeLoop	2043-07-01 00:00
+@start
+-1	+1.66877E001
+@end
+TimeLoop	2043-08-01 00:00
+@start
+-1	+1.97627E001
+@end
+TimeLoop	2043-09-01 00:00
+@start
+-1	+8.91316E000
+@end
+TimeLoop	2043-10-01 00:00
+@start
+-1	+8.54389E-01
+@end
+TimeLoop	2043-11-01 00:00
+@start
+-1	+1.40487E000
+@end
+TimeLoop	2043-12-01 00:00
+@start
+-1	+6.66904E-01
+@end
+TimeLoop	2044-01-01 00:00
+@start
+-1	+1.37899E000
+@end
+TimeLoop	2044-02-01 00:00
+@start
+-1	+7.75727E000
+@end
+TimeLoop	2044-03-01 00:00
+@start
+-1	+1.48801E000
+@end
+TimeLoop	2044-04-01 00:00
+@start
+-1	+7.00993E000
+@end
+TimeLoop	2044-05-01 00:00
+@start
+-1	+5.82868E000
+@end
+TimeLoop	2044-06-01 00:00
+@start
+-1	+9.17582E000
+@end
+TimeLoop	2044-07-01 00:00
+@start
+-1	+1.84940E001
+@end
+TimeLoop	2044-08-01 00:00
+@start
+-1	+2.00909E001
+@end
+TimeLoop	2044-09-01 00:00
+@start
+-1	+2.12234E001
+@end
+TimeLoop	2044-10-01 00:00
+@start
+-1	+9.82453E000
+@end
+TimeLoop	2044-11-01 00:00
+@start
+-1	+1.46162E000
+@end
+TimeLoop	2044-12-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2045-01-01 00:00
+@start
+-1	+2.07348E-01
+@end
+TimeLoop	2045-02-01 00:00
+@start
+-1	+5.73730E000
+@end
+TimeLoop	2045-03-01 00:00
+@start
+-1	+7.18536E000
+@end
+TimeLoop	2045-04-01 00:00
+@start
+-1	+6.69581E000
+@end
+TimeLoop	2045-05-01 00:00
+@start
+-1	+9.07482E000
+@end
+TimeLoop	2045-06-01 00:00
+@start
+-1	+9.60458E000
+@end
+TimeLoop	2045-07-01 00:00
+@start
+-1	+1.55699E001
+@end
+TimeLoop	2045-08-01 00:00
+@start
+-1	+1.97728E001
+@end
+TimeLoop	2045-09-01 00:00
+@start
+-1	+1.26214E001
+@end
+TimeLoop	2045-10-01 00:00
+@start
+-1	+2.45559E000
+@end
+TimeLoop	2045-11-01 00:00
+@start
+-1	+3.25868E000
+@end
+TimeLoop	2045-12-01 00:00
+@start
+-1	+3.02302E-02
+@end
+TimeLoop	2046-01-01 00:00
+@start
+-1	+6.08220E000
+@end
+TimeLoop	2046-02-01 00:00
+@start
+-1	+2.01072E000
+@end
+TimeLoop	2046-03-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2046-04-01 00:00
+@start
+-1	+3.98182E000
+@end
+TimeLoop	2046-05-01 00:00
+@start
+-1	+8.83755E000
+@end
+TimeLoop	2046-06-01 00:00
+@start
+-1	+1.28504E001
+@end
+TimeLoop	2046-07-01 00:00
+@start
+-1	+1.77558E001
+@end
+TimeLoop	2046-08-01 00:00
+@start
+-1	+1.87491E001
+@end
+TimeLoop	2046-09-01 00:00
+@start
+-1	+1.40961E001
+@end
+TimeLoop	2046-10-01 00:00
+@start
+-1	+3.17968E000
+@end
+TimeLoop	2046-11-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2046-12-01 00:00
+@start
+-1	+2.57116E-01
+@end
+TimeLoop	2047-01-01 00:00
+@start
+-1	+9.24881E-02
+@end
+TimeLoop	2047-02-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2047-03-01 00:00
+@start
+-1	+1.49145E-02
+@end
+TimeLoop	2047-04-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2047-05-01 00:00
+@start
+-1	+1.96684E000
+@end
+TimeLoop	2047-06-01 00:00
+@start
+-1	+3.94854E000
+@end
+TimeLoop	2047-07-01 00:00
+@start
+-1	+1.02332E001
+@end
+TimeLoop	2047-08-01 00:00
+@start
+-1	+1.74857E001
+@end
+TimeLoop	2047-09-01 00:00
+@start
+-1	+2.15910E001
+@end
+TimeLoop	2047-10-01 00:00
+@start
+-1	+5.45331E000
+@end
+TimeLoop	2047-11-01 00:00
+@start
+-1	+6.00361E000
+@end
+TimeLoop	2047-12-01 00:00
+@start
+-1	+1.85533E000
+@end
+TimeLoop	2048-01-01 00:00
+@start
+-1	+3.93465E000
+@end
+TimeLoop	2048-02-01 00:00
+@start
+-1	+6.81702E000
+@end
+TimeLoop	2048-03-01 00:00
+@start
+-1	+4.16493E-01
+@end
+TimeLoop	2048-04-01 00:00
+@start
+-1	+1.51473E-01
+@end
+TimeLoop	2048-05-01 00:00
+@start
+-1	+2.75481E000
+@end
+TimeLoop	2048-06-01 00:00
+@start
+-1	+8.43181E000
+@end
+TimeLoop	2048-07-01 00:00
+@start
+-1	+1.46556E001
+@end
+TimeLoop	2048-08-01 00:00
+@start
+-1	+1.83217E001
+@end
+TimeLoop	2048-09-01 00:00
+@start
+-1	+1.40426E001
+@end
+TimeLoop	2048-10-01 00:00
+@start
+-1	+1.13969E000
+@end
+TimeLoop	2048-11-01 00:00
+@start
+-1	+6.38523E000
+@end
+TimeLoop	2048-12-01 00:00
+@start
+-1	+1.42728E000
+@end
+TimeLoop	2049-01-01 00:00
+@start
+-1	+3.57184E000
+@end
+TimeLoop	2049-02-01 00:00
+@start
+-1	+3.35820E000
+@end
+TimeLoop	2049-03-01 00:00
+@start
+-1	+6.37657E000
+@end
+TimeLoop	2049-04-01 00:00
+@start
+-1	+2.50488E000
+@end
+TimeLoop	2049-05-01 00:00
+@start
+-1	+4.04647E000
+@end
+TimeLoop	2049-06-01 00:00
+@start
+-1	+9.89674E000
+@end
+TimeLoop	2049-07-01 00:00
+@start
+-1	+1.62064E001
+@end
+TimeLoop	2049-08-01 00:00
+@start
+-1	+2.01038E001
+@end
+TimeLoop	2049-09-01 00:00
+@start
+-1	+1.83868E001
+@end
+TimeLoop	2049-10-01 00:00
+@start
+-1	+4.72016E000
+@end
+TimeLoop	2049-11-01 00:00
+@start
+-1	+1.33057E000
+@end
+TimeLoop	2049-12-01 00:00
+@start
+-1	+1.52752E000
+@end
+TimeLoop	2050-01-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2050-02-01 00:00
+@start
+-1	+8.99993E-01
+@end
+TimeLoop	2050-03-01 00:00
+@start
+-1	+8.05977E000
+@end
+TimeLoop	2050-04-01 00:00
+@start
+-1	+7.05073E-01
+@end
+TimeLoop	2050-05-01 00:00
+@start
+-1	+1.22558E000
+@end
+TimeLoop	2050-06-01 00:00
+@start
+-1	+2.98630E000
+@end
+TimeLoop	2050-07-01 00:00
+@start
+-1	+9.73388E000
+@end
+TimeLoop	2050-08-01 00:00
+@start
+-1	+1.76591E001
+@end
+TimeLoop	2050-09-01 00:00
+@start
+-1	+2.12449E001
+@end
+TimeLoop	2050-10-01 00:00
+@start
+-1	+9.52539E000
+@end
+TimeLoop	2050-11-01 00:00
+@start
+-1	+3.44242E000
+@end
+TimeLoop	2050-12-01 00:00
+@start
+-1	+4.07537E000
+@end
+TimeLoop	2051-01-01 00:00
+@start
+-1	+5.98783E000
+@end
+TimeLoop	2051-02-01 00:00
+@start
+-1	+1.92152E-02
+@end
+TimeLoop	2051-03-01 00:00
+@start
+-1	+1.23605E-01
+@end
+TimeLoop	2051-04-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2051-05-01 00:00
+@start
+-1	+4.25104E-01
+@end
+TimeLoop	2051-06-01 00:00
+@start
+-1	+1.22711E001
+@end
+TimeLoop	2051-07-01 00:00
+@start
+-1	+1.37511E001
+@end
+TimeLoop	2051-08-01 00:00
+@start
+-1	+2.07195E001
+@end
+TimeLoop	2051-09-01 00:00
+@start
+-1	+2.13523E001
+@end
+TimeLoop	2051-10-01 00:00
+@start
+-1	+1.40937E001
+@end
+TimeLoop	2051-11-01 00:00
+@start
+-1	+8.62770E000
+@end
+TimeLoop	2051-12-01 00:00
+@start
+-1	+1.92216E000
+@end
+TimeLoop	2052-01-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2052-02-01 00:00
+@start
+-1	+1.74150E000
+@end
+TimeLoop	2052-03-01 00:00
+@start
+-1	+3.41961E000
+@end
+TimeLoop	2052-04-01 00:00
+@start
+-1	+1.42780E000
+@end
+TimeLoop	2052-05-01 00:00
+@start
+-1	+3.26287E000
+@end
+TimeLoop	2052-06-01 00:00
+@start
+-1	+1.52484E000
+@end
+TimeLoop	2052-07-01 00:00
+@start
+-1	+9.25427E000
+@end
+TimeLoop	2052-08-01 00:00
+@start
+-1	+1.53806E001
+@end
+TimeLoop	2052-09-01 00:00
+@start
+-1	+2.13067E001
+@end
+TimeLoop	2052-10-01 00:00
+@start
+-1	+1.02768E001
+@end
+TimeLoop	2052-11-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2052-12-01 00:00
+@start
+-1	+8.31122E-01
+@end
+TimeLoop	2053-01-01 00:00
+@start
+-1	+1.19571E000
+@end
+TimeLoop	2053-02-01 00:00
+@start
+-1	+1.50286E000
+@end
+TimeLoop	2053-03-01 00:00
+@start
+-1	+2.43849E000
+@end
+TimeLoop	2053-04-01 00:00
+@start
+-1	+8.56097E-01
+@end
+TimeLoop	2053-05-01 00:00
+@start
+-1	+6.12518E000
+@end
+TimeLoop	2053-06-01 00:00
+@start
+-1	+1.50321E001
+@end
+TimeLoop	2053-07-01 00:00
+@start
+-1	+1.84067E001
+@end
+TimeLoop	2053-08-01 00:00
+@start
+-1	+1.76856E001
+@end
+TimeLoop	2053-09-01 00:00
+@start
+-1	+1.16014E001
+@end
+TimeLoop	2053-10-01 00:00
+@start
+-1	+8.85326E000
+@end
+TimeLoop	2053-11-01 00:00
+@start
+-1	+7.07777E-01
+@end
+TimeLoop	2053-12-01 00:00
+@start
+-1	+1.90544E-01
+@end
+TimeLoop	2054-01-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2054-02-01 00:00
+@start
+-1	+3.88607E-01
+@end
+TimeLoop	2054-03-01 00:00
+@start
+-1	+6.94136E000
+@end
+TimeLoop	2054-04-01 00:00
+@start
+-1	+6.83721E000
+@end
+TimeLoop	2054-05-01 00:00
+@start
+-1	+8.01852E000
+@end
+TimeLoop	2054-06-01 00:00
+@start
+-1	+4.04318E000
+@end
+TimeLoop	2054-07-01 00:00
+@start
+-1	+1.76175E001
+@end
+TimeLoop	2054-08-01 00:00
+@start
+-1	+2.00013E001
+@end
+TimeLoop	2054-09-01 00:00
+@start
+-1	+2.01573E001
+@end
+TimeLoop	2054-10-01 00:00
+@start
+-1	+9.43031E000
+@end
+TimeLoop	2054-11-01 00:00
+@start
+-1	+2.56362E000
+@end
+TimeLoop	2054-12-01 00:00
+@start
+-1	+2.37851E000
+@end
+TimeLoop	2055-01-01 00:00
+@start
+-1	+7.87457E-01
+@end
+TimeLoop	2055-02-01 00:00
+@start
+-1	+6.57642E000
+@end
+TimeLoop	2055-03-01 00:00
+@start
+-1	+3.76676E000
+@end
+TimeLoop	2055-04-01 00:00
+@start
+-1	+4.80228E000
+@end
+TimeLoop	2055-05-01 00:00
+@start
+-1	+2.93114E000
+@end
+TimeLoop	2055-06-01 00:00
+@start
+-1	+4.16395E000
+@end
+TimeLoop	2055-07-01 00:00
+@start
+-1	+4.43477E000
+@end
+TimeLoop	2055-08-01 00:00
+@start
+-1	+1.42551E001
+@end
+TimeLoop	2055-09-01 00:00
+@start
+-1	+2.12867E001
+@end
+TimeLoop	2055-10-01 00:00
+@start
+-1	+1.02984E001
+@end
+TimeLoop	2055-11-01 00:00
+@start
+-1	+1.41962E000
+@end
+TimeLoop	2055-12-01 00:00
+@start
+-1	+1.21943E000
+@end
+TimeLoop	2056-01-01 00:00
+@start
+-1	+8.28261E000
+@end
+TimeLoop	2056-02-01 00:00
+@start
+-1	+4.29658E-01
+@end
+TimeLoop	2056-03-01 00:00
+@start
+-1	+5.80486E-01
+@end
+TimeLoop	2056-04-01 00:00
+@start
+-1	+2.80273E000
+@end
+TimeLoop	2056-05-01 00:00
+@start
+-1	+4.94533E000
+@end
+TimeLoop	2056-06-01 00:00
+@start
+-1	+6.99664E000
+@end
+TimeLoop	2056-07-01 00:00
+@start
+-1	+1.10480E001
+@end
+TimeLoop	2056-08-01 00:00
+@start
+-1	+1.49616E001
+@end
+TimeLoop	2056-09-01 00:00
+@start
+-1	+1.86610E001
+@end
+TimeLoop	2056-10-01 00:00
+@start
+-1	+5.97055E000
+@end
+TimeLoop	2056-11-01 00:00
+@start
+-1	+6.16491E-01
+@end
+TimeLoop	2056-12-01 00:00
+@start
+-1	+2.92613E-01
+@end
+TimeLoop	2057-01-01 00:00
+@start
+-1	+3.33449E000
+@end
+TimeLoop	2057-02-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2057-03-01 00:00
+@start
+-1	+8.10347E-01
+@end
+TimeLoop	2057-04-01 00:00
+@start
+-1	+3.84259E000
+@end
+TimeLoop	2057-05-01 00:00
+@start
+-1	+8.32894E000
+@end
+TimeLoop	2057-06-01 00:00
+@start
+-1	+1.63242E001
+@end
+TimeLoop	2057-07-01 00:00
+@start
+-1	+2.05554E001
+@end
+TimeLoop	2057-08-01 00:00
+@start
+-1	+1.93292E001
+@end
+TimeLoop	2057-09-01 00:00
+@start
+-1	+1.44995E001
+@end
+TimeLoop	2057-10-01 00:00
+@start
+-1	+5.09124E000
+@end
+TimeLoop	2057-11-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2057-12-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2058-01-01 00:00
+@start
+-1	+6.50930E000
+@end
+TimeLoop	2058-02-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2058-03-01 00:00
+@start
+-1	+8.93322E-01
+@end
+TimeLoop	2058-04-01 00:00
+@start
+-1	+8.47993E000
+@end
+TimeLoop	2058-05-01 00:00
+@start
+-1	+7.59006E000
+@end
+TimeLoop	2058-06-01 00:00
+@start
+-1	+1.34275E001
+@end
+TimeLoop	2058-07-01 00:00
+@start
+-1	+2.00695E001
+@end
+TimeLoop	2058-08-01 00:00
+@start
+-1	+1.97352E001
+@end
+TimeLoop	2058-09-01 00:00
+@start
+-1	+1.83158E001
+@end
+TimeLoop	2058-10-01 00:00
+@start
+-1	+6.49731E000
+@end
+TimeLoop	2058-11-01 00:00
+@start
+-1	+8.55613E-01
+@end
+TimeLoop	2058-12-01 00:00
+@start
+-1	+4.91700E000
+@end
+TimeLoop	2059-01-01 00:00
+@start
+-1	+1.06895E000
+@end
+TimeLoop	2059-02-01 00:00
+@start
+-1	+9.94773E-01
+@end
+TimeLoop	2059-03-01 00:00
+@start
+-1	+6.32930E000
+@end
+TimeLoop	2059-04-01 00:00
+@start
+-1	+4.00546E000
+@end
+TimeLoop	2059-05-01 00:00
+@start
+-1	+2.90538E000
+@end
+TimeLoop	2059-06-01 00:00
+@start
+-1	+2.70989E000
+@end
+TimeLoop	2059-07-01 00:00
+@start
+-1	+8.08650E000
+@end
+TimeLoop	2059-08-01 00:00
+@start
+-1	+1.04370E001
+@end
+TimeLoop	2059-09-01 00:00
+@start
+-1	+8.11424E000
+@end
+TimeLoop	2059-10-01 00:00
+@start
+-1	+1.08865E000
+@end
+TimeLoop	2059-11-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2059-12-01 00:00
+@start
+-1	+1.10691E000
+@end
+TimeLoop	2060-01-01 00:00
+@start
+-1	+4.26194E000
+@end
+TimeLoop	2060-02-01 00:00
+@start
+-1	+3.93810E000
+@end
+TimeLoop	2060-03-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2060-04-01 00:00
+@start
+-1	+1.19800E000
+@end
+TimeLoop	2060-05-01 00:00
+@start
+-1	+4.81512E000
+@end
+TimeLoop	2060-06-01 00:00
+@start
+-1	+7.70967E000
+@end
+TimeLoop	2060-07-01 00:00
+@start
+-1	+1.49456E001
+@end
+TimeLoop	2060-08-01 00:00
+@start
+-1	+2.05727E001
+@end
+TimeLoop	2060-09-01 00:00
+@start
+-1	+1.05437E001
+@end
+TimeLoop	2060-10-01 00:00
+@start
+-1	+5.33703E000
+@end
+TimeLoop	2060-11-01 00:00
+@start
+-1	+2.60461E000
+@end
+TimeLoop	2060-12-01 00:00
+@start
+-1	+3.37139E-01
+@end
+TimeLoop	2061-01-01 00:00
+@start
+-1	+6.97235E-02
+@end
+TimeLoop	2061-02-01 00:00
+@start
+-1	+6.46642E-01
+@end
+TimeLoop	2061-03-01 00:00
+@start
+-1	+4.74435E000
+@end
+TimeLoop	2061-04-01 00:00
+@start
+-1	+2.00748E000
+@end
+TimeLoop	2061-05-01 00:00
+@start
+-1	+8.11531E000
+@end
+TimeLoop	2061-06-01 00:00
+@start
+-1	+1.22488E001
+@end
+TimeLoop	2061-07-01 00:00
+@start
+-1	+1.96828E001
+@end
+TimeLoop	2061-08-01 00:00
+@start
+-1	+1.83870E001
+@end
+TimeLoop	2061-09-01 00:00
+@start
+-1	+2.12468E001
+@end
+TimeLoop	2061-10-01 00:00
+@start
+-1	+8.35500E000
+@end
+TimeLoop	2061-11-01 00:00
+@start
+-1	+1.95910E000
+@end
+TimeLoop	2061-12-01 00:00
+@start
+-1	+1.67285E000
+@end
+TimeLoop	2062-01-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2062-02-01 00:00
+@start
+-1	+2.07701E000
+@end
+TimeLoop	2062-03-01 00:00
+@start
+-1	+7.94964E000
+@end
+TimeLoop	2062-04-01 00:00
+@start
+-1	+6.33878E000
+@end
+TimeLoop	2062-05-01 00:00
+@start
+-1	+4.33586E000
+@end
+TimeLoop	2062-06-01 00:00
+@start
+-1	+1.56354E001
+@end
+TimeLoop	2062-07-01 00:00
+@start
+-1	+1.62753E001
+@end
+TimeLoop	2062-08-01 00:00
+@start
+-1	+1.95100E001
+@end
+TimeLoop	2062-09-01 00:00
+@start
+-1	+1.64372E001
+@end
+TimeLoop	2062-10-01 00:00
+@start
+-1	+2.95385E000
+@end
+TimeLoop	2062-11-01 00:00
+@start
+-1	+4.15427E000
+@end
+TimeLoop	2062-12-01 00:00
+@start
+-1	+1.52318E000
+@end
+TimeLoop	2063-01-01 00:00
+@start
+-1	+3.18199E000
+@end
+TimeLoop	2063-02-01 00:00
+@start
+-1	+1.92727E000
+@end
+TimeLoop	2063-03-01 00:00
+@start
+-1	+4.08407E000
+@end
+TimeLoop	2063-04-01 00:00
+@start
+-1	+2.63607E000
+@end
+TimeLoop	2063-05-01 00:00
+@start
+-1	+4.71577E000
+@end
+TimeLoop	2063-06-01 00:00
+@start
+-1	+1.37764E001
+@end
+TimeLoop	2063-07-01 00:00
+@start
+-1	+2.10507E001
+@end
+TimeLoop	2063-08-01 00:00
+@start
+-1	+2.11983E001
+@end
+TimeLoop	2063-09-01 00:00
+@start
+-1	+2.23258E001
+@end
+TimeLoop	2063-10-01 00:00
+@start
+-1	+1.01783E001
+@end
+TimeLoop	2063-11-01 00:00
+@start
+-1	+3.27106E000
+@end
+TimeLoop	2063-12-01 00:00
+@start
+-1	+5.46251E-02
+@end
+TimeLoop	2064-01-01 00:00
+@start
+-1	+7.53390E-01
+@end
+TimeLoop	2064-02-01 00:00
+@start
+-1	+1.24311E000
+@end
+TimeLoop	2064-03-01 00:00
+@start
+-1	+7.83837E-01
+@end
+TimeLoop	2064-04-01 00:00
+@start
+-1	+9.42868E000
+@end
+TimeLoop	2064-05-01 00:00
+@start
+-1	+1.20956E001
+@end
+TimeLoop	2064-06-01 00:00
+@start
+-1	+1.26817E001
+@end
+TimeLoop	2064-07-01 00:00
+@start
+-1	+6.16890E000
+@end
+TimeLoop	2064-08-01 00:00
+@start
+-1	+1.98460E001
+@end
+TimeLoop	2064-09-01 00:00
+@start
+-1	+1.93025E001
+@end
+TimeLoop	2064-10-01 00:00
+@start
+-1	+4.33664E000
+@end
+TimeLoop	2064-11-01 00:00
+@start
+-1	+2.86896E000
+@end
+TimeLoop	2064-12-01 00:00
+@start
+-1	+1.57542E000
+@end
+TimeLoop	2065-01-01 00:00
+@start
+-1	+1.42862E000
+@end
+TimeLoop	2065-02-01 00:00
+@start
+-1	+2.13716E000
+@end
+TimeLoop	2065-03-01 00:00
+@start
+-1	+3.81138E000
+@end
+TimeLoop	2065-04-01 00:00
+@start
+-1	+2.92131E000
+@end
+TimeLoop	2065-05-01 00:00
+@start
+-1	+3.76869E000
+@end
+TimeLoop	2065-06-01 00:00
+@start
+-1	+7.24747E000
+@end
+TimeLoop	2065-07-01 00:00
+@start
+-1	+1.81350E001
+@end
+TimeLoop	2065-08-01 00:00
+@start
+-1	+1.96524E001
+@end
+TimeLoop	2065-09-01 00:00
+@start
+-1	+2.10594E001
+@end
+TimeLoop	2065-10-01 00:00
+@start
+-1	+1.64083E001
+@end
+TimeLoop	2065-11-01 00:00
+@start
+-1	+2.68996E000
+@end
+TimeLoop	2065-12-01 00:00
+@start
+-1	+2.94481E000
+@end
+TimeLoop	2066-01-01 00:00
+@start
+-1	+1.51462E000
+@end
+TimeLoop	2066-02-01 00:00
+@start
+-1	+1.28991E000
+@end
+TimeLoop	2066-03-01 00:00
+@start
+-1	+1.85678E000
+@end
+TimeLoop	2066-04-01 00:00
+@start
+-1	+1.70241E000
+@end
+TimeLoop	2066-05-01 00:00
+@start
+-1	+1.73396E000
+@end
+TimeLoop	2066-06-01 00:00
+@start
+-1	+7.19325E000
+@end
+TimeLoop	2066-07-01 00:00
+@start
+-1	+1.56998E001
+@end
+TimeLoop	2066-08-01 00:00
+@start
+-1	+1.90625E001
+@end
+TimeLoop	2066-09-01 00:00
+@start
+-1	+1.92026E001
+@end
+TimeLoop	2066-10-01 00:00
+@start
+-1	+8.98155E000
+@end
+TimeLoop	2066-11-01 00:00
+@start
+-1	+3.44705E000
+@end
+TimeLoop	2066-12-01 00:00
+@start
+-1	+6.07849E000
+@end
+TimeLoop	2067-01-01 00:00
+@start
+-1	+1.33721E000
+@end
+TimeLoop	2067-02-01 00:00
+@start
+-1	+9.02819E000
+@end
+TimeLoop	2067-03-01 00:00
+@start
+-1	+8.13370E000
+@end
+TimeLoop	2067-04-01 00:00
+@start
+-1	+5.46064E000
+@end
+TimeLoop	2067-05-01 00:00
+@start
+-1	+6.54951E000
+@end
+TimeLoop	2067-06-01 00:00
+@start
+-1	+2.12134E001
+@end
+TimeLoop	2067-07-01 00:00
+@start
+-1	+2.11361E001
+@end
+TimeLoop	2067-08-01 00:00
+@start
+-1	+2.25340E001
+@end
+TimeLoop	2067-09-01 00:00
+@start
+-1	+2.13575E001
+@end
+TimeLoop	2067-10-01 00:00
+@start
+-1	+3.00278E000
+@end
+TimeLoop	2067-11-01 00:00
+@start
+-1	+2.55404E000
+@end
+TimeLoop	2067-12-01 00:00
+@start
+-1	+1.83485E000
+@end
+TimeLoop	2068-01-01 00:00
+@start
+-1	+2.88705E000
+@end
+TimeLoop	2068-02-01 00:00
+@start
+-1	+8.90273E-02
+@end
+TimeLoop	2068-03-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2068-04-01 00:00
+@start
+-1	+9.43616E-02
+@end
+TimeLoop	2068-05-01 00:00
+@start
+-1	+2.22054E000
+@end
+TimeLoop	2068-06-01 00:00
+@start
+-1	+3.38650E000
+@end
+TimeLoop	2068-07-01 00:00
+@start
+-1	+5.56408E000
+@end
+TimeLoop	2068-08-01 00:00
+@start
+-1	+1.60874E001
+@end
+TimeLoop	2068-09-01 00:00
+@start
+-1	+2.28441E001
+@end
+TimeLoop	2068-10-01 00:00
+@start
+-1	+1.14299E001
+@end
+TimeLoop	2068-11-01 00:00
+@start
+-1	+5.71449E000
+@end
+TimeLoop	2068-12-01 00:00
+@start
+-1	+3.03240E000
+@end
+TimeLoop	2069-01-01 00:00
+@start
+-1	+4.49967E-01
+@end
+TimeLoop	2069-02-01 00:00
+@start
+-1	+1.49574E000
+@end
+TimeLoop	2069-03-01 00:00
+@start
+-1	+1.93400E000
+@end
+TimeLoop	2069-04-01 00:00
+@start
+-1	+3.45485E000
+@end
+TimeLoop	2069-05-01 00:00
+@start
+-1	+3.93953E000
+@end
+TimeLoop	2069-06-01 00:00
+@start
+-1	+1.07894E001
+@end
+TimeLoop	2069-07-01 00:00
+@start
+-1	+1.59964E001
+@end
+TimeLoop	2069-08-01 00:00
+@start
+-1	+1.98795E001
+@end
+TimeLoop	2069-09-01 00:00
+@start
+-1	+2.07701E001
+@end
+TimeLoop	2069-10-01 00:00
+@start
+-1	+4.06731E000
+@end
+TimeLoop	2069-11-01 00:00
+@start
+-1	+5.29302E000
+@end
+TimeLoop	2069-12-01 00:00
+@start
+-1	+2.03287E000
+@end
+TimeLoop	2070-01-01 00:00
+@start
+-1	+8.93614E-01
+@end
+TimeLoop	2070-02-01 00:00
+@start
+-1	+5.00298E000
+@end
+TimeLoop	2070-03-01 00:00
+@start
+-1	+4.78445E000
+@end
+TimeLoop	2070-04-01 00:00
+@start
+-1	+5.66594E000
+@end
+TimeLoop	2070-05-01 00:00
+@start
+-1	+6.27845E000
+@end
+TimeLoop	2070-06-01 00:00
+@start
+-1	+1.66328E001
+@end
+TimeLoop	2070-07-01 00:00
+@start
+-1	+9.94878E000
+@end
+TimeLoop	2070-08-01 00:00
+@start
+-1	+1.97397E001
+@end
+TimeLoop	2070-09-01 00:00
+@start
+-1	+1.73754E001
+@end
+TimeLoop	2070-10-01 00:00
+@start
+-1	+1.57782E000
+@end
+TimeLoop	2070-11-01 00:00
+@start
+-1	+1.12457E001
+@end
+TimeLoop	2070-12-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2071-01-01 00:00
+@start
+-1	+8.50978E-02
+@end
+TimeLoop	2071-02-01 00:00
+@start
+-1	+7.90006E-01
+@end
+TimeLoop	2071-03-01 00:00
+@start
+-1	+9.86144E-01
+@end
+TimeLoop	2071-04-01 00:00
+@start
+-1	+1.76493E000
+@end
+TimeLoop	2071-05-01 00:00
+@start
+-1	+4.39005E000
+@end
+TimeLoop	2071-06-01 00:00
+@start
+-1	+4.08252E000
+@end
+TimeLoop	2071-07-01 00:00
+@start
+-1	+1.55657E001
+@end
+TimeLoop	2071-08-01 00:00
+@start
+-1	+2.04604E001
+@end
+TimeLoop	2071-09-01 00:00
+@start
+-1	+1.28804E001
+@end
+TimeLoop	2071-10-01 00:00
+@start
+-1	+5.10278E000
+@end
+TimeLoop	2071-11-01 00:00
+@start
+-1	+3.02764E000
+@end
+TimeLoop	2071-12-01 00:00
+@start
+-1	+1.36767E000
+@end
+TimeLoop	2072-01-01 00:00
+@start
+-1	+3.52864E000
+@end
+TimeLoop	2072-02-01 00:00
+@start
+-1	+8.08568E000
+@end
+TimeLoop	2072-03-01 00:00
+@start
+-1	+1.47247E-01
+@end
+TimeLoop	2072-04-01 00:00
+@start
+-1	+3.94828E-01
+@end
+TimeLoop	2072-05-01 00:00
+@start
+-1	+3.30397E000
+@end
+TimeLoop	2072-06-01 00:00
+@start
+-1	+1.34264E001
+@end
+TimeLoop	2072-07-01 00:00
+@start
+-1	+1.96052E001
+@end
+TimeLoop	2072-08-01 00:00
+@start
+-1	+1.84057E001
+@end
+TimeLoop	2072-09-01 00:00
+@start
+-1	+2.01056E001
+@end
+TimeLoop	2072-10-01 00:00
+@start
+-1	+1.05072E001
+@end
+TimeLoop	2072-11-01 00:00
+@start
+-1	+2.48327E000
+@end
+TimeLoop	2072-12-01 00:00
+@start
+-1	+8.67782E-03
+@end
+TimeLoop	2073-01-01 00:00
+@start
+-1	+2.54435E000
+@end
+TimeLoop	2073-02-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2073-03-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2073-04-01 00:00
+@start
+-1	+3.01125E000
+@end
+TimeLoop	2073-05-01 00:00
+@start
+-1	+6.82455E000
+@end
+TimeLoop	2073-06-01 00:00
+@start
+-1	+1.53649E001
+@end
+TimeLoop	2073-07-01 00:00
+@start
+-1	+1.89957E001
+@end
+TimeLoop	2073-08-01 00:00
+@start
+-1	+2.00721E001
+@end
+TimeLoop	2073-09-01 00:00
+@start
+-1	+1.98029E001
+@end
+TimeLoop	2073-10-01 00:00
+@start
+-1	+1.26882E001
+@end
+TimeLoop	2073-11-01 00:00
+@start
+-1	+3.52111E000
+@end
+TimeLoop	2073-12-01 00:00
+@start
+-1	+1.26182E000
+@end
+TimeLoop	2074-01-01 00:00
+@start
+-1	+3.52304E-01
+@end
+TimeLoop	2074-02-01 00:00
+@start
+-1	+3.03933E000
+@end
+TimeLoop	2074-03-01 00:00
+@start
+-1	+4.20836E000
+@end
+TimeLoop	2074-04-01 00:00
+@start
+-1	+6.31121E000
+@end
+TimeLoop	2074-05-01 00:00
+@start
+-1	+2.51448E000
+@end
+TimeLoop	2074-06-01 00:00
+@start
+-1	+2.94506E000
+@end
+TimeLoop	2074-07-01 00:00
+@start
+-1	+4.47127E000
+@end
+TimeLoop	2074-08-01 00:00
+@start
+-1	+1.43362E001
+@end
+TimeLoop	2074-09-01 00:00
+@start
+-1	+2.05356E001
+@end
+TimeLoop	2074-10-01 00:00
+@start
+-1	+1.20162E001
+@end
+TimeLoop	2074-11-01 00:00
+@start
+-1	+2.43164E000
+@end
+TimeLoop	2074-12-01 00:00
+@start
+-1	+2.72223E-01
+@end
+TimeLoop	2075-01-01 00:00
+@start
+-1	+3.14328E000
+@end
+TimeLoop	2075-02-01 00:00
+@start
+-1	+8.28392E000
+@end
+TimeLoop	2075-03-01 00:00
+@start
+-1	+2.06626E000
+@end
+TimeLoop	2075-04-01 00:00
+@start
+-1	+1.88239E-02
+@end
+TimeLoop	2075-05-01 00:00
+@start
+-1	+4.28045E000
+@end
+TimeLoop	2075-06-01 00:00
+@start
+-1	+1.06806E001
+@end
+TimeLoop	2075-07-01 00:00
+@start
+-1	+1.90049E001
+@end
+TimeLoop	2075-08-01 00:00
+@start
+-1	+1.82575E001
+@end
+TimeLoop	2075-09-01 00:00
+@start
+-1	+1.89302E001
+@end
+TimeLoop	2075-10-01 00:00
+@start
+-1	+1.52681E001
+@end
+TimeLoop	2075-11-01 00:00
+@start
+-1	+3.16782E000
+@end
+TimeLoop	2075-12-01 00:00
+@start
+-1	+1.89069E000
+@end
+TimeLoop	2076-01-01 00:00
+@start
+-1	+4.15103E000
+@end
+TimeLoop	2076-02-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2076-03-01 00:00
+@start
+-1	+6.77740E000
+@end
+TimeLoop	2076-04-01 00:00
+@start
+-1	+1.14151E000
+@end
+TimeLoop	2076-05-01 00:00
+@start
+-1	+1.96061E000
+@end
+TimeLoop	2076-06-01 00:00
+@start
+-1	+1.05248E001
+@end
+TimeLoop	2076-07-01 00:00
+@start
+-1	+1.63680E001
+@end
+TimeLoop	2076-08-01 00:00
+@start
+-1	+2.01031E001
+@end
+TimeLoop	2076-09-01 00:00
+@start
+-1	+1.98258E001
+@end
+TimeLoop	2076-10-01 00:00
+@start
+-1	+1.06828E001
+@end
+TimeLoop	2076-11-01 00:00
+@start
+-1	+4.85506E000
+@end
+TimeLoop	2076-12-01 00:00
+@start
+-1	+6.66846E-01
+@end
+TimeLoop	2077-01-01 00:00
+@start
+-1	+5.82459E-01
+@end
+TimeLoop	2077-02-01 00:00
+@start
+-1	+6.25685E000
+@end
+TimeLoop	2077-03-01 00:00
+@start
+-1	+1.34459E000
+@end
+TimeLoop	2077-04-01 00:00
+@start
+-1	+3.29123E000
+@end
+TimeLoop	2077-05-01 00:00
+@start
+-1	+9.91890E000
+@end
+TimeLoop	2077-06-01 00:00
+@start
+-1	+1.53205E001
+@end
+TimeLoop	2077-07-01 00:00
+@start
+-1	+1.92435E001
+@end
+TimeLoop	2077-08-01 00:00
+@start
+-1	+2.02682E001
+@end
+TimeLoop	2077-09-01 00:00
+@start
+-1	+2.18548E001
+@end
+TimeLoop	2077-10-01 00:00
+@start
+-1	+1.87508E001
+@end
+TimeLoop	2077-11-01 00:00
+@start
+-1	+2.63263E000
+@end
+TimeLoop	2077-12-01 00:00
+@start
+-1	+3.80982E000
+@end
+TimeLoop	2078-01-01 00:00
+@start
+-1	+8.67782E-03
+@end
+TimeLoop	2078-02-01 00:00
+@start
+-1	+2.63564E000
+@end
+TimeLoop	2078-03-01 00:00
+@start
+-1	+4.38009E000
+@end
+TimeLoop	2078-04-01 00:00
+@start
+-1	+5.14812E000
+@end
+TimeLoop	2078-05-01 00:00
+@start
+-1	+2.37930E000
+@end
+TimeLoop	2078-06-01 00:00
+@start
+-1	+5.78254E000
+@end
+TimeLoop	2078-07-01 00:00
+@start
+-1	+1.69975E001
+@end
+TimeLoop	2078-08-01 00:00
+@start
+-1	+1.76216E001
+@end
+TimeLoop	2078-09-01 00:00
+@start
+-1	+2.20275E001
+@end
+TimeLoop	2078-10-01 00:00
+@start
+-1	+1.83759E001
+@end
+TimeLoop	2078-11-01 00:00
+@start
+-1	+4.81402E000
+@end
+TimeLoop	2078-12-01 00:00
+@start
+-1	+2.46136E000
+@end
+TimeLoop	2079-01-01 00:00
+@start
+-1	+2.26775E000
+@end
+TimeLoop	2079-02-01 00:00
+@start
+-1	+1.81851E000
+@end
+TimeLoop	2079-03-01 00:00
+@start
+-1	+1.41738E-01
+@end
+TimeLoop	2079-04-01 00:00
+@start
+-1	+3.53000E000
+@end
+TimeLoop	2079-05-01 00:00
+@start
+-1	+2.84762E000
+@end
+TimeLoop	2079-06-01 00:00
+@start
+-1	+6.43797E000
+@end
+TimeLoop	2079-07-01 00:00
+@start
+-1	+1.47935E001
+@end
+TimeLoop	2079-08-01 00:00
+@start
+-1	+1.93762E001
+@end
+TimeLoop	2079-09-01 00:00
+@start
+-1	+2.09931E001
+@end
+TimeLoop	2079-10-01 00:00
+@start
+-1	+9.44898E000
+@end
+TimeLoop	2079-11-01 00:00
+@start
+-1	+1.27731E000
+@end
+TimeLoop	2079-12-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2080-01-01 00:00
+@start
+-1	+1.97768E000
+@end
+TimeLoop	2080-02-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2080-03-01 00:00
+@start
+-1	+5.50788E000
+@end
+TimeLoop	2080-04-01 00:00
+@start
+-1	+5.28371E000
+@end
+TimeLoop	2080-05-01 00:00
+@start
+-1	+7.52097E000
+@end
+TimeLoop	2080-06-01 00:00
+@start
+-1	+1.63416E001
+@end
+TimeLoop	2080-07-01 00:00
+@start
+-1	+2.00100E001
+@end
+TimeLoop	2080-08-01 00:00
+@start
+-1	+1.92917E001
+@end
+TimeLoop	2080-09-01 00:00
+@start
+-1	+2.14094E001
+@end
+TimeLoop	2080-10-01 00:00
+@start
+-1	+1.55244E001
+@end
+TimeLoop	2080-11-01 00:00
+@start
+-1	+7.27249E-01
+@end
+TimeLoop	2080-12-01 00:00
+@start
+-1	+4.90355E-01
+@end
+TimeLoop	2081-01-01 00:00
+@start
+-1	+3.37003E000
+@end
+TimeLoop	2081-02-01 00:00
+@start
+-1	+2.36093E000
+@end
+TimeLoop	2081-03-01 00:00
+@start
+-1	+6.88412E000
+@end
+TimeLoop	2081-04-01 00:00
+@start
+-1	+8.36632E000
+@end
+TimeLoop	2081-05-01 00:00
+@start
+-1	+1.13231E001
+@end
+TimeLoop	2081-06-01 00:00
+@start
+-1	+9.34610E000
+@end
+TimeLoop	2081-07-01 00:00
+@start
+-1	+1.89294E001
+@end
+TimeLoop	2081-08-01 00:00
+@start
+-1	+2.02370E001
+@end
+TimeLoop	2081-09-01 00:00
+@start
+-1	+1.45202E001
+@end
+TimeLoop	2081-10-01 00:00
+@start
+-1	+7.64041E000
+@end
+TimeLoop	2081-11-01 00:00
+@start
+-1	+5.73889E000
+@end
+TimeLoop	2081-12-01 00:00
+@start
+-1	+4.82988E000
+@end
+TimeLoop	2082-01-01 00:00
+@start
+-1	+2.45210E000
+@end
+TimeLoop	2082-02-01 00:00
+@start
+-1	+1.71014E000
+@end
+TimeLoop	2082-03-01 00:00
+@start
+-1	+1.56925E000
+@end
+TimeLoop	2082-04-01 00:00
+@start
+-1	+2.70799E000
+@end
+TimeLoop	2082-05-01 00:00
+@start
+-1	+1.20882E001
+@end
+TimeLoop	2082-06-01 00:00
+@start
+-1	+1.60516E001
+@end
+TimeLoop	2082-07-01 00:00
+@start
+-1	+1.99050E001
+@end
+TimeLoop	2082-08-01 00:00
+@start
+-1	+1.94861E001
+@end
+TimeLoop	2082-09-01 00:00
+@start
+-1	+2.04361E001
+@end
+TimeLoop	2082-10-01 00:00
+@start
+-1	+7.72871E000
+@end
+TimeLoop	2082-11-01 00:00
+@start
+-1	+3.96184E000
+@end
+TimeLoop	2082-12-01 00:00
+@start
+-1	+7.64092E000
+@end
+TimeLoop	2083-01-01 00:00
+@start
+-1	+6.40888E-01
+@end
+TimeLoop	2083-02-01 00:00
+@start
+-1	+9.26262E-01
+@end
+TimeLoop	2083-03-01 00:00
+@start
+-1	+5.45850E000
+@end
+TimeLoop	2083-04-01 00:00
+@start
+-1	+3.78132E000
+@end
+TimeLoop	2083-05-01 00:00
+@start
+-1	+8.04312E000
+@end
+TimeLoop	2083-06-01 00:00
+@start
+-1	+1.56595E001
+@end
+TimeLoop	2083-07-01 00:00
+@start
+-1	+1.86020E001
+@end
+TimeLoop	2083-08-01 00:00
+@start
+-1	+1.97621E001
+@end
+TimeLoop	2083-09-01 00:00
+@start
+-1	+1.96420E001
+@end
+TimeLoop	2083-10-01 00:00
+@start
+-1	+7.49600E000
+@end
+TimeLoop	2083-11-01 00:00
+@start
+-1	+2.77382E000
+@end
+TimeLoop	2083-12-01 00:00
+@start
+-1	+1.94751E000
+@end
+TimeLoop	2084-01-01 00:00
+@start
+-1	+2.25215E000
+@end
+TimeLoop	2084-02-01 00:00
+@start
+-1	+9.27629E-03
+@end
+TimeLoop	2084-03-01 00:00
+@start
+-1	+3.17225E-01
+@end
+TimeLoop	2084-04-01 00:00
+@start
+-1	+1.82607E-01
+@end
+TimeLoop	2084-05-01 00:00
+@start
+-1	+2.23979E000
+@end
+TimeLoop	2084-06-01 00:00
+@start
+-1	+3.39335E000
+@end
+TimeLoop	2084-07-01 00:00
+@start
+-1	+1.15024E001
+@end
+TimeLoop	2084-08-01 00:00
+@start
+-1	+1.95624E001
+@end
+TimeLoop	2084-09-01 00:00
+@start
+-1	+2.03443E001
+@end
+TimeLoop	2084-10-01 00:00
+@start
+-1	+6.70468E000
+@end
+TimeLoop	2084-11-01 00:00
+@start
+-1	+1.11753E000
+@end
+TimeLoop	2084-12-01 00:00
+@start
+-1	+5.43138E000
+@end
+TimeLoop	2085-01-01 00:00
+@start
+-1	+6.04121E000
+@end
+TimeLoop	2085-02-01 00:00
+@start
+-1	+4.72773E000
+@end
+TimeLoop	2085-03-01 00:00
+@start
+-1	+3.80942E000
+@end
+TimeLoop	2085-04-01 00:00
+@start
+-1	+6.12254E000
+@end
+TimeLoop	2085-05-01 00:00
+@start
+-1	+6.72362E000
+@end
+TimeLoop	2085-06-01 00:00
+@start
+-1	+1.30851E001
+@end
+TimeLoop	2085-07-01 00:00
+@start
+-1	+1.86332E001
+@end
+TimeLoop	2085-08-01 00:00
+@start
+-1	+1.90510E001
+@end
+TimeLoop	2085-09-01 00:00
+@start
+-1	+1.80744E001
+@end
+TimeLoop	2085-10-01 00:00
+@start
+-1	+9.59863E000
+@end
+TimeLoop	2085-11-01 00:00
+@start
+-1	+4.33491E000
+@end
+TimeLoop	2085-12-01 00:00
+@start
+-1	+6.38714E-03
+@end
+TimeLoop	2086-01-01 00:00
+@start
+-1	+3.55692E000
+@end
+TimeLoop	2086-02-01 00:00
+@start
+-1	+1.96671E000
+@end
+TimeLoop	2086-03-01 00:00
+@start
+-1	+2.88312E000
+@end
+TimeLoop	2086-04-01 00:00
+@start
+-1	+7.52242E000
+@end
+TimeLoop	2086-05-01 00:00
+@start
+-1	+1.72724E001
+@end
+TimeLoop	2086-06-01 00:00
+@start
+-1	+1.94470E001
+@end
+TimeLoop	2086-07-01 00:00
+@start
+-1	+1.95457E001
+@end
+TimeLoop	2086-08-01 00:00
+@start
+-1	+1.97943E001
+@end
+TimeLoop	2086-09-01 00:00
+@start
+-1	+2.13636E001
+@end
+TimeLoop	2086-10-01 00:00
+@start
+-1	+9.16388E000
+@end
+TimeLoop	2086-11-01 00:00
+@start
+-1	+1.33768E000
+@end
+TimeLoop	2086-12-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2087-01-01 00:00
+@start
+-1	+2.33355E000
+@end
+TimeLoop	2087-02-01 00:00
+@start
+-1	+4.42921E-01
+@end
+TimeLoop	2087-03-01 00:00
+@start
+-1	+6.43567E000
+@end
+TimeLoop	2087-04-01 00:00
+@start
+-1	+1.29274E000
+@end
+TimeLoop	2087-05-01 00:00
+@start
+-1	+5.28026E000
+@end
+TimeLoop	2087-06-01 00:00
+@start
+-1	+1.57866E001
+@end
+TimeLoop	2087-07-01 00:00
+@start
+-1	+1.43267E001
+@end
+TimeLoop	2087-08-01 00:00
+@start
+-1	+1.44533E001
+@end
+TimeLoop	2087-09-01 00:00
+@start
+-1	+2.12169E001
+@end
+TimeLoop	2087-10-01 00:00
+@start
+-1	+6.30974E000
+@end
+TimeLoop	2087-11-01 00:00
+@start
+-1	+4.07453E000
+@end
+TimeLoop	2087-12-01 00:00
+@start
+-1	+7.11949E-02
+@end
+TimeLoop	2088-01-01 00:00
+@start
+-1	+1.82600E000
+@end
+TimeLoop	2088-02-01 00:00
+@start
+-1	+5.76613E-01
+@end
+TimeLoop	2088-03-01 00:00
+@start
+-1	+2.60702E-01
+@end
+TimeLoop	2088-04-01 00:00
+@start
+-1	+3.90454E000
+@end
+TimeLoop	2088-05-01 00:00
+@start
+-1	+3.27083E000
+@end
+TimeLoop	2088-06-01 00:00
+@start
+-1	+1.18610E000
+@end
+TimeLoop	2088-07-01 00:00
+@start
+-1	+1.28984E001
+@end
+TimeLoop	2088-08-01 00:00
+@start
+-1	+1.92466E001
+@end
+TimeLoop	2088-09-01 00:00
+@start
+-1	+1.23819E001
+@end
+TimeLoop	2088-10-01 00:00
+@start
+-1	+1.16340E001
+@end
+TimeLoop	2088-11-01 00:00
+@start
+-1	+2.20200E000
+@end
+TimeLoop	2088-12-01 00:00
+@start
+-1	+4.54165E000
+@end
+TimeLoop	2089-01-01 00:00
+@start
+-1	+2.41785E000
+@end
+TimeLoop	2089-02-01 00:00
+@start
+-1	+8.20509E000
+@end
+TimeLoop	2089-03-01 00:00
+@start
+-1	+1.22304E000
+@end
+TimeLoop	2089-04-01 00:00
+@start
+-1	+2.40189E000
+@end
+TimeLoop	2089-05-01 00:00
+@start
+-1	+1.63742E000
+@end
+TimeLoop	2089-06-01 00:00
+@start
+-1	+3.68696E000
+@end
+TimeLoop	2089-07-01 00:00
+@start
+-1	+8.78747E000
+@end
+TimeLoop	2089-08-01 00:00
+@start
+-1	+1.87578E001
+@end
+TimeLoop	2089-09-01 00:00
+@start
+-1	+1.99211E001
+@end
+TimeLoop	2089-10-01 00:00
+@start
+-1	+1.26820E001
+@end
+TimeLoop	2089-11-01 00:00
+@start
+-1	+2.57533E000
+@end
+TimeLoop	2089-12-01 00:00
+@start
+-1	+9.28905E000
+@end
+TimeLoop	2090-01-01 00:00
+@start
+-1	+8.42191E-01
+@end
+TimeLoop	2090-02-01 00:00
+@start
+-1	+6.06288E000
+@end
+TimeLoop	2090-03-01 00:00
+@start
+-1	+3.65432E000
+@end
+TimeLoop	2090-04-01 00:00
+@start
+-1	+3.02713E000
+@end
+TimeLoop	2090-05-01 00:00
+@start
+-1	+7.97880E000
+@end
+TimeLoop	2090-06-01 00:00
+@start
+-1	+1.65341E001
+@end
+TimeLoop	2090-07-01 00:00
+@start
+-1	+1.86263E001
+@end
+TimeLoop	2090-08-01 00:00
+@start
+-1	+1.98798E001
+@end
+TimeLoop	2090-09-01 00:00
+@start
+-1	+2.09657E001
+@end
+TimeLoop	2090-10-01 00:00
+@start
+-1	+1.76204E001
+@end
+TimeLoop	2090-11-01 00:00
+@start
+-1	+1.96130E000
+@end
+TimeLoop	2090-12-01 00:00
+@start
+-1	+4.06880E000
+@end
+TimeLoop	2091-01-01 00:00
+@start
+-1	+3.19002E000
+@end
+TimeLoop	2091-02-01 00:00
+@start
+-1	+1.39875E000
+@end
+TimeLoop	2091-03-01 00:00
+@start
+-1	+7.07234E000
+@end
+TimeLoop	2091-04-01 00:00
+@start
+-1	+9.19369E000
+@end
+TimeLoop	2091-05-01 00:00
+@start
+-1	+7.39451E000
+@end
+TimeLoop	2091-06-01 00:00
+@start
+-1	+7.68157E000
+@end
+TimeLoop	2091-07-01 00:00
+@start
+-1	+1.89222E001
+@end
+TimeLoop	2091-08-01 00:00
+@start
+-1	+2.03995E001
+@end
+TimeLoop	2091-09-01 00:00
+@start
+-1	+2.26347E001
+@end
+TimeLoop	2091-10-01 00:00
+@start
+-1	+1.65654E001
+@end
+TimeLoop	2091-11-01 00:00
+@start
+-1	+9.25838E-01
+@end
+TimeLoop	2091-12-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2092-01-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2092-02-01 00:00
+@start
+-1	+1.12705E000
+@end
+TimeLoop	2092-03-01 00:00
+@start
+-1	+3.73234E000
+@end
+TimeLoop	2092-04-01 00:00
+@start
+-1	+4.50774E000
+@end
+TimeLoop	2092-05-01 00:00
+@start
+-1	+7.44333E000
+@end
+TimeLoop	2092-06-01 00:00
+@start
+-1	+1.55463E001
+@end
+TimeLoop	2092-07-01 00:00
+@start
+-1	+1.61503E001
+@end
+TimeLoop	2092-08-01 00:00
+@start
+-1	+1.88389E001
+@end
+TimeLoop	2092-09-01 00:00
+@start
+-1	+1.98980E001
+@end
+TimeLoop	2092-10-01 00:00
+@start
+-1	+1.13465E001
+@end
+TimeLoop	2092-11-01 00:00
+@start
+-1	+4.83531E000
+@end
+TimeLoop	2092-12-01 00:00
+@start
+-1	+6.45427E-01
+@end
+TimeLoop	2093-01-01 00:00
+@start
+-1	+2.88303E000
+@end
+TimeLoop	2093-02-01 00:00
+@start
+-1	+2.78085E000
+@end
+TimeLoop	2093-03-01 00:00
+@start
+-1	+2.83031E000
+@end
+TimeLoop	2093-04-01 00:00
+@start
+-1	+3.04595E000
+@end
+TimeLoop	2093-05-01 00:00
+@start
+-1	+4.32558E000
+@end
+TimeLoop	2093-06-01 00:00
+@start
+-1	+1.70186E001
+@end
+TimeLoop	2093-07-01 00:00
+@start
+-1	+2.10350E001
+@end
+TimeLoop	2093-08-01 00:00
+@start
+-1	+1.98485E001
+@end
+TimeLoop	2093-09-01 00:00
+@start
+-1	+2.07209E001
+@end
+TimeLoop	2093-10-01 00:00
+@start
+-1	+1.31567E001
+@end
+TimeLoop	2093-11-01 00:00
+@start
+-1	+7.42323E000
+@end
+TimeLoop	2093-12-01 00:00
+@start
+-1	+4.71888E-01
+@end
+TimeLoop	2094-01-01 00:00
+@start
+-1	+4.24005E000
+@end
+TimeLoop	2094-02-01 00:00
+@start
+-1	+3.03483E000
+@end
+TimeLoop	2094-03-01 00:00
+@start
+-1	+2.76986E000
+@end
+TimeLoop	2094-04-01 00:00
+@start
+-1	+1.15704E000
+@end
+TimeLoop	2094-05-01 00:00
+@start
+-1	+1.53902E000
+@end
+TimeLoop	2094-06-01 00:00
+@start
+-1	+4.95072E000
+@end
+TimeLoop	2094-07-01 00:00
+@start
+-1	+1.59833E001
+@end
+TimeLoop	2094-08-01 00:00
+@start
+-1	+2.11508E001
+@end
+TimeLoop	2094-09-01 00:00
+@start
+-1	+2.07235E001
+@end
+TimeLoop	2094-10-01 00:00
+@start
+-1	+4.49276E000
+@end
+TimeLoop	2094-11-01 00:00
+@start
+-1	+6.33051E-02
+@end
+TimeLoop	2094-12-01 00:00
+@start
+-1	+7.50899E-01
+@end
+TimeLoop	2095-01-01 00:00
+@start
+-1	+2.24363E000
+@end
+TimeLoop	2095-02-01 00:00
+@start
+-1	+6.21452E000
+@end
+TimeLoop	2095-03-01 00:00
+@start
+-1	+1.28412E000
+@end
+TimeLoop	2095-04-01 00:00
+@start
+-1	+1.00133E001
+@end
+TimeLoop	2095-05-01 00:00
+@start
+-1	+1.72860E001
+@end
+TimeLoop	2095-06-01 00:00
+@start
+-1	+1.71978E001
+@end
+TimeLoop	2095-07-01 00:00
+@start
+-1	+1.87594E001
+@end
+TimeLoop	2095-08-01 00:00
+@start
+-1	+2.13941E001
+@end
+TimeLoop	2095-09-01 00:00
+@start
+-1	+2.11002E001
+@end
+TimeLoop	2095-10-01 00:00
+@start
+-1	+1.11157E001
+@end
+TimeLoop	2095-11-01 00:00
+@start
+-1	+1.46651E000
+@end
+TimeLoop	2095-12-01 00:00
+@start
+-1	+4.01660E000
+@end
+TimeLoop	2096-01-01 00:00
+@start
+-1	+6.51070E-01
+@end
+TimeLoop	2096-02-01 00:00
+@start
+-1	+3.25090E-01
+@end
+TimeLoop	2096-03-01 00:00
+@start
+-1	+3.65767E000
+@end
+TimeLoop	2096-04-01 00:00
+@start
+-1	+3.70712E000
+@end
+TimeLoop	2096-05-01 00:00
+@start
+-1	+5.90993E000
+@end
+TimeLoop	2096-06-01 00:00
+@start
+-1	+1.45425E001
+@end
+TimeLoop	2096-07-01 00:00
+@start
+-1	+1.88421E001
+@end
+TimeLoop	2096-08-01 00:00
+@start
+-1	+1.94501E001
+@end
+TimeLoop	2096-09-01 00:00
+@start
+-1	+1.95266E001
+@end
+TimeLoop	2096-10-01 00:00
+@start
+-1	+9.19373E000
+@end
+TimeLoop	2096-11-01 00:00
+@start
+-1	+1.43541E000
+@end
+TimeLoop	2096-12-01 00:00
+@start
+-1	+1.06015E000
+@end
+TimeLoop	2097-01-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2097-02-01 00:00
+@start
+-1	+1.60747E000
+@end
+TimeLoop	2097-03-01 00:00
+@start
+-1	+3.40679E000
+@end
+TimeLoop	2097-04-01 00:00
+@start
+-1	+4.00745E-01
+@end
+TimeLoop	2097-05-01 00:00
+@start
+-1	+7.34102E000
+@end
+TimeLoop	2097-06-01 00:00
+@start
+-1	+2.50398E000
+@end
+TimeLoop	2097-07-01 00:00
+@start
+-1	+8.53666E000
+@end
+TimeLoop	2097-08-01 00:00
+@start
+-1	+1.84623E001
+@end
+TimeLoop	2097-09-01 00:00
+@start
+-1	+2.03355E001
+@end
+TimeLoop	2097-10-01 00:00
+@start
+-1	+1.20212E001
+@end
+TimeLoop	2097-11-01 00:00
+@start
+-1	+2.08692E000
+@end
+TimeLoop	2097-12-01 00:00
+@start
+-1	+6.64760E000
+@end
+TimeLoop	2098-01-01 00:00
+@start
+-1	+5.85538E000
+@end
+TimeLoop	2098-02-01 00:00
+@start
+-1	+4.20958E000
+@end
+TimeLoop	2098-03-01 00:00
+@start
+-1	+7.67987E-01
+@end
+TimeLoop	2098-04-01 00:00
+@start
+-1	+2.81554E000
+@end
+TimeLoop	2098-05-01 00:00
+@start
+-1	+9.15510E-01
+@end
+TimeLoop	2098-06-01 00:00
+@start
+-1	+8.44218E000
+@end
+TimeLoop	2098-07-01 00:00
+@start
+-1	+1.82304E001
+@end
+TimeLoop	2098-08-01 00:00
+@start
+-1	+1.81460E001
+@end
+TimeLoop	2098-09-01 00:00
+@start
+-1	+1.79243E001
+@end
+TimeLoop	2098-10-01 00:00
+@start
+-1	+1.75181E001
+@end
+TimeLoop	2098-11-01 00:00
+@start
+-1	+5.49263E000
+@end
+TimeLoop	2098-12-01 00:00
+@start
+-1	+1.53857E000
+@end
+TimeLoop	2099-01-01 00:00
+@start
+-1	+3.71022E000
+@end
+TimeLoop	2099-02-01 00:00
+@start
+-1	+3.99727E000
+@end
+TimeLoop	2099-03-01 00:00
+@start
+-1	+0.00000E000
+@end
+TimeLoop	2099-04-01 00:00
+@start
+-1	+1.24191E-01
+@end
+TimeLoop	2099-05-01 00:00
+@start
+-1	+1.10167E001
+@end
+TimeLoop	2099-06-01 00:00
+@start
+-1	+1.68857E001
+@end
+TimeLoop	2099-07-01 00:00
+@start
+-1	+2.26532E001
+@end
+TimeLoop	2099-08-01 00:00
+@start
+-1	+1.96115E001
+@end
+TimeLoop	2099-09-01 00:00
+@start
+-1	+2.12530E001
+@end
+TimeLoop	2099-10-01 00:00
+@start
+-1	+1.77369E001
+@end
+TimeLoop	2099-11-01 00:00
+@start
+-1	+8.76691E-01
+@end
+TimeLoop	2099-12-01 00:00
+@start
+-1	+1.33957E000
+@end
+TimeLoop	2100-01-01 00:00
+@start
+-1	+2.66937E000
+@end
+TimeLoop	2100-02-01 00:00
+@start
+-1	+1.15791E-01
+@end
+TimeLoop	2100-03-01 00:00
+@start
+-1	+3.93064E000
+@end
+TimeLoop	2100-04-01 00:00
+@start
+-1	+9.46542E000
+@end
+TimeLoop	2100-05-01 00:00
+@start
+-1	+6.67916E000
+@end
+TimeLoop	2100-06-01 00:00
+@start
+-1	+1.38977E001
+@end
+TimeLoop	2100-07-01 00:00
+@start
+-1	+1.87070E001
+@end
+TimeLoop	2100-08-01 00:00
+@start
+-1	+2.23500E001
+@end
+TimeLoop	2100-09-01 00:00
+@start
+-1	+1.63743E001
+@end
+TimeLoop	2100-10-01 00:00
+@start
+-1	+5.43762E000
+@end
+TimeLoop	2100-11-01 00:00
+@start
+-1	+1.09761E000
+@end
+TimeLoop	2100-12-01 00:00
+@start
+-1	+2.91041E-01
+@end
