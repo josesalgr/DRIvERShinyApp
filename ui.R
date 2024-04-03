@@ -3,26 +3,84 @@
 header <- dashboardHeader(title = img(src = "DRYvER-Logo-1.png", height = 45, align = "left"))
 
 sidebar <- dashboardSidebar(
-  width = 250, collapsed = FALSE, 
+  width = 280, collapsed = FALSE, 
   sidebarMenu(id = "tabs",
     menuItem("General", tabName = "tab_main", icon = icon("home", lib = "glyphicon"),
              menuSubItem("About the DRYvER project","tab_dryver"),
              menuSubItem("DRYvER-Hydro","tab_dryver-hydro")
     ),
     menuItem("DRYvER case studies", tabName = "tab_drns", icon = icon("map-marker", lib = "glyphicon")),
-    menuItem("Results exploration", tabName = "tab_results", icon = icon("stats", lib = "glyphicon")),
+    #menuItem("Results exploration", tabName = "tab_results", icon = icon("stats", lib = "glyphicon")),
     menuItem("Data exploration", tabName = "tab_map", icon = icon("picture", lib = "glyphicon")),
     menuItem("Optimization", tabName = "tab_opt", icon = icon("cog", lib = "glyphicon")),
     
     shinyjs::disabled(
     selectInput("drn", label = "River network", choices = drns_long, selected = " ")),
     
-    shinyjs::hidden(
-      selectInput("Variable", label = "Indicator", choices = list('Biodiversity' = variables_short))),
-    
-    
-    
-    
+    conditionalPanel(
+      condition = "input.tabs == 'tab_map'",
+      shinyjs::hidden(
+        selectInput("Variable", label = "Indicator", choices = list('Biodiversity' = variables_long[1:12],
+                                                                    'Ecological Functions' = variables_long[13:15]))),
+      shinyjs::hidden(
+      noUiSliderInput(
+        inputId = "percent", label = "Percentile",
+        min = 50, max = 100,
+        value = 75, tooltips = TRUE,
+        step = 5, orientation = "horizontal",
+        color = "forestgreen", inline = FALSE,
+        format = wNumbFormat(decimals = 0),
+        height = "15px", width = "250px"
+      )),
+      
+    ),
+    conditionalPanel(
+      condition = "input.tabs == 'tab_opt'",
+      #switchInput(label = "Lock",
+      #  inputId = "Id016",
+      #  size = "mini"
+      #),
+      hr(),
+      
+      pickerInput(
+        inputId = "features",
+        label = "Selected features:", 
+        choices = variables_long[-1],
+        options = list(
+          `selected-text-format` = "count > 3"), 
+        multiple = TRUE
+      ),
+      
+      noUiSliderInput(
+        inputId = "target", label = "Target:",
+        min = 0, max = 1,
+        value = 0, tooltips = TRUE,
+        step = 0.1, orientation = "horizontal",
+        color = "forestgreen", inline = FALSE,
+        format = wNumbFormat(decimals = 1),
+        height = "15px", width = "250px"
+      ),
+      
+      noUiSliderInput(
+        inputId = "blm", label = "Boundary Length Modifier",
+        min = 0, max = 30,
+        value = 0, tooltips = TRUE,
+        step = 0.1, orientation = "horizontal",
+        color = "forestgreen", inline = FALSE,
+        format = wNumbFormat(decimals = 1),
+        height = "15px", width = "250px"
+      ),
+      
+      actionBttn(
+        "optimize",
+        label = "Optimize",
+        icon("sliders"),
+        style = "bordered",
+        color = "success",
+        size = "md",
+        block = FALSE,
+        no_outline = TRUE,
+      )),
     
     
     shinyjs::hidden(
@@ -151,9 +209,49 @@ and Outcomes 7: e77750. <a href="https://doi.org/10.3897/rio.7.e77750" target="_
             )
     ),
     tabItem(tabName = "tab_map",
-            #uiOutput("maps_render"),
+
+            fluidPage(           
+              div(class="outer",
+              tags$head(
+                
+              # Include our custom CSS
+              includeCSS("styles.css"),
+            ),
             
+            # If not using custom CSS, set height of leafletOutput to a number instead of percent
+            leafletOutput("map_data", width="100%", height="100%"),
+            )),
             
+            ##########################################################################
+            #transparency bar
+            ##########################################################################
+            chooseSliderSkin("Flat", color = "green"),
+              
+            absolutePanel(bottom = "0%", left = "50%",
+                          shinyjs::disabled(
+                            sliderInput("range", NULL, min = 1, max = 6,
+                                        value = 1, step = 1, 
+                                        animate = animationOptions(interval = 1000, loop = FALSE)
+                            )),
+            ),
+            
+            ##########################################################################
+            # Left bar
+            ##########################################################################
+            absolutePanel(id = "controls", class = "panel panel-default", fixed = FALSE,
+                          draggable = FALSE, top = "auto", left = 290, right = "auto", bottom = 10,
+                          width = 450, height = "auto", 
+                          
+                          column(12, tabsetPanel(id="plot_tabs"),
+                                 #shinyjs::hidden(
+                                  girafeOutput(outputId = "plotly1"),
+                                 #),
+                                 div(style = "margin-top: -140px;", plotlyOutput(outputId = "plotly2", inline = TRUE))),
+                                 #plotlyOutput(outputId = "plotly2", inline = TRUE)),
+            ),
+    ),  
+    tabItem(tabName = "tab_opt",
+
             fluidPage(           
               div(class="outer",
               tags$head(
@@ -164,32 +262,18 @@ and Outcomes 7: e77750. <a href="https://doi.org/10.3897/rio.7.e77750" target="_
             
             # If not using custom CSS, set height of leafletOutput to a number instead of percent
             leafletOutput("map_opt", width="100%", height="100%"),
-            )),
-            
-            ##########################################################################
-            #transparency bar
-            ##########################################################################
-            chooseSliderSkin("Flat", color = "green"),
-              
-            absolutePanel(bottom = "0%", left = "50%",
-                            sliderInput("range", NULL, min = 1, max = 6,
-                                        value = 1, step = 1, 
-                                        animate = animationOptions(interval = 500, loop = FALSE)
-                            ),
-            ),
+            )),  
             
             ##########################################################################
             # Left bar
             ##########################################################################
-            absolutePanel(id = "controls", class = "panel panel-default", fixed = FALSE,
+            absolutePanel(id = "controls_opt", class = "panel panel-default", fixed = FALSE,
                           draggable = FALSE, top = "auto", left = 290, right = "auto", bottom = 10,
-                          width = 450, height = "auto",
+                          width = 450, height = "auto", 
                           
-                          column(12, tabsetPanel(id="plot_tabs"),
-                                 plotlyOutput(outputId = "plotly", inline = TRUE)),
+                          column(12, tabsetPanel(id="plot_tabs_opt")
+                                 ),
             ),
-            
-            
     )
   ),
 )

@@ -21,6 +21,7 @@ library(terra)
 library(leaflet.extras)
 library(leaflet.extras2, include.only = c("easyprintOptions"))
 library(shinyWidgets)
+library(prioritizr)
 
 
 # sourcing fonctions
@@ -51,10 +52,25 @@ indicators_short <- c( "RelInt","RelFlow","PatchC",
                        "Temp","Precip","ET")
 
 variables_short <- c(" ", "pred_rich", "pred_simpson", "pred_FD",	
-                      "pred_Fric", "pred_richHOC", "pred_richEPT",
-                      "pred_SimpHOC", "pred_SimpEPT")
+                     "pred_Fric", "pred_richHOC", "pred_richEPT",
+                     "pred_SimpHOC", "pred_SimpEPT",
+                     "alpha", "beta", "gamma",
+                     "dem", "nep", "co2")
 
-
+variables_long <- c(" ", "Predicted richness", 
+                    "Predicted inverse simpson diversity",
+                    "Predicted functional diversity",	
+                    "Predicted functional richness", 
+                    "Predicted richness of the Hemiptera, Odonata, Coleoptera group", 
+                    "Predicted richness of the Ephemeroptera, Plectoptera and Trichoptera group",
+                    "Predicted inverse simpson diversity of the Hemiptera, Odonata, Coleoptera group", 
+                    "Predicted inverse simpson diversity of the Ephemeroptera, Plectoptera and Trichoptera group",
+                    "Alpha diversity",
+                    "Beta diversity",
+                    "Gamma diversity",
+                    "Organic matter decomposition",
+                    "Net primary production or net metabolic rate",
+                    "Co2 sequestration")
 
 network_ind_Y <- c("LengthD", "LengthF", "PatchC", "RelFlow", "RelInt", "Temp","Precip","ET")
 network_ind_M <- c("PatchC", "RelFlow", "RelInt", "Temp","Precip","ET")
@@ -64,6 +80,8 @@ ssp_long <- c("SSP1-2.6 Sustainability","SSP3-7.0 Regional rivalry","SSP5-8.5 Fo
 ssp_short <- c("ssp126","ssp370","ssp585")
 gcm_long <- c("GFDL-ESM4", "IPSL-CM6A-LR", "MPI-ESM1-2-HR", "MRI-ESM2-0", "UKESM1-0-LL")
 gcm_short <- c("gfdl-esm4", "ipsl-cm6a-lr", "mpi-esm1-2-hr", "mri-esm2-0", "ukesm1-0-ll")
+count = 0
+
 
 ### R functions
 setShapeStyle <- function( map, data = getMapData(map), layerId,

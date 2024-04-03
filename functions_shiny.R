@@ -841,21 +841,21 @@ get_shape <- function(drn){
   shpdf <- drn
   
   # Construct the path to the shapefile
-  path_shp <- paste0("data/shp/", shpdf, "/small_river_network.shp")
+  path_shp <- paste0("data/shp_wp4/", shpdf, "/small_river_network.shp")
   
   # Read and preprocess the shapefile
   shape <- terra::vect(path_shp)
   shape <- project(shape,  crs("+proj=longlat +datum=WGS84 +no_defs"))
-  shape <- terra::aggregate(shape, by = "cat", count=FALSE, overwrite=TRUE, dissolve=FALSE)
-  shape$cat <- as.character(shape$cat)
+  shape <- terra::aggregate(shape, by = "ID", count=FALSE, overwrite=TRUE, dissolve=FALSE)
+  shape$ID <- as.character(shape$ID)
   
   #To simplify the geom if that is the case
   #shape <- simplifyGeom(shape, preserveTopology = TRUE)
   
-  validate(need("cat" %in% names(shape), "The shapefile must be a 'id' column"))
+  validate(need("ID" %in% names(shape), "The shapefile must be a 'id' column"))
   
   # Assuming the ID attribute is named "ID," replace it with the actual name in your shapefile
-  missing_ids <- is.na(shape$cat)
+  missing_ids <- is.na(shape$ID)
   shape <- shape[!missing_ids, ]
   
   return(shape)
@@ -865,32 +865,41 @@ get_shape <- function(drn){
 get_bioinformation <- function(var, drn_country){
   
   # read data
-  data_p <- read.table("data/data_prioritization/projected_diversity_campaing_good.csv", sep = ",", header = TRUE)
+  if(var %in% c("alpha", "beta", "gamma")){
+    data_p <- read.table("data/data_prioritization/biodiversity/beta_contri5.csv", sep = ";", header = TRUE)
+  }
+  else if(var %in% c("dem", "nep", "co2")){
+    data_p <- read.table("data/data_prioritization/ecological_functions/ef.csv", sep = ";", header = TRUE)
+  }
+  else{
+    data_p <- read.table("data/data_prioritization/biodiversity/projected_diversity_campaing_good.csv", sep = ",", header = TRUE)
+  }
   
   data_p_filtered <- data_p %>%
-    select(c(ID, DRN, campaign, var, Date_End)) %>%
+    select(c(WP4, DRN, campaign, var)) %>%
     filter(DRN == drn_country)
   
   return(data_p_filtered)
 }
 
 
-print_shape <- function(drn){
+print_shape <- function(drn, map_name){
 
   shape <- get_shape(drn)
   
   longlat <- terra::geom(shape)
-  long_shape <- mean(longlat[,3])
+  long_shape <- mean(longlat[,3])*0.98
   lat_shape <- mean(longlat[,4])
+  zoom_shape <- 10
   type_shape <- terra::geomtype(shape)
   colour_boundary <- "black"
   colour_fill <- "transparent"
   
   
-  if("cat" %in% names(shape)){
+  if("ID" %in% names(shape)){
     popup_pu <- sprintf(
       "<strong>ID %s</strong><br/>",
-      shape$cat) %>% 
+      shape$ID) %>% 
       lapply(htmltools::HTML)
   }
   else{
@@ -898,16 +907,16 @@ print_shape <- function(drn){
   }
   
 
-  leafletProxy("map_opt", data = shape) %>%
+  leafletProxy(map_name, data = shape) %>%
       clearControls() %>%
-      setView(lng = long_shape, lat = lat_shape, zoom = 11) %>%
+      setView(lng = long_shape, lat = lat_shape, zoom = 10) %>%
       addPolylines(group = "Base",
                    weight = 2, 
                    color = "black",
                    fill = FALSE, 
                    opacity = 1,
                    popup = popup_pu, 
-                   layerId = ~cat, 
+                   layerId = ~ID, 
                    highlightOptions = highlightOptions(
                      weight = 5,
                      bringToFront = TRUE,
@@ -918,7 +927,8 @@ print_shape <- function(drn){
         editOptions = editToolbarOptions(selectedPathOptions = selectedPathOptions())
       )  %>%
       addStyleEditor(position = "bottomright", 
-                     openOnLeafletDraw = FALSE) %>%
+                     openOnLeafletEditable = TRUE, 
+                     openOnLeafletDraw = FALSE, useGrouping = FALSE) %>%
       addLayersControl(
         baseGroups = c("CartoDB", "Elevation", "Satellite","Without background"),
         options = layersControlOptions(collapsed=TRUE))%>%
@@ -931,37 +941,79 @@ print_shape <- function(drn){
 }
 
 # Network yearly time series (observed period)
-figure_in_map <- function(var, id, drn_country){
+figure_time_serie <- function(var, id, drn_country, camp){
   
   data <- get_bioinformation(var, drn_country)
   
   data_filtered <- data %>%
-    filter(ID == id)
+    filter(WP4 == id)
   
   # plot
+  # p1 <- ggplot(data_filtered, aes(x=campaign, y=data_filtered[,var]))+
+  #   geom_line()+
+  #   geom_point()+
+  #   theme_bw()+
+  #   ylab("Value")+xlab("Campaign")+
+  #   ggtitle(paste0("Evolution of ",var))
+  
   p1 <- ggplot(data_filtered, aes(x=campaign, y=data_filtered[,var]))+
     geom_line()+
-    geom_point()+
+    geom_point(aes(colour = ifelse(campaign == camp, TRUE, FALSE)), size = 3, show.legend = FALSE) +
+    scale_color_manual(values = c("black", "forestgreen"))+
     theme_bw()+
-    ylab(var)+xlab("Campaign")+
-    ggtitle(paste0("Evolution of mean annual ",var))
-    
+    ylab("Value")+xlab("Campaign")+
+    ggtitle(paste0("Evolution of ",var))+
+    theme(legend.position = "none")
+  
+  return(p1)
+}
+
+# Percentiles in a map
+figure_percentile <- function(drn, var, drn_country, camp, per){
+  
+  shape <- get_shape(drn)
+  data <- get_bioinformation(var, drn_country)
+  
+  data_filtered <- data %>%
+    filter(campaign == camp) %>%
+    select(WP4, var)
+  
+  shape_var <- terra::merge(shape, data_filtered, by.x = "ID", by.y = "WP4", all.x=TRUE)
+  
+  # Calculate the xth percentile of the 'var' column
+  percentile <- quantile(shape_var[[var]][,1], probs = per, na.rm = TRUE)
+  
+  # Create a new column indicating whether each observation is below or above the xth percentile
+  shape_var$below_percentile <- ifelse(shape_var[[var]][,1] < percentile, "Below", "Above")
+  
+  # Convert the data to sf object
+  sf_obj <- st_as_sf(shape_var)
+  
+  # Plot the lines with different colors based on whether they are below or above the xth percentile
+  p1 <- ggplot(sf_obj, aes(color = below_percentile)) + 
+    geom_sf_interactive(linewidth = 1.2) + 
+    scale_color_manual(values = c("Below" = "gray", "Above" = "forestgreen")) + 
+    theme_bw() +
+    theme(legend.position = "none",
+          plot.title = element_text(size = 20)) +
+    ggtitle(paste0("Percentile", per*100))
+  
   return(p1)
 }
 
 
 # Update the map using the information of Indicator
-update_map <- function(drn, var, drn_country, camp){
+update_map_data <- function(drn, var, drn_country, camp){
   
   shape <- get_shape(drn)
   data <- get_bioinformation(var, drn_country)
 
   data_filtered <- data %>%
     filter(campaign == camp) %>%
-    select(ID, var) #%>%
+    select(WP4, var) #%>%
     #distinct(ID, .keep_all = TRUE)
   
-  shape_var <- terra::merge(shape, data_filtered, by.x = "cat", by.y = "ID", all.x=TRUE)
+  shape_var <- terra::merge(shape, data_filtered, by.x = "ID", by.y = "WP4", all.x=TRUE)
   
   
   ##palette
@@ -972,11 +1024,11 @@ update_map <- function(drn, var, drn_country, camp){
   popup_map <- sprintf(
     "<strong>ID %s</strong><br/>
          Value: %g <br/>",
-    shape_var$cat, 
+    shape_var$ID, 
     shape_var[[var]][,1]) %>% 
     lapply(htmltools::HTML)
 
-  leafletProxy("map_opt", data = shape_var) %>%
+  leafletProxy("map_data", data = shape_var) %>%
     clearControls() %>%
     addPolylines(group = "Base",
                  weight = 3, 
@@ -984,7 +1036,7 @@ update_map <- function(drn, var, drn_country, camp){
                  fill = FALSE, 
                  opacity = 1,
                  popup = popup_map, 
-                 layerId = ~cat, 
+                 layerId = ~ID, 
                  highlightOptions = highlightOptions(
                    weight = 5,
                    bringToFront = TRUE,
@@ -1012,12 +1064,134 @@ is_id <- function(drn, var, drn_country, camp, id){
   
   data_filtered <- data %>%
     filter(campaign == camp) %>%
-    select(ID, var) %>%
-    distinct(ID, .keep_all = TRUE)
+    select(WP4, var) %>%
+    distinct(WP4, .keep_all = TRUE)
   
-  shape_var <- terra::merge(shape, data_filtered, by.x = "cat", by.y = "ID", all.x=TRUE)
+  shape_var <- terra::merge(shape, data_filtered, by.x = "ID", by.y = "WP4", all.x=TRUE)
   
-  row_index = which(data$ID == id)
+  row_index = which(data$WP4 == id)
   
   return(any(row_index))
+}
+
+updateCoords <- function(name, long, latt, zoom_map){
+  
+  if(name == "tab_map"){
+    leafletProxy("map_opt") %>%
+      setView(lng = long, lat = latt, zoom = zoom_map)
+  }
+  else{
+    leafletProxy("map_data") %>%
+      setView(lng = long, lat = latt, zoom = zoom_map)
+  }
+}
+
+
+optimizing <- function(drn, var, drn_country, blm, target){
+  
+  shape <- get_shape(drn)
+  
+  #pu dat
+  pu_dat = as.data.frame(shape)
+  pu_dat <- pu_dat[,c("ID", "mean_AREA_SQKM")]
+  colnames(pu_dat) <- c("id", "cost")
+  pu_dat$id <- as.numeric(pu_dat$id)
+  pu_dat$status <- 0
+  
+  
+  #spec_dat
+  spec_dat <- data.frame(id = 1,
+                         prop = target,
+                         name = var)
+  
+  
+  #puvspr_dat
+  data <- get_bioinformation(var, drn_country)
+  
+  data_filtered <- data %>%
+    filter(campaign == 6) %>%
+    select(WP4, var)
+  
+  shape_var <- terra::merge(shape, data_filtered, by.x = "ID", by.y = "WP4", all.x=TRUE)
+  
+  
+  puvspr_dat <- as.data.frame(shape_var)
+  puvspr_dat <- puvspr_dat[, c("ID", var)]
+  colnames(puvspr_dat) <- c("pu", "amount")
+  puvspr_dat$pu <- as.numeric(puvspr_dat$pu)
+  puvspr_dat$species <- 1
+  puvspr_dat <- na.omit(puvspr_dat)
+  
+  # p <- prioritizr::problem(pu_dat, spec_dat, cost_column = "cost", rij = puvspr_dat) %>%
+  #   add_min_set_objective() %>%
+  #   add_relative_targets(0.1) %>%
+  #   add_binary_decisions() %>%
+  #   add_cbc_solver(gap = 0)
+  
+  #boundary
+  boundary_dat <- read.table("data/data_prioritization/STcon_pseudo_6.csv", sep = ";", header = TRUE)
+  colnames(boundary_dat) <- c("id1", "id2", "boundary")
+  
+  p <- prioritizr::marxan_problem(pu_dat, spec_dat, puvspr_dat, boundary_dat, blm = blm) %>%
+    add_cbc_solver(gap = 0)
+  
+  sol <- solve(p)
+
+  
+  update_map_opt(drn, sol, drn_country)
+  
+}
+
+
+
+# Update the map using the information of Indicator
+update_map_opt <- function(drn, sol, drn_country){
+  
+  shape <- get_shape(drn)
+
+  data_filtered <- sol %>%
+    select(id, solution_1)
+  
+  shape_var <- terra::merge(shape, data_filtered, by.x = "ID", by.y = "id", all.x=TRUE)
+  
+  
+  ##palette
+  levels(shape_var$solution_1) <- c(0,1)
+  pal <- colorFactor(palette="Reds", domain=shape_var[["solution_1"]][,1], na.color="orange")
+  #pal <- colorBin(palette="Blues", domain=data[,solution_1], na.color="orange")
+  title_legend <- ""
+  
+  
+  popup_map <- sprintf(
+    "<strong>ID %s</strong><br/>
+         Value: %g <br/>",
+    shape_var$ID, 
+    shape_var[["solution_1"]][,1]) %>% 
+    lapply(htmltools::HTML)
+  
+  leafletProxy("map_opt", data = shape_var) %>%
+    clearControls() %>%
+    addPolylines(group = "Base",
+                 weight = 3, 
+                 color = ~pal(shape_var[["solution_1"]][,1]),
+                 fill = FALSE, 
+                 opacity = 1,
+                 popup = popup_map, 
+                 layerId = ~ID, 
+                 highlightOptions = highlightOptions(
+                   weight = 5,
+                   bringToFront = TRUE,
+                   sendToBack = TRUE)
+    )%>%
+    addLegend(group = "Base",
+              pal = pal,
+              title = title_legend,
+              values = shape_var[["solution_1"]][,1],
+              opacity = 1,
+              position = "topright") %>%
+    leaflet.extras2::addEasyprint(options = easyprintOptions(
+      title = 'Print map',
+      position = 'bottomright',
+      exportOnly = TRUE, 
+      sizeModes = "A4Landscape"))
 }

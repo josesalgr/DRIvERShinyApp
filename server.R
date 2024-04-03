@@ -365,18 +365,18 @@ server <- function(input, output, session) {
   
   
 
-  # OPTIMIZATION----------------------------------------------------------------
+  # DATA VISUALIZATION----------------------------------------------------------
 
-  ## Plot interactive map of the river network
-  output[["map_opt"]] <- renderLeaflet({
+  ## Plot interactive map of the river network (data)
+  output[["map_data"]] <- renderLeaflet({
     
     enable("drn")
-    
+
     leaflet() %>%
       addProviderTiles(providers$CartoDB.Positron, group = "CartoDB") %>%
       addProviderTiles(providers$Esri.WorldShadedRelief, group = "Elevation") %>%
       addProviderTiles(providers$Esri.WorldImagery, group = "Satellite") %>%
-      setView(lng = -50, lat = 18, zoom = 3) %>%
+      setView(lng = -40, lat = 18, zoom = 3) %>%
       onRender(
         "function(el, x) {
           L.control.zoom({
@@ -395,12 +395,23 @@ server <- function(input, output, session) {
     
     if(input$drn != " "){
       
+      # data tab
       # Remove previous Leaflet map
-      leafletProxy("map_opt") %>% clearMarkers() %>% clearShapes()
+      leafletProxy("map_data") %>% clearMarkers() %>% clearShapes()
       
       # Plot Leaflet map 
-      print_shape(drns_short[which(drns_long == input$drn)])
+      print_shape(drns_short[which(drns_long == input$drn)],
+                  "map_data")
       
+      # optimization tab
+      # Remove previous Leaflet map
+      leafletProxy("map_opt") %>% clearMarkers() %>% clearShapes()
+
+      # Plot Leaflet map
+      print_shape(drns_short[which(drns_long == input$drn)],
+                  "map_opt")
+
+
       # Show SelectInput "Variable"
       shinyjs::show("Variable")
       
@@ -416,8 +427,8 @@ server <- function(input, output, session) {
     if(input$drn != " " && input$Variable != " "){
       #update_range(drns_short[which(drns_long == input$drn)], input$range)
       
-      update_map(drns_short[which(drns_long == input$drn)], 
-                 input$Variable,
+      update_map_data(drns_short[which(drns_long == input$drn)], 
+                 variables_short[which(variables_long == input$Variable)],
                  drns_countries[which(drns_long == input$drn)],
                  input$range)
     }
@@ -429,37 +440,135 @@ server <- function(input, output, session) {
     
     if(input$Variable != " "){
       
-      # Enable range bar
-      enable("range")
+      shinyjs::show("plotly1")
       
-      update_map(drns_short[which(drns_long == input$drn)], 
-                 input$Variable,
-                 drns_countries[which(drns_long == input$drn)],
-                 input$range)
+      drns = drns_short[which(drns_long == input$drn)]
+      
+      if(which(variables_long == input$Variable) <= 9 || drns == "Albarine"){
+        # Enable range bar
+        enable("range")
+        
+        update_map_data(drns_short[which(drns_long == input$drn)], 
+                   variables_short[which(variables_long == input$Variable)],
+                   drns_countries[which(drns_long == input$drn)],
+                   input$range)
+        
+        if(which(variables_long == input$Variable) <= 12){
+          
+          # Show SelectInput "percentile"
+          shinyjs::show("percent")
+        }
+        else{
+          # Hide SelectInput "percentile"
+          shinyjs::hide("percent")
+        }
+      }
     }
     
   })
   
   ## Network time series (observed period)
-  output[["plotly"]] <- renderPlotly({
+  output[["plotly1"]] <- renderGirafe({
     
-    click_shape <- input$map_opt_shape_click
-
+    if(input$Variable != " " && input$drn != " " && which(variables_long == input$Variable) <= 12){
+      
+      p1 <- figure_percentile(drns_short[which(drns_long == input$drn)],
+                                variables_short[which(variables_long == input$Variable)], 
+                                drns_countries[which(drns_long == input$drn)],
+                                input$range, 
+                                input$percent/100)
+        
+      x1 <- girafe(ggobj = p1)
+      x1 <- girafe_options(x1,
+                           opts_selection(type = "single",
+                                          css = "color:red;stroke:red;r:5pt;"),
+                           sizingPolicy(defaultWidth = "100%", defaultHeight = "300px"))
+    }
+    else{
+      #shinyjs::hide("plotly1")
+    }
+  })
+  
+  ## Network time series (observed period)
+  output[["plotly2"]] <- renderPlotly({
+    
+    click_shape <- input$map_data_shape_click
+    
     if(input$Variable != " " && input$drn != " "){
       
       is_in_map <- is_id(drns_short[which(drns_long == input$drn)], 
-                         input$Variable,
+                         variables_short[which(variables_long == input$Variable)],
                          drns_countries[which(drns_long == input$drn)],
                          input$range,
                          click_shape$id)
       
       if(!is.null(click_shape) && is_in_map){
-        p1 <- figure_in_map(input$Variable, click_shape$id, drns_countries[which(drns_long == input$drn)])
+        p1 <- figure_time_serie(variables_short[which(variables_long == input$Variable)], 
+                            click_shape$id, drns_countries[which(drns_long == input$drn)],
+                            input$range)
         
-        ggplotly(p1)
+        ggplotly(p1, width = 400, height = 400)
       }
     }
   })
   
+  
+  
+  # OPTIMIZATION----------------------------------------------------------------
+  
+  # Synchronize the maps using leafletProxy (map_data)
+  observe({
+    leafletProxy("map_data", data = leafletProxy("map_opt", session)) %>%
+      setView(lng = input$map_data_center$lng, lat = input$map_data_center$lat, zoom = input$map_data_zoom)
+    
+    updateCoords(input$tabs, input$map_data_center$lng, input$map_data_center$lat, input$map_data_zoom)
+  })
+  
+  # Synchronize the maps using leafletProxy (map_opt)
+  observe({
+    leafletProxy("map_opt", data = leafletProxy("map_data", session)) %>%
+      setView(lng = input$map_opt_center$lng, lat = input$map_opt_center$lat, zoom = input$map_opt_zoom)
+    
+    updateCoords(input$tabs, input$map_opt_center$lng, input$map_opt_center$lat, input$map_opt_zoom)
+  })
+  
+  
+  
+  ## Plot interactive map of the river network (data)
+  output[["map_opt"]] <- renderLeaflet({
+
+    leaflet() %>%
+      addProviderTiles(providers$CartoDB.Positron, group = "CartoDB") %>%
+      addProviderTiles(providers$Esri.WorldShadedRelief, group = "Elevation") %>%
+      addProviderTiles(providers$Esri.WorldImagery, group = "Satellite") %>%
+      setView(lng = -40, lat = 18, zoom = 3) %>%
+      onRender(
+        "function(el, x) {
+          L.control.zoom({
+            position:'bottomright'
+          }).addTo(this);
+        }") %>%
+      addLayersControl(
+        baseGroups = c("CartoDB", "Elevation", "Satellite","Without background"),
+        options = layersControlOptions(collapsed = TRUE)
+      ) %>% leafem::addMouseCoordinates() 
+
+  })
+  
+  
+  ## Select bottom River network
+  observeEvent(input$optimize, {
+
+    if(input$drn != " "){
+      
+      optimizing(drns_short[which(drns_long == input$drn)],
+                 variables_short[which(variables_long == input$Variable)],
+                 drns_countries[which(drns_long == input$drn)],
+                 input$blm,
+                 input$target)
+      
+    }
+  })
+
 }
 
