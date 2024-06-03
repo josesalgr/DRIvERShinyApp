@@ -3,36 +3,70 @@
 header <- dashboardHeader(title = img(src = "DRYvER-Logo-1.png", height = 45, align = "left"))
 
 sidebar <- dashboardSidebar(
-  width = 280, collapsed = FALSE, 
+  width = 270, collapsed = FALSE, 
   sidebarMenu(id = "tabs",
     menuItem("General", tabName = "tab_main", icon = icon("home", lib = "glyphicon"),
              menuSubItem("About the DRYvER project","tab_dryver"),
-             menuSubItem("DRYvER-Hydro","tab_dryver-hydro")
+             menuSubItem("DRYvER-OptimApp","tab_dryver-OptimApp")
     ),
     menuItem("DRYvER case studies", tabName = "tab_drns", icon = icon("map-marker", lib = "glyphicon")),
     #menuItem("Results exploration", tabName = "tab_results", icon = icon("stats", lib = "glyphicon")),
     menuItem("Data exploration", tabName = "tab_map", icon = icon("picture", lib = "glyphicon")),
     menuItem("Optimization", tabName = "tab_opt", icon = icon("cog", lib = "glyphicon")),
     
-    shinyjs::disabled(
-    selectInput("drn", label = "River network", choices = drns_long, selected = " ")),
+
+    selectInput("drn", label = tags$span(
+      "River network", 
+      tags$i(
+        class = "glyphicon glyphicon-info-sign", 
+        style = "color:#FFBF00;",
+        title = "Information about things"
+      )),
+      choices = drns_long, selected = " "),
+    
+    hr(),
     
     conditionalPanel(
       condition = "input.tabs == 'tab_map'",
-      shinyjs::hidden(
-        selectInput("Variable", label = "Indicator", choices = list('Biodiversity' = variables_long[1:12],
-                                                                    'Ecological Functions' = variables_long[13:15]))),
-      shinyjs::hidden(
-      noUiSliderInput(
-        inputId = "percent", label = "Percentile",
-        min = 50, max = 100,
-        value = 75, tooltips = TRUE,
-        step = 5, orientation = "horizontal",
-        color = "forestgreen", inline = FALSE,
-        format = wNumbFormat(decimals = 0),
-        height = "15px", width = "250px"
-      )),
       
+      
+      shinyjs::disabled(
+        selectInput("Variable", 
+                    label = tags$span(
+                            "Indicator", 
+                            tags$i(
+                              class = "glyphicon glyphicon-info-sign", 
+                              style = "color:#FFBF00;",
+                              title = "Information about things"
+                            )),
+                    choices = list('Aquatic Macroinvertebrates biodiversity' = variables_long[1:8],
+                                   'Ecological Functions' = variables_long[9:10],
+                                   'Ecosystem Services' = variables_long[11:16]),
+                    selected = " ")),
+      
+      shinyjs::disabled(
+        selectInput("Scale", 
+                    label = tags$span(
+                      "Timescale", 
+                      tags$i(
+                        class = "glyphicon glyphicon-info-sign", 
+                        style = "color:#FFBF00;",
+                        title = "Information about things"
+                      )),
+                    choices = scale_list)),
+      #shinyjs::hidden(
+      #noUiSliderInput(
+      #   inputId = "percent", label = "Percentile",
+      #   min = 50, max = 100,
+      #   value = 75, tooltips = TRUE,
+      #   step = 5, orientation = "horizontal",
+      #   color = "forestgreen", inline = FALSE,
+      #   format = wNumbFormat(decimals = 0),
+      #   height = "15px", width = "250px"
+      # )),
+      
+      absolutePanel(bottom = "2%", left = "40%", width = "100%", 
+                    downloadButton("downloadData", "", style = "color: black;"))
     ),
     conditionalPanel(
       condition = "input.tabs == 'tab_opt'",
@@ -40,29 +74,43 @@ sidebar <- dashboardSidebar(
       #  inputId = "Id016",
       #  size = "mini"
       #),
-      hr(),
       
-      pickerInput(
-        inputId = "features",
+      theme = bslib::bs_theme(5),
+      # make sure that js and css are set and added
+      tags$head(tags$style(css)),
+      tags$head(tags$script(src = "js/index.js")),
+      
+      weightedPickerInput(
+        id = "features",
         label = "Selected features:", 
-        choices = variables_long[-1],
-        options = list(
-          `selected-text-format` = "count > 3"), 
-        multiple = TRUE
+        choices = list('Aquatic Macroinvertebrates biodiversity' = variables_long[2:8],
+                       'Ecological Functions' = variables_long[9:10],
+                       'Ecosystem Services' = variables_long[11:16]),
+        selected = NULL
       ),
       
-      noUiSliderInput(
-        inputId = "target", label = "Target:",
-        min = 0, max = 1,
-        value = 0, tooltips = TRUE,
-        step = 0.1, orientation = "horizontal",
-        color = "forestgreen", inline = FALSE,
-        format = wNumbFormat(decimals = 1),
-        height = "15px", width = "250px"
-      ),
+      # pickerInput(
+      #   inputId = "features",
+      #   label = "Selected features:", 
+      #   choices = variables_short[-1],
+      #   multiple = TRUE,
+      #   options = list(
+      #     `actions-box` = TRUE,
+      #     `selected-text-format` = "count > 2")
+      # ),
+      # 
+      # noUiSliderInput(
+      #   inputId = "target", label = "Target:",
+      #   min = 0, max = 1,
+      #   value = 0, tooltips = TRUE,
+      #   step = 0.1, orientation = "horizontal",
+      #   color = "forestgreen", inline = FALSE,
+      #   format = wNumbFormat(decimals = 1),
+      #   height = "15px", width = "250px"
+      # ),
       
       noUiSliderInput(
-        inputId = "blm", label = "Boundary Length Modifier",
+        inputId = "blm", label = "Aggregation:",
         min = 0, max = 30,
         value = 0, tooltips = TRUE,
         step = 0.1, orientation = "horizontal",
@@ -71,6 +119,7 @@ sidebar <- dashboardSidebar(
         height = "15px", width = "250px"
       ),
       
+      absolutePanel(bottom = "5%", left = "16%",
       actionBttn(
         "optimize",
         label = "Optimize",
@@ -80,7 +129,7 @@ sidebar <- dashboardSidebar(
         size = "md",
         block = FALSE,
         no_outline = TRUE,
-      )),
+      ))),
     
     
     shinyjs::hidden(
@@ -121,9 +170,10 @@ Biodiversity, Functional Integrity, and Ecosystem Services in Drying River Netwo
 and Outcomes 7: e77750. <a href="https://doi.org/10.3897/rio.7.e77750" target="_blank">https://doi.org/10.3897/rio.7.e77750</a>')
     ),
     
-    tabItem(tabName = "tab_dryver-hydro",
-            h1("DRYvER-Hydro application"),
+    tabItem(tabName = "tab_dryver-OptimApp",
+            h1("DRYvER-OptimApp application"),
             HTML("As part of the DRYvER project, a spatial hydrological model for simulating the flow intermittence in river networks was developed and implemented on <b>6 European river networks</b> (see the Modelling method tab)."),
+            HTML("Additionally, the <b>DRYvER-OptimApp</b> is an application designed for the optimization of conservation and restoration of biodiversity in these river networks. It leverages the results of flow intermittence modelling to identify key areas and strategies for maintaining and improving biodiversity."),
             div(style = "margin-top: 10px;"),
             HTML("This application shows the results of <b>flow intermittence modelling</b> in the 6 studied river networks: Albarine (France), Bükkösdi (Hungary), Butižnica (Croatia), Genal (Spain), Lepsämänjoki (Finland), and Velička (Czech Republic). DRYvER-Hydro allows to explore the evolution of the spatio-temporal patterns of flow intermittence in the river networks under the <b>past-present climate</b> (1960-2021) and under <b>climate change projections</b> until 2100."),
             div(style = "margin-top: 10px;"),
@@ -161,8 +211,8 @@ and Outcomes 7: e77750. <a href="https://doi.org/10.3897/rio.7.e77750" target="_
                  <figcaption>Global warming trajectories according to the five SSPx-y scenarios used in the <a href="https://www.ipcc.ch/report/sixth-assessment-report-working-group-i/" target="_blank">IPCC summary for decision-makers</a></figcaption>
                  </figure>'),
             div(style = "margin-top: 30px;"),
-            HTML("<b>Contributors to DRYvER-Hydro:</b><br />"),
-            HTML("<b>Application developper</b> | Louise Mimeau (louise.mimeau@inrae.fr)<br />"),
+            HTML("<b>Contributors to DRYvER-OptimApp:</b><br />"),
+            HTML("<b>Application developper</b> | José Salgado-Rojas (jose.salgroj@gmail.com)<br />"),
             HTML("<b>Past/present climate modelling</b> | Flora Branger, Annika Künne, Sven Kralisch, Louise Mimeau<br />"),
             HTML("<b>Future climate modelling</b> | Alexandre Devers, Claire Lauvernet, Jean-Philippe Vidal<br />"),
             HTML("<b>Indicators analyses</b> | Annika Künne, Sven Kralisch, Louise Mimeau<br />"),
@@ -229,24 +279,36 @@ and Outcomes 7: e77750. <a href="https://doi.org/10.3897/rio.7.e77750" target="_
               
             absolutePanel(bottom = "0%", left = "50%",
                           shinyjs::disabled(
-                            sliderInput("range", NULL, min = 1, max = 6,
-                                        value = 1, step = 1, 
-                                        animate = animationOptions(interval = 1000, loop = FALSE)
+                            sliderTextInput("range", label = "", 
+                                            choices = campaign_list,
+                                            selected = campaign_list[1],
+                                            grid = TRUE
+                                            
                             )),
             ),
+            shinyjs::disabled(
+            absolutePanel(bottom = "1.5%", left = "68%",
+                          shinyjs::disabled(
+                          awesomeCheckbox(
+                            inputId = "Compare",
+                            label = "Compare", 
+                            value = FALSE,
+                            status = "success"
+                          )),
+            )),
             
             ##########################################################################
             # Left bar
             ##########################################################################
             absolutePanel(id = "controls", class = "panel panel-default", fixed = FALSE,
-                          draggable = FALSE, top = "auto", left = 290, right = "auto", bottom = 10,
-                          width = 450, height = "auto", 
+                          draggable = FALSE, top = 60, left = 290, right = "auto", bottom = 0,
+                          width = 500, height = 310, 
                           
                           column(12, tabsetPanel(id="plot_tabs"),
                                  #shinyjs::hidden(
-                                  girafeOutput(outputId = "plotly1"),
+                                 #girafeOutput(outputId = "plotly1"),
                                  #),
-                                 div(style = "margin-top: -140px;", plotlyOutput(outputId = "plotly2", inline = TRUE))),
+                                 div(style = "margin-top: 0px;", plotlyOutput(outputId = "plotly2", inline = TRUE))),
                                  #plotlyOutput(outputId = "plotly2", inline = TRUE)),
             ),
     ),  
@@ -278,8 +340,10 @@ and Outcomes 7: e77750. <a href="https://doi.org/10.3897/rio.7.e77750" target="_
   ),
 )
 
+
+
 ui <- dashboardPage(header = header, 
                     sidebar = sidebar, 
                     body = body, 
-                    skin = "green")
+                    skin = "black")
 

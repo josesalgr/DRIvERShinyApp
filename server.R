@@ -403,20 +403,17 @@ server <- function(input, output, session) {
       print_shape(drns_short[which(drns_long == input$drn)],
                   "map_data")
       
-      # optimization tab
-      # Remove previous Leaflet map
-      leafletProxy("map_opt") %>% clearMarkers() %>% clearShapes()
-
-      # Plot Leaflet map
       print_shape(drns_short[which(drns_long == input$drn)],
                   "map_opt")
 
-
-      # Show SelectInput "Variable"
-      shinyjs::show("Variable")
+      # Enable SelectInput "Variable"
+      shinyjs::enable("Variable")
       
       # Update Variable SelectInput
-      updateSelectInput(session, "Variable", selected = " ")
+      updateSelectInput(session, "variable", selected = "Gamma diversity")
+      
+      # Enable SelectInput "Scale"
+      shinyjs::enable("Scale")
       
     }
   })
@@ -427,87 +424,159 @@ server <- function(input, output, session) {
     if(input$drn != " " && input$Variable != " "){
       #update_range(drns_short[which(drns_long == input$drn)], input$range)
       
-      update_map_data(drns_short[which(drns_long == input$drn)], 
-                 variables_short[which(variables_long == input$Variable)],
-                 drns_countries[which(drns_long == input$drn)],
-                 input$range)
+      id_range = which(input$range == campaign_list)
+      drns = drns_short[which(drns_long == input$drn)]
+      period = scale_list_short[which(scale_list == input$Scale)]
+      
+      update_map_data(drns, 
+                      variables_short[which(variables_long == input$Variable)],
+                      id_range,
+                      period,
+                      input$Compare)
     }
     
   })
   
   ## Update Variable SelectInput
   observeEvent(input$Variable, {
-    
-    if(input$Variable != " "){
+
+    if(input$Variable != " " && input$drn != " "){
       
       shinyjs::show("plotly1")
+
       
       drns = drns_short[which(drns_long == input$drn)]
+      period = scale_list_short[which(scale_list == input$Scale)]
       
-      if(which(variables_long == input$Variable) <= 9 || drns == "Albarine"){
-        # Enable range bar
-        enable("range")
-        
-        update_map_data(drns_short[which(drns_long == input$drn)], 
-                   variables_short[which(variables_long == input$Variable)],
-                   drns_countries[which(drns_long == input$drn)],
-                   input$range)
-        
-        if(which(variables_long == input$Variable) <= 12){
-          
-          # Show SelectInput "percentile"
-          shinyjs::show("percent")
-        }
-        else{
-          # Hide SelectInput "percentile"
-          shinyjs::hide("percent")
-        }
+      
+      # Enable range bar
+      enable("range")
+      
+      # Enable compare bottom
+      if(period != scale_list_short[1]){
+        enable("Compare")
       }
+      
+      id_range = which(input$range == campaign_list)
+        
+      update_map_data(drns, 
+                   variables_short[which(variables_long == input$Variable)],
+                   id_range,
+                   period,
+                   input$Compare)
+
+      # Show SelectInput "Scale"
+      shinyjs::show("Scale")
+      
     }
     
   })
   
-  ## Network time series (observed period)
-  output[["plotly1"]] <- renderGirafe({
+  ## Update Scale SelectInput
+  observeEvent(input$Scale, {
     
-    if(input$Variable != " " && input$drn != " " && which(variables_long == input$Variable) <= 12){
-      
-      p1 <- figure_percentile(drns_short[which(drns_long == input$drn)],
-                                variables_short[which(variables_long == input$Variable)], 
-                                drns_countries[which(drns_long == input$drn)],
-                                input$range, 
-                                input$percent/100)
-        
-      x1 <- girafe(ggobj = p1)
-      x1 <- girafe_options(x1,
-                           opts_selection(type = "single",
-                                          css = "color:red;stroke:red;r:5pt;"),
-                           sizingPolicy(defaultWidth = "100%", defaultHeight = "300px"))
+    period = scale_list_short[which(scale_list == input$Scale)]
+    
+    # Enable compare bottom
+    if(period != scale_list_short[1]){
+      shinyjs::enable("Compare")
     }
     else{
-      #shinyjs::hide("plotly1")
+      updateCheckboxInput(session, "Compare", value = FALSE)
+      shinyjs::disable("Compare")
     }
+    
+    if(input$Variable != " " && input$drn != " "){
+      
+      drns = drns_short[which(drns_long == input$drn)]
+      period = scale_list_short[which(scale_list == input$Scale)]
+      
+      id_range = which(input$range == campaign_list)
+      
+      update_map_data(drns, 
+                      variables_short[which(variables_long == input$Variable)],
+                      id_range,
+                      period,
+                      input$Compare)
+    }
+    
   })
+  
+  
+  ## Update Compare SelectInput
+  observeEvent(input$Compare, {
+    
+    #if(input$Compare){
+    if(input$Variable != " " && input$drn != " "){
+      
+      
+      
+      drns = drns_short[which(drns_long == input$drn)]
+      period = scale_list_short[which(scale_list == input$Scale)]
+      id_range = which(input$range == campaign_list)
+      
+      update_map_data(drns, 
+                      variables_short[which(variables_long == input$Variable)],
+                      id_range,
+                      period,
+                      input$Compare)
+    }
+    
+  })
+  
+  
+  
+  ## Network time series (observed period)
+  # output[["plotly1"]] <- renderGirafe({
+  #   
+  #   if(input$Variable != " " && input$drn != " " && which(variables_long == input$Variable) <= 12){
+  #     
+  #     p1 <- figure_percentile(drns_short[which(drns_long == input$drn)],
+  #                               variables_short[which(variables_long == input$Variable)], 
+  #                               drns_countries[which(drns_long == input$drn)],
+  #                               input$range, 
+  #                               input$percent/100)
+  #       
+  #     x1 <- girafe(ggobj = p1)
+  #     x1 <- girafe_options(x1,
+  #                          opts_selection(type = "single",
+  #                                         css = "color:red;stroke:red;r:5pt;"),
+  #                          sizingPolicy(defaultWidth = "100%", defaultHeight = "300px"))
+  #   }
+  #   else{
+  #     #shinyjs::hide("plotly1")
+  #   }
+  # })
   
   ## Network time series (observed period)
   output[["plotly2"]] <- renderPlotly({
     
     click_shape <- input$map_data_shape_click
     
-    if(input$Variable != " " && input$drn != " "){
+    if(input$Variable != " " && input$drn != " " && input$Scale != " "){
+      
+      id_range = which(input$range == campaign_list)
       
       is_in_map <- is_id(drns_short[which(drns_long == input$drn)], 
                          variables_short[which(variables_long == input$Variable)],
-                         drns_countries[which(drns_long == input$drn)],
-                         input$range,
-                         click_shape$id)
+                         id_range,
+                         click_shape$id,
+                         scale_list_short[which(scale_list == input$Scale)])
       
       if(!is.null(click_shape) && is_in_map){
-        p1 <- figure_time_serie(variables_short[which(variables_long == input$Variable)], 
-                            click_shape$id, drns_countries[which(drns_long == input$drn)],
-                            input$range)
-        
-        ggplotly(p1, width = 400, height = 400)
+          p1 <- figure_time_serie(variables_short[which(variables_long == input$Variable)], 
+                                  variables_long[which(variables_long == input$Variable)], 
+                                  click_shape$id, 
+                                  drns_short[which(drns_long == input$drn)],
+                                  id_range, 
+                                  scale_list_short[which(scale_list == input$Scale)],
+                                  input$Compare)
+
+        if(input$Compare){
+          ggplotly(p1, width = 500, height = 300)
+        }else{
+          ggplotly(p1, width = 450, height = 300)
+        }
       }
     }
   })
@@ -515,24 +584,25 @@ server <- function(input, output, session) {
   
   
   # OPTIMIZATION----------------------------------------------------------------
-  
-  # Synchronize the maps using leafletProxy (map_data)
+
+  #Synchronize the maps using leafletProxy (map_data)
   observe({
+
     leafletProxy("map_data", data = leafletProxy("map_opt", session)) %>%
       setView(lng = input$map_data_center$lng, lat = input$map_data_center$lat, zoom = input$map_data_zoom)
-    
+
     updateCoords(input$tabs, input$map_data_center$lng, input$map_data_center$lat, input$map_data_zoom)
   })
-  
+
   # Synchronize the maps using leafletProxy (map_opt)
   observe({
     leafletProxy("map_opt", data = leafletProxy("map_data", session)) %>%
       setView(lng = input$map_opt_center$lng, lat = input$map_opt_center$lat, zoom = input$map_opt_zoom)
-    
+
     updateCoords(input$tabs, input$map_opt_center$lng, input$map_opt_center$lat, input$map_opt_zoom)
   })
-  
-  
+
+
   
   ## Plot interactive map of the river network (data)
   output[["map_opt"]] <- renderLeaflet({
@@ -556,19 +626,54 @@ server <- function(input, output, session) {
   })
   
   
+  ## Select bottom target
+  # observeEvent(input$features, {
+  #   
+  #   print(input$features)
+  # })
+  
+
   ## Select bottom River network
   observeEvent(input$optimize, {
 
     if(input$drn != " "){
       
-      optimizing(drns_short[which(drns_long == input$drn)],
-                 variables_short[which(variables_long == input$Variable)],
-                 drns_countries[which(drns_long == input$drn)],
-                 input$blm,
-                 input$target)
+      state <- input$`features-stats_weights`
+      weights <- state$weights
       
+      if(!is.null(weights)){
+        optimizing(drns_short[which(drns_long == input$drn)],
+                   weights,
+                   input$blm,
+                   scale_list_short[which(scale_list == input$Scale)])
+      }
     }
   })
+  
+  # Generate and download shapefile
+  output$downloadData <- downloadHandler(
+    filename = function() { paste0("shapefile.zip")},
+    content = function(file) {
+      if (length(Sys.glob("shapefile.*"))>0){
+        file.remove(Sys.glob("shapefile.*"))
+      }
+      drn = drns_short[which(drns_long == input$drn)]
+      var = variables_short[which(variables_long == input$Variable)]
+      period = scale_list_short[which(scale_list == input$Scale)]
+      id_range = which(input$range == campaign_list)
+      
+      shape = get_shape_download(drn, var, period, id_range)
+      
+      file_name = paste0(drn, "_", var, "_", period, "_camp", id_range, ".shp")
+      
+      terra::writeVector(shape, filename = "shapefile.shp")
+      zip(zipfile='shapefile.zip', files=Sys.glob("shapefile.*"))
+      file.copy("shapefile.zip", file)
+      if (length(Sys.glob("shapefile.*"))>0){
+        file.remove(Sys.glob("shapefile.*"))
+      }
+    }
+  )
 
 }
 

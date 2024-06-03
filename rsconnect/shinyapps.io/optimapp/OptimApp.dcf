@@ -1,0 +1,12 @@
+name: OptimApp
+title: OptimApp
+username: optimapp
+account: optimapp
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11653814
+bundleId:
+url: https://optimapp.shinyapps.io/OptimApp/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

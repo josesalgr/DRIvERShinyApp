@@ -22,15 +22,31 @@ library(leaflet.extras)
 library(leaflet.extras2, include.only = c("easyprintOptions"))
 library(shinyWidgets)
 library(prioritizr)
+library(stringr)
 
+library(sass)
+library(shiny)
+library(glue)
+library(tibble)
+library(stats)
+library(scales)
 
 # sourcing fonctions
 source("functions_shiny.R")
 
 # Settings
-drns_long <- c(" ", "Albarine (France)","Bükkösdi (Hungary)","Butižnica (Croatia)","Genal (Spain)","Lepsämänjoki (Finland)","Velička (Czech Rep.)")
-drns_short <- c(" ", "Albarine","Bukkosdi","Butiznica","Genal","Lepsamaanjoki","Velicka")
-drns_countries <- c(" ", "France", "Hungary", "Croatia", "Spain", "Finland", "Czech")
+
+#drns
+# drns_long <- c("Albarine (France)","Bükkösdi (Hungary)","Butižnica (Croatia)","Genal (Spain)","Lepsämänjoki (Finland)","Velička (Czech Rep.)")
+# drns_short <- c("Albarine","Bukkosdi","Butiznica","Genal","Lepsamaanjoki","Velicka")
+# drns_countries <- c("France", "Hungary", "Croatia", "Spain", "Finland", "Czech")
+
+drns_long <- c(" ","Albarine (France)")
+drns_short <- c(" ","Albarine")
+drns_countries <- c(" ","France")
+
+
+
 indicators_long <- c(
   "RelInt: Proportion of river length with intermittent conditions [%]",
   "RelFlow: Proportion of river length with flowing conditions [%]",
@@ -48,29 +64,35 @@ indicators_long <- c(
 )
 indicators_short <- c( "RelInt","RelFlow","PatchC",
                        "conD","conF","durD","durF","numFreDr","numFreRW",
-                       "FstDrE",
-                       "Temp","Precip","ET")
+                       "FstDrE", "Temp","Precip","ET")
 
-variables_short <- c(" ", "pred_rich", "pred_simpson", "pred_FD",	
-                     "pred_Fric", "pred_richHOC", "pred_richEPT",
-                     "pred_SimpHOC", "pred_SimpEPT",
-                     "alpha", "beta", "gamma",
-                     "dem", "nep", "co2")
+variables_short <- c(" ", "rich", "simp", "FD",	
+                     "FR", "alpha", "beta", "gamma",
+                     "dem", "co2",
+                     "dr_lr", "dr_ss", "er_rip",
+                     "er_sl", "flo_rip", "flo_sl", "th_reg")
 
-variables_long <- c(" ", "Predicted richness", 
+variables_long <- c(" ","Predicted richness", 
                     "Predicted inverse simpson diversity",
                     "Predicted functional diversity",	
                     "Predicted functional richness", 
-                    "Predicted richness of the Hemiptera, Odonata, Coleoptera group", 
-                    "Predicted richness of the Ephemeroptera, Plectoptera and Trichoptera group",
-                    "Predicted inverse simpson diversity of the Hemiptera, Odonata, Coleoptera group", 
-                    "Predicted inverse simpson diversity of the Ephemeroptera, Plectoptera and Trichoptera group",
                     "Alpha diversity",
                     "Beta diversity",
                     "Gamma diversity",
-                    "Organic matter decomposition",
-                    "Net primary production or net metabolic rate",
-                    "Co2 sequestration")
+                    "Leaf litter decomposition",
+                    "Co2 sequestration",
+                    "Drought local recharge index",
+                    "Drought surface storage index",
+                    "Erosion regulation in riparian areas",
+                    "Erosion regulation in slopes",
+                    "Flood regulation in riparian areas",
+                    "Flood regulation in slopes",
+                    "Thermal regulation")
+
+scale_list <- c("Present (2021)", "Projection (2100)")
+scale_list_short <- c("2021", "2100")
+
+campaign_list <- c("Jan-Feb", "Mar-Apr", "May-Jun", "Jul-Aug", "Sep-Oct", "Nov-Dec")
 
 network_ind_Y <- c("LengthD", "LengthF", "PatchC", "RelFlow", "RelInt", "Temp","Precip","ET")
 network_ind_M <- c("PatchC", "RelFlow", "RelInt", "Temp","Precip","ET")
@@ -82,6 +104,7 @@ gcm_long <- c("GFDL-ESM4", "IPSL-CM6A-LR", "MPI-ESM1-2-HR", "MRI-ESM2-0", "UKESM
 gcm_short <- c("gfdl-esm4", "ipsl-cm6a-lr", "mpi-esm1-2-hr", "mri-esm2-0", "ukesm1-0-ll")
 count = 0
 
+css <- sass(sass_file("www/css/styles.scss"))
 
 ### R functions
 setShapeStyle <- function( map, data = getMapData(map), layerId,
@@ -115,6 +138,49 @@ setShapeStyle <- function( map, data = getMapData(map), layerId,
   #print(list(style=style))
   leaflet::invokeMethod(map, data, "setStyle", "shape", layerId, style);
 }
+
+weightedPickerInput <- function(
+    id,
+    choices,
+    label = NULL,
+    selected = NULL,
+    min_weight = 0,
+    max_weight = 1,
+    default_weight = 0.2,
+    step = 0.01
+) {
+  constants <- glue::glue(
+    "{
+      minWeight: {{ min_weight }},
+      maxWeight: {{ max_weight }},
+      defaultWeight: {{ default_weight }},
+      step: {{ step }},
+    }",
+    .open = "{{",
+    .close = "}}"
+  )
+  # 1 dimension vector should be wrapped into the list
+  if (is.null(names(choices))) {
+    choices = list(` ` = choices)
+  }
+  div(
+    class = "weighted-stats-selector",
+    pickerInput(
+      inputId = id,
+      label = label,
+      choices = choices,
+      multiple = TRUE,
+      selected = selected,
+      options = list(
+        `actions-box` = TRUE,
+        `selected-text-format` = "count > 2")
+    ),
+    tags$script(
+      glue("initStatsWeightModifier('{id}', {constants})")
+    )
+  )
+}
+
 
 # sourcing app
 source('server.R')
