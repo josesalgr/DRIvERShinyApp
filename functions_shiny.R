@@ -928,6 +928,10 @@ get_bioinformation <- function(var, drn, period){
   data_p <- read.table(file_name, sep = ",", header = TRUE)
   data_p$DRN = drn
   
+  if(var == "co2"){
+    data_p[[var]] <- data_p[[var]]/1000
+  }
+  
   return(data_p)
 }
 
@@ -966,6 +970,10 @@ get_domain_bioinformation <- function(var, drn){
 
   data = rbind(data_per1, data_per2)
   id_var = which(colnames(data) == var)
+  
+  if(var == "co2"){
+    data[[var]] <- data[[var]]/1000
+  }
   
   data_summary  <- data %>%
     summarize(min_var = min(data[id_var]),
@@ -1006,6 +1014,11 @@ get_difference_domain_bioinformation <- function(var, drn){
   
   data_per1 <- read.table(file_name_per1, sep = ",", header = TRUE)
   data_per2 <- read.table(file_name_per2, sep = ",", header = TRUE)
+  
+  if(var == "co2"){
+    data_per1[[var]] <- data_per1[[var]]/1000
+    data_per2[[var]] <- data_per2[[var]]/1000
+  }
   
   data_per1 <- data_per1 %>%
     select("WP4", "campaign", var)
@@ -1090,7 +1103,7 @@ figure_time_serie <- function(var, var_long, id, drn, camp, period, compare){
   max_width <- 50
   
   if(var_long == "Co2 sequestration"){
-    y_units = "gC-co2/m2"
+    y_units = "kgC-co2/m2"
   }
   else{
     y_units = "Value"
@@ -1227,9 +1240,11 @@ update_map_data <- function(drn, var, camp, period, compare){
     
     popup_map <- sprintf(
       "<strong>ID %s</strong><br/>
-         Difference: %g <br/>",
+         Difference: %g <br/>
+         Type: %s <br/>",
       shape_var$ID, 
-      shape_var$diff) %>% 
+      shape_var$diff,
+      shape_var$regine_rea) %>% 
       lapply(htmltools::HTML)
     
     
@@ -1256,6 +1271,7 @@ update_map_data <- function(drn, var, camp, period, compare){
                 labels = c("Dashed Line", "Solid Line"),
                 opacity = 1,
                 bins = 10,
+                labFormat = labelFormat(digits = 5),
                 position = "topright") %>%
       leaflet.extras2::addEasyprint(options = easyprintOptions(
         title = 'Print map',
@@ -1287,9 +1303,11 @@ update_map_data <- function(drn, var, camp, period, compare){
     
     popup_map <- sprintf(
       "<strong>ID %s</strong><br/>
-         Value: %g <br/>",
+         Value: %g <br/>
+         Type: %s <br/>",
       shape_var$ID, 
-      shape_var[[var]][,1]) %>% 
+      shape_var[[var]][,1],
+      shape_var$regine_rea) %>% 
       lapply(htmltools::HTML)
     
     
@@ -1313,6 +1331,7 @@ update_map_data <- function(drn, var, camp, period, compare){
                 pal = pal,
                 title = title_legend,
                 values = shape_var[[var]][,1],
+                labFormat = labelFormat(digits = 5),
                 opacity = 1,
                 bins = 10,
                 position = "topright") %>%
@@ -1367,17 +1386,32 @@ updateCoords <- function(name, long, latt, zoom_map){
   }
 }
 
-
-optimizing <- function(drn, var, blm, period){
+calculate_opt_inputs <- function(drn, var){ 
+  #parameters
+  multiplier <- 100000
   
   shape <- get_shape(drn)
+  
+  ##############################################################################
+  #2021-------------------------------------------------------------------------
+  ##############################################################################
+  period = "2021"
+  
   
   #pu dat-----------------------------------------------------------------------
   pu_dat = as.data.frame(shape)
   pu_dat <- pu_dat[,c("ID", "mean_AREA_SQKM")]
   colnames(pu_dat) <- c("id", "cost")
   pu_dat$id <- as.numeric(pu_dat$id)
+  pu_dat$cost <- 1
   pu_dat$status <- 0
+  
+  # Create a list of data frames, each multiplied by a different value
+  dfs <- purrr::map(1:6, ~ mutate(pu_dat, id = id + (.x * multiplier)))
+  
+  # Combine the data frames in the list into a single data frame
+  pu_dat <- bind_rows(dfs)
+  
   
   #puvspr_dat-------------------------------------------------------------------
   set_var <- c()
@@ -1391,42 +1425,55 @@ optimizing <- function(drn, var, blm, period){
       data <- get_bioinformation(var_short, drn, period)
       
       data_filtered <- data %>%
-        filter(campaign == 6) %>%
+        #filter(campaign == 6) %>%
+        select(WP4, campaign, var_short) %>%
+        mutate(!!sym("WP4") := WP4 + campaign*multiplier) %>%
         select(WP4, var_short)
+      
+      if(var_short %in% c("rich", "FD", "FR", "simp", "alpha", "beta", "gamma", "dem")){
+        
+        quantiles_var <- quantile(data_filtered[[var_short]], probs = c(0.5, 0.75, 0.90), na.rm = TRUE)
+
+        data_filtered <- data_filtered %>%
+          mutate(!!var_short := ifelse(data_filtered[[var_short]] > quantiles_var[1], 1, 0))
+
+      }
     }
     else{
       data_aux <- get_bioinformation(var_short, drn, period)
 
       data_aux_filtered <- data_aux %>%
-        filter(campaign == 6) %>%
+        #filter(campaign == 6) %>%
+        select(WP4, campaign, var_short) %>%
+        mutate(!!sym("WP4") := WP4 + campaign*multiplier) %>%
         select(WP4, var_short)
+      
+      if(var_short %in% c("rich", "FD", "FR", "simp", "alpha", "beta", "gamma", "dem")){
+        
+        quantiles_var <- quantile(data_aux_filtered[[var_short]], probs = c(0.5, 0.75, 0.90), na.rm = TRUE)
+        
+        data_aux_filtered <- data_aux_filtered %>%
+          mutate(!!var_short := ifelse(data_aux_filtered[[var_short]] > quantiles_var[1], 1, 0))
+      }
       
       data_filtered = data_aux_filtered %>%
         left_join(data_filtered, by = "WP4")
     }
   }
   
-  # print(data_filtered)
-
-  # data_filtered <- data %>%
-  #   filter(campaign == 6) %>%
-  #   select(WP4, var)
+  #shape_var <- terra::merge(shape, data_filtered, by.x = "ID", by.y = "WP4", all.x=TRUE)
   
-  shape_var <- terra::merge(shape, data_filtered, by.x = "ID", by.y = "WP4", all.x=TRUE)
+  #puvspr_dat <- as.data.frame(shape_var)
+  #puvspr_dat <- puvspr_dat[, c("ID", set_var)]
   
-  puvspr_dat <- as.data.frame(shape_var)
-  puvspr_dat <- puvspr_dat[, c("ID", set_var)]
-  
-  puvspr_dat <- puvspr_dat %>%
-    tidyr::pivot_longer(!ID, names_to = "species", values_to = "amount")
+  puvspr_dat <- data_filtered %>%
+    tidyr::pivot_longer(!WP4, names_to = "species", values_to = "amount")
   
   colnames(puvspr_dat) <- c("pu", "species", "amount")
   puvspr_dat$pu <- as.numeric(puvspr_dat$pu)
   
   puvspr_dat <- na.omit(puvspr_dat)
-  print(puvspr_dat)
-  
-  
+
   #spec_dat---------------------------------------------------------------------
   names(var) = set_var
   
@@ -1434,56 +1481,239 @@ optimizing <- function(drn, var, blm, period){
                          name = names(var),
                          prop = unlist(var, use.names = FALSE))
   
-  print(spec_dat)
-  
-  puvspr_dat <- puvspr_dat %>%
+  puvspr_dat_2021 <- puvspr_dat %>%
     left_join(spec_dat, by = c("species" = "name")) %>%
     select(pu, id, amount)
-  colnames(puvspr_dat) <- c("pu", "species", "amount")
-  
 
-  # spec_dat <- data.frame(id = 1,
-  #                        prop = target,
-  #                        name = var)
-  
-  
-  # colnames(puvspr_dat) <- c("pu", "amount")
-  # puvspr_dat$pu <- as.numeric(puvspr_dat$pu)
-  # puvspr_dat$species <- 1
-  # puvspr_dat <- na.omit(puvspr_dat)
-  
-  # p <- prioritizr::problem(pu_dat, spec_dat, cost_column = "cost", rij = puvspr_dat) %>%
-  #   add_min_set_objective() %>%
-  #   add_relative_targets(0.1) %>%
-  #   add_binary_decisions() %>%
-  #   add_cbc_solver(gap = 0)
+  colnames(puvspr_dat_2021) <- c("pu", "species", "amount")
   
   #boundary---------------------------------------------------------------------
-  boundary_dat <- read.table("data/data/STcon_pseudo_6.csv", sep = ";", header = TRUE)
+  #boundary_dat <- read.table("data/data/STcon_pseudo_6.csv", sep = ";", header = TRUE)
+  boundary_dat <- read.table("data/data/boundary.csv", sep = ",", header = TRUE)
   colnames(boundary_dat) <- c("id1", "id2", "boundary")
   
-  p <- prioritizr::marxan_problem(pu_dat, spec_dat, puvspr_dat, boundary_dat, blm = blm) %>%
-    add_cbc_solver(gap = 0)
+  boundary_dat <- boundary_dat %>%
+    filter(!is.na(boundary))
+    
   
-  sol <- solve(p)
+  ##############################################################################
+  #2100-------------------------------------------------------------------------
+  ##############################################################################
+  period = "2100"
+  
+  #pu dat-----------------------------------------------------------------------
+  pu_dat_2100 = pu_dat
+  pu_dat_2100$id <- 600000 + pu_dat$id
+  pu_dat <- rbind(pu_dat, pu_dat_2100)
+  
+  #puvspr_dat-------------------------------------------------------------------
+  
+  for(i in 1:length(var)){
 
+    var_short = set_var[i]
+  
+    if(i == 1){
+      data <- get_bioinformation(var_short, drn, period)
+      
+      data_filtered <- data %>%
+        select(WP4, campaign, var_short) %>%
+        mutate(!!sym("WP4") := WP4 + campaign*multiplier + 600000) %>%
+        select(WP4, var_short)
+      
+      if(var_short %in% c("rich", "FD", "FR", "simp", "alpha", "beta", "gamma", "dem")){
+        
+        quantiles_var <- quantile(data_filtered[[var_short]], probs = c(0.5, 0.75, 0.90), na.rm = TRUE)
+        
+        data_filtered <- data_filtered %>%
+          mutate(!!var_short := ifelse(data_filtered[[var_short]] > quantiles_var[1], 1, 0))
+      }
+    }
+    else{
+      data_aux <- get_bioinformation(var_short, drn, period)
+      
+      data_aux_filtered <- data_aux %>%
+        #filter(campaign == 6) %>%
+        select(WP4, campaign, var_short) %>%
+        mutate(!!sym("WP4") := WP4 + campaign*multiplier + 600000) %>%
+        select(WP4, var_short)
+      
+      
+      if(var_short %in% c("rich", "FD", "FR", "simp", "alpha", "beta", "gamma", "dem")){
+        
+        quantiles_var <- quantile(data_aux_filtered[[var_short]], probs = c(0.5, 0.75, 0.90), na.rm = TRUE)
+        
+        data_aux_filtered <- data_aux_filtered %>%
+          mutate(!!var_short := ifelse(data_aux_filtered[[var_short]] > quantiles_var[1], 1, 0))
+      }
+      
+      data_filtered = data_aux_filtered %>%
+        left_join(data_filtered, by = "WP4")
+    }
+  }
+  
+  puvspr_dat_2100 <- data_filtered %>%
+    tidyr::pivot_longer(!WP4, names_to = "species", values_to = "amount")
+  
+  colnames(puvspr_dat_2100) <- c("pu", "species", "amount")
+  puvspr_dat_2100$pu <- as.numeric(puvspr_dat_2100$pu)
+  puvspr_dat_2100 <- na.omit(puvspr_dat_2100)
+  puvspr_dat_2100$species <- str_c(puvspr_dat_2100$species, "_2100")
+  
+
+  #spec_dat---------------------------------------------------------------------
+  names(var) = set_var
+  
+  spec_dat_2100 <- data.frame(id = seq(var) + max(spec_dat$id),
+                         name = str_c(names(var), "_2100"),
+                         prop = unlist(var, use.names = FALSE))
+  
+  
+  puvspr_dat_2100 <- puvspr_dat_2100 %>%
+    left_join(spec_dat_2100, by = c("species" = "name")) %>%
+    select(pu, id, amount)
+  
+  colnames(puvspr_dat_2100) <- c("pu", "species", "amount")
+  
+  puvspr_dat <- rbind(puvspr_dat_2021, puvspr_dat_2100)
+  spec_dat <- rbind(spec_dat, spec_dat_2100)
+  
+  input_data <- list(pu_dat, spec_dat, puvspr_dat, boundary_dat, puvspr_dat_2021, puvspr_dat_2100)
+  
+  # Assign names to the list elements using setNames
+  input_data <- setNames(input_data, c("pu_dat", "spec_dat", "puvspr_dat", "boundary_dat",
+                                       "puvspr_dat_2021",
+                                       "puvspr_dat_2100"))
+  
+  return(input_data)
+}
+
+
+optimizing <- function(drn, var, blm){
+
+  input_data <- calculate_opt_inputs(drn, var)
+  
+  p <- prioritizr::marxan_problem(input_data$pu_dat, 
+                                  input_data$spec_dat, 
+                                  input_data$puvspr_dat, 
+                                  input_data$boundary_dat, 
+                                  blm = blm) %>%
+    add_cbc_solver(gap = 0.10, time_limit = 50)
+  
+  sol <- solve(p, force = TRUE)
+  
+  last_sol <<- sol
   
   update_map_opt(drn, sol, drn_country)
   
 }
 
 
-
 # Update the map using the information of Indicator
+# update_map_opt <- function(drn, sol, drn_country){
+#   
+#   shape <- get_shape(drn)
+# 
+#   data_filtered <- sol %>%
+#     select(id, solution_1)
+#   
+#   data_filtered <- data_filtered %>%
+#     mutate(WP4 = as.numeric(substr(id, nchar(id) - 3, nchar(id)))) %>%
+#     mutate(campaign = substr(id, nchar(1), nchar(1)))
+#   
+#   #Only frec of campaings in the best solution
+#   data_filtered <- data_filtered %>%
+#     group_by(WP4) %>%
+#     summarise(solution_1 = sum(solution_1)) %>%
+#     select(WP4, solution_1)
+#   
+# 
+#   shape_var <- terra::merge(shape, data_filtered, by.x = "ID", by.y = "WP4", all.x=TRUE)
+#   shape_var$inter = ifelse(shape_var$regine_rea == "perennial", 1, 5)
+#   
+#   ##palette
+#   levels(shape_var$solution_1) <- c(0,1)
+#   pal <- colorFactor(palette="Reds", domain=shape_var[["solution_1"]][,1], na.color="orange")
+#   #pal <- colorBin(palette="Blues", domain=data[,solution_1], na.color="orange")
+#   title_legend <- ""
+#   
+#   
+#   popup_map <- sprintf(
+#     "<strong>ID %s</strong><br/>
+#          Value: %g <br/>",
+#     shape_var$ID, 
+#     shape_var[["solution_1"]][,1]) %>% 
+#     lapply(htmltools::HTML)
+#   
+#   leafletProxy("map_opt", data = shape_var) %>%
+#     clearControls() %>%
+#     addPolylines(group = "Base",
+#                  weight = 3, 
+#                  color = ~pal(shape_var[["solution_1"]][,1]),
+#                  fill = FALSE, 
+#                  opacity = 1,
+#                  popup = popup_map,
+#                  dashArray = ~inter,
+#                  layerId = ~ID, 
+#                  highlightOptions = highlightOptions(
+#                    weight = 5,
+#                    bringToFront = TRUE,
+#                    sendToBack = TRUE)
+#     )%>%
+#     addLegend(group = "Base",
+#               pal = pal,
+#               title = title_legend,
+#               values = shape_var[["solution_1"]][,1],
+#               opacity = 1,
+#               position = "topright") %>%
+#     leaflet.extras2::addEasyprint(options = easyprintOptions(
+#       title = 'Print map',
+#       position = 'bottomright',
+#       exportOnly = TRUE, 
+#       sizeModes = "A4Landscape"))
+# }
+
 update_map_opt <- function(drn, sol, drn_country){
   
   shape <- get_shape(drn)
-
+  
   data_filtered <- sol %>%
     select(id, solution_1)
   
-  shape_var <- terra::merge(shape, data_filtered, by.x = "ID", by.y = "id", all.x=TRUE)
+  data_filtered <- data_filtered %>%
+      mutate(WP4 = as.numeric(substr(id, nchar(id) - 3, nchar(id)))) %>%
+      mutate(campaign = substr(id, nchar(1), nchar(1)))
+
+  data_filtered <- data_filtered %>%
+      group_by(WP4) %>%
+      summarise(solution_1 = sum(solution_1)) %>%
+      select(WP4, solution_1) %>%
+      rename(ID = WP4)
   
+  
+  int <- read.table("data/data/regine_reaches.csv", sep = ",", header = TRUE)
+  b_int <- left_join(data_filtered,int, by="ID") #join intermittence with freq 
+  
+
+  
+  # 
+  # 
+  # 
+  # data_filtered_2100 <- data_filtered %>%
+  #   filter(id >= 600000) %>%
+  #   mutate(WP4 = as.numeric(substr(id, nchar(id) - 3, nchar(id)))) %>%
+  #   mutate(campaign = substr(id, nchar(1), nchar(1)))
+  # 
+  # 
+  # 
+  # data_filtered_2021 <- data_filtered %>%
+  #   filter(id < 600000) %>%
+  #   mutate(WP4 = as.numeric(substr(id, nchar(id) - 3, nchar(id)))) %>%
+  #   mutate(campaign = substr(id, nchar(1), nchar(1)))
+  # 
+  
+  
+  shape_var <- terra::merge(shape, data_filtered, by.x = "ID", by.y = "ID", all.x=TRUE)
+  shape_var$inter = ifelse(shape_var$regine_rea == "perennial", 1, 5)
   
   ##palette
   levels(shape_var$solution_1) <- c(0,1)
@@ -1494,9 +1724,11 @@ update_map_opt <- function(drn, sol, drn_country){
   
   popup_map <- sprintf(
     "<strong>ID %s</strong><br/>
-         Value: %g <br/>",
+         Value: %g <br/>
+         Type: %s <br/>",
     shape_var$ID, 
-    shape_var[["solution_1"]][,1]) %>% 
+    shape_var[["solution_1"]][,1],
+    shape_var$regine_rea) %>% 
     lapply(htmltools::HTML)
   
   leafletProxy("map_opt", data = shape_var) %>%
@@ -1506,7 +1738,8 @@ update_map_opt <- function(drn, sol, drn_country){
                  color = ~pal(shape_var[["solution_1"]][,1]),
                  fill = FALSE, 
                  opacity = 1,
-                 popup = popup_map, 
+                 popup = popup_map,
+                 dashArray = ~inter,
                  layerId = ~ID, 
                  highlightOptions = highlightOptions(
                    weight = 5,
@@ -1524,4 +1757,133 @@ update_map_opt <- function(drn, sol, drn_country){
       position = 'bottomright',
       exportOnly = TRUE, 
       sizeModes = "A4Landscape"))
+}
+
+
+# Network yearly time series (observed period)
+figure_targets_reached <- function(drn, var, id){
+  
+  input_data <- calculate_opt_inputs(drn, var)
+  
+  data_filtered_2100 <- input_data$puvspr_dat_2100 %>%
+    #filter(pu >= 600000) %>%
+    mutate(WP4 = as.numeric(substr(pu, nchar(pu) - 3, nchar(pu)))) %>%
+    mutate(campaign = substr(pu, nchar(1), nchar(1))) %>%
+    select(WP4, species, amount, campaign)
+  
+  data_filtered_2100$period <- "2100"
+
+  data_filtered_2021 <- input_data$puvspr_dat_2021 %>%
+    #filter(pu < 600000) %>%
+    mutate(WP4 = as.numeric(substr(pu, nchar(pu) - 3, nchar(pu)))) %>%
+    mutate(campaign = substr(pu, nchar(1), nchar(1))) %>%
+    select(WP4, species, amount, campaign)
+  
+  data_filtered_2021$period <- "2021"
+  
+  #Calculate % proportion by year
+  #2021
+  total_sum_species_2021  <- data_filtered_2021 %>%
+    group_by(species, period) %>%
+    summarise(total_sum_species  = sum(amount))
+
+  sum_species_by_wp4_2021  <- data_filtered_2021 %>%
+    filter(WP4 == id) %>%
+    group_by(species, WP4) %>%
+    summarise(sum_species_wp4  = sum(amount))
+
+  proportion_data_2021 <- sum_species_by_wp4_2021 %>%
+    left_join(total_sum_species_2021, by = "species") 
+  
+  #2100
+  total_sum_species_2100  <- data_filtered_2100 %>%
+    group_by(species, period) %>%
+    summarise(total_sum_species  = sum(amount))
+
+  sum_species_by_wp4_2100  <- data_filtered_2100 %>%
+    filter(WP4 == id) %>%
+    group_by(species, WP4) %>%
+    summarise(sum_species_wp4  = sum(amount))
+  
+  proportion_data_2100 <- sum_species_by_wp4_2100 %>%
+    left_join(total_sum_species_2100, by = "species")
+
+  prop_data <- rbind(proportion_data_2021, proportion_data_2100)
+
+  prop_data <- prop_data %>%
+    left_join(input_data$spec_dat, by = c("species" = "id")) %>%
+    mutate(name = gsub("_2100$", "", name)) %>%
+    mutate(contribution = sum_species_wp4/(total_sum_species*prop))
+  
+
+  # long_title = paste0("Comparation of the temporal trend of ",var_long, " between ", "2020 and ", period)
+  # wrapped_title <- str_wrap(long_title, width = max_width)
+  # dom_summary = get_difference_domain_bioinformation(var, drn)
+  #   
+  p1 <- ggplot(prop_data, aes(x = factor(name), y = contribution, fill = factor(period))) +
+    geom_bar(stat = "identity", position = "dodge") +
+    labs(
+      title = "Contribution of the river section to the conservation target",
+      x = "Features",
+      y = "% of Contribution",
+      fill = ""
+    ) +
+    theme_minimal() +
+    scale_fill_manual(values = c("black", "forestgreen"))+
+    theme_bw()+
+    scale_y_continuous(labels = scales::percent_format(scale = 100)) +
+    theme(plot.title = element_text(size = 10, hjust = 0.5, lineheight = 0.5))
+  
+  return(p1)
+}
+
+
+
+# Network yearly time series (observed period)
+figure_inter_reached <- function(drn){
+  
+  shape <- get_shape(drn)
+  
+  data_filtered <- last_sol %>%
+    select(id, solution_1)
+  
+  data_filtered <- data_filtered %>%
+    mutate(WP4 = as.numeric(substr(id, nchar(id) - 3, nchar(id)))) %>%
+    mutate(campaign = substr(id, nchar(1), nchar(1)))
+  
+  data_filtered <- data_filtered %>%
+    group_by(WP4, campaign) %>%
+    summarise(solution_1 = sum(solution_1)) %>%
+    select(WP4, solution_1) %>%
+    rename(ID = WP4)
+  
+  int <- read.table("data/data/regine_reaches.csv", sep = ",", header = TRUE)
+  b_int <- left_join(data_filtered,int, by="ID") #join intermittence with freq 
+  b_int <- b_int %>%
+    group_by(Regime) %>%
+    summarize(total_solution_1 = sum(solution_1))
+  
+  # # Create the pie chart
+  # p1 <- ggplot(b_int, aes(x = "", y = total_solution_1, fill = Regime)) +
+  #   geom_bar(stat = "identity", width = 1) +
+  #   theme_void() +
+  #   theme(legend.title = element_blank())
+  # 
+  
+  # labels = c('Oxygen','Hydrogen','Carbon_Dioxide','Nitrogen')
+  # values = c(4500, 2500, 1053, 500)
+  # 
+  p1 <- plot_ly(type='pie', labels=b_int$Regime, values=b_int$total_solution_1, 
+                 textinfo='label+percent',
+                 insidetextorientation='radial', width = 350, height = 300) %>%
+    layout(
+      margin = list(
+        l = 0,  # left margin
+        r = 0,  # right margin
+        b = 0,  # bottom margin
+        t = 0   # top margin
+      )
+    )
+  
+  return(p1)
 }

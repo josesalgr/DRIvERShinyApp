@@ -30,6 +30,8 @@ library(glue)
 library(tibble)
 library(stats)
 library(scales)
+library(shinycssloaders)
+library(shinyFeedback)
 
 # sourcing fonctions
 source("functions_shiny.R")
@@ -44,8 +46,6 @@ source("functions_shiny.R")
 drns_long <- c(" ","Albarine (France)")
 drns_short <- c(" ","Albarine")
 drns_countries <- c(" ","France")
-
-
 
 indicators_long <- c(
   "RelInt: Proportion of river length with intermittent conditions [%]",
@@ -66,7 +66,7 @@ indicators_short <- c( "RelInt","RelFlow","PatchC",
                        "conD","conF","durD","durF","numFreDr","numFreRW",
                        "FstDrE", "Temp","Precip","ET")
 
-variables_short <- c(" ", "rich", "simp", "FD",	
+variables_short <- c(" ","rich", "simp", "FD",	
                      "FR", "alpha", "beta", "gamma",
                      "dem", "co2",
                      "dr_lr", "dr_ss", "er_rip",
@@ -94,6 +94,10 @@ scale_list_short <- c("2021", "2100")
 
 campaign_list <- c("Jan-Feb", "Mar-Apr", "May-Jun", "Jul-Aug", "Sep-Oct", "Nov-Dec")
 
+sync_first <- TRUE
+
+
+
 network_ind_Y <- c("LengthD", "LengthF", "PatchC", "RelFlow", "RelInt", "Temp","Precip","ET")
 network_ind_M <- c("PatchC", "RelFlow", "RelInt", "Temp","Precip","ET")
 reach_ind_Y <- c("conD", "conF", "durD", "durF", "numFreDr", "numFreRW", "percFreDr", "percFreRW", "FstDrE")
@@ -102,7 +106,8 @@ ssp_long <- c("SSP1-2.6 Sustainability","SSP3-7.0 Regional rivalry","SSP5-8.5 Fo
 ssp_short <- c("ssp126","ssp370","ssp585")
 gcm_long <- c("GFDL-ESM4", "IPSL-CM6A-LR", "MPI-ESM1-2-HR", "MRI-ESM2-0", "UKESM1-0-LL")
 gcm_short <- c("gfdl-esm4", "ipsl-cm6a-lr", "mpi-esm1-2-hr", "mri-esm2-0", "ukesm1-0-ll")
-count = 0
+last_sol = c()
+cons_optimize = 0
 
 css <- sass(sass_file("www/css/styles.scss"))
 

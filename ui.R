@@ -22,7 +22,8 @@ sidebar <- dashboardSidebar(
         style = "color:#FFBF00;",
         title = "Information about things"
       )),
-      choices = drns_long, selected = " "),
+      choices = drns_long,
+      selected = " "),
     
     hr(),
     
@@ -111,25 +112,33 @@ sidebar <- dashboardSidebar(
       
       noUiSliderInput(
         inputId = "blm", label = "Aggregation:",
-        min = 0, max = 30,
+        min = 0, max = 100,
         value = 0, tooltips = TRUE,
-        step = 0.1, orientation = "horizontal",
+        step = 0.01, orientation = "horizontal",
         color = "forestgreen", inline = FALSE,
-        format = wNumbFormat(decimals = 1),
+        format = wNumbFormat(decimals = 2),
         height = "15px", width = "250px"
       ),
       
-      absolutePanel(bottom = "5%", left = "16%",
-      actionBttn(
-        "optimize",
+      absolutePanel(bottom = "5%", left = "25%",
+      # actionBttn(
+      #   "optimize",
+      #   label = "Optimize",
+      #   icon("sliders"),
+      #   style = "bordered",
+      #   color = "success",
+      #   size = "md",
+      #   block = FALSE,
+      #   no_outline = TRUE,
+      # )
+      # 
+      loadingButton(
+        "optimize", 
         label = "Optimize",
-        icon("sliders"),
-        style = "bordered",
-        color = "success",
-        size = "md",
-        block = FALSE,
-        no_outline = TRUE,
-      ))),
+        style = "background-color: forestgreen; border-color: forestgreen; font-size: 16px;",
+        loadingLabel = "Optimizing...",
+      )
+      )),
     
     
     shinyjs::hidden(
@@ -144,7 +153,6 @@ sidebar <- dashboardSidebar(
 body <- dashboardBody(
   shinyjs::useShinyjs(),
   shinyjs::inlineCSS("body > div > header > nav > a {visibility: hidden}"),
-  
   tabItems(
     tabItem(tabName = "tab_dryver",
             h1("About the DRYvER project: Drying rivers and climate change"),
@@ -260,17 +268,19 @@ and Outcomes 7: e77750. <a href="https://doi.org/10.3897/rio.7.e77750" target="_
     ),
     tabItem(tabName = "tab_map",
 
-            fluidPage(           
+            fluidPage(
               div(class="outer",
               tags$head(
-                
+
               # Include our custom CSS
               includeCSS("styles.css"),
             ),
-            
+
             # If not using custom CSS, set height of leafletOutput to a number instead of percent
             leafletOutput("map_data", width="100%", height="100%"),
             )),
+
+            
             
             ##########################################################################
             #transparency bar
@@ -327,15 +337,45 @@ and Outcomes 7: e77750. <a href="https://doi.org/10.3897/rio.7.e77750" target="_
             )),  
             
             ##########################################################################
+            #transparency bar
+            ##########################################################################
+            chooseSliderSkin("Flat", color = "green"),
+            
+            # absolutePanel(bottom = "0%", left = "50%",
+            #               awesomeRadio(
+            #                 inputId = "Id048",
+            #                 label = "", 
+            #                 choices = c("All   ", "Only perennes   ", "Only perennes s"),
+            #                 selected = "All   ",
+            #                 inline = TRUE, 
+            #                 status = "success"
+            #               ),
+            # ),
+            
+
+            ##########################################################################
             # Left bar
             ##########################################################################
+
             absolutePanel(id = "controls_opt", class = "panel panel-default", fixed = FALSE,
-                          draggable = FALSE, top = "auto", left = 290, right = "auto", bottom = 10,
-                          width = 450, height = "auto", 
+                          draggable = FALSE, top = 60, left = 290, right = "auto", bottom = 0,
+                          width = 500, height = 310, #310
                           
-                          column(12, tabsetPanel(id="plot_tabs_opt")
-                                 ),
+                          column(12, tabsetPanel(id="plot_tabs"),
+                                 div(style = "margin-top: 0px;",
+                                     plotlyOutput(outputId = "plotly3", inline = FALSE))),
             ),
+
+            absolutePanel(id = "controls_opt", class = "panel panel-default", fixed = FALSE,
+                          draggable = FALSE, top = 60, left = 795, right = "auto", bottom = 0,
+                          width = 360, height = 310, #310
+                          
+                          div(class = "center-content",
+                            plotlyOutput(outputId = "plotly4", inline = FALSE)
+                          )
+            ),
+            
+            
     )
   ),
 )

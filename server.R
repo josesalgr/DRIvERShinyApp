@@ -1,5 +1,6 @@
 # Defini la partie server
 server <- function(input, output, session) {
+
   # Display Sk8 info
   output$SK8Image <- renderImage({
     list(src= normalizePath(file.path("www/images","SK8.png")),
@@ -367,12 +368,12 @@ server <- function(input, output, session) {
 
   # DATA VISUALIZATION----------------------------------------------------------
 
-  ## Plot interactive map of the river network (data)
+  # Plot interactive map of the river network (data)
   output[["map_data"]] <- renderLeaflet({
-    
+
     enable("drn")
 
-    leaflet() %>%
+    p <- leaflet() %>%
       addProviderTiles(providers$CartoDB.Positron, group = "CartoDB") %>%
       addProviderTiles(providers$Esri.WorldShadedRelief, group = "Elevation") %>%
       addProviderTiles(providers$Esri.WorldImagery, group = "Satellite") %>%
@@ -386,10 +387,16 @@ server <- function(input, output, session) {
       addLayersControl(
         baseGroups = c("CartoDB", "Elevation", "Satellite","Without background"),
         options = layersControlOptions(collapsed = TRUE)
-      ) %>% leafem::addMouseCoordinates() 
+      ) %>% leafem::addMouseCoordinates()
+    
+    updateSelectInput(session, "drn", choices = drns_long[-1], selected = "Albarine (France)")
+    updateSelectInput(session, "Variable", choices = variables_long[-1], selected = "Predicted richness")
+
+    # print(input$drn)
+
+    return(p)
   })
-  
-  
+
   ## Select bottom River network
   observeEvent(input$drn, {
     
@@ -402,21 +409,18 @@ server <- function(input, output, session) {
       # Plot Leaflet map 
       print_shape(drns_short[which(drns_long == input$drn)],
                   "map_data")
-      
-      print_shape(drns_short[which(drns_long == input$drn)],
-                  "map_opt")
 
       # Enable SelectInput "Variable"
       shinyjs::enable("Variable")
       
-      # Update Variable SelectInput
-      updateSelectInput(session, "variable", selected = "Gamma diversity")
-      
       # Enable SelectInput "Scale"
       shinyjs::enable("Scale")
       
+
+      
     }
   })
+  
   
   ## Update range
   observeEvent(input$range, {
@@ -525,29 +529,6 @@ server <- function(input, output, session) {
   })
   
   
-  
-  ## Network time series (observed period)
-  # output[["plotly1"]] <- renderGirafe({
-  #   
-  #   if(input$Variable != " " && input$drn != " " && which(variables_long == input$Variable) <= 12){
-  #     
-  #     p1 <- figure_percentile(drns_short[which(drns_long == input$drn)],
-  #                               variables_short[which(variables_long == input$Variable)], 
-  #                               drns_countries[which(drns_long == input$drn)],
-  #                               input$range, 
-  #                               input$percent/100)
-  #       
-  #     x1 <- girafe(ggobj = p1)
-  #     x1 <- girafe_options(x1,
-  #                          opts_selection(type = "single",
-  #                                         css = "color:red;stroke:red;r:5pt;"),
-  #                          sizingPolicy(defaultWidth = "100%", defaultHeight = "300px"))
-  #   }
-  #   else{
-  #     #shinyjs::hide("plotly1")
-  #   }
-  # })
-  
   ## Network time series (observed period)
   output[["plotly2"]] <- renderPlotly({
     
@@ -594,7 +575,7 @@ server <- function(input, output, session) {
     updateCoords(input$tabs, input$map_data_center$lng, input$map_data_center$lat, input$map_data_zoom)
   })
 
-  # Synchronize the maps using leafletProxy (map_opt)
+  #Synchronize the maps using leafletProxy (map_opt)
   observe({
     leafletProxy("map_opt", data = leafletProxy("map_data", session)) %>%
       setView(lng = input$map_opt_center$lng, lat = input$map_opt_center$lat, zoom = input$map_opt_zoom)
@@ -607,7 +588,7 @@ server <- function(input, output, session) {
   ## Plot interactive map of the river network (data)
   output[["map_opt"]] <- renderLeaflet({
 
-    leaflet() %>%
+    p <- leaflet() %>%
       addProviderTiles(providers$CartoDB.Positron, group = "CartoDB") %>%
       addProviderTiles(providers$Esri.WorldShadedRelief, group = "Elevation") %>%
       addProviderTiles(providers$Esri.WorldImagery, group = "Satellite") %>%
@@ -622,6 +603,20 @@ server <- function(input, output, session) {
         baseGroups = c("CartoDB", "Elevation", "Satellite","Without background"),
         options = layersControlOptions(collapsed = TRUE)
       ) %>% leafem::addMouseCoordinates() 
+    
+    if(sync_first){
+      
+      #updateSelectInput(session, "drn", choices = drns_long[-1], selected = "Albarine (France)")
+
+      leafletProxy("map_opt", data = leafletProxy("map_data", session)) %>%
+        setView(lng = input$map_data_center$lng, lat = input$map_data_center$lat, zoom = input$map_data_zoom)
+      
+      updateCoords(input$tabs, input$map_opt_center$lng, input$map_opt_center$lat, input$map_opt_zoom)
+      
+      sync_first <<- FALSE
+    }
+
+    return(p)
 
   })
   
@@ -644,8 +639,11 @@ server <- function(input, output, session) {
       if(!is.null(weights)){
         optimizing(drns_short[which(drns_long == input$drn)],
                    weights,
-                   input$blm,
-                   scale_list_short[which(scale_list == input$Scale)])
+                   input$blm)
+        
+        cons_optimize <<- 1
+        
+        resetLoadingButton("optimize")
       }
     }
   })
@@ -674,6 +672,48 @@ server <- function(input, output, session) {
       }
     }
   )
+  
+  ## Network time series (observed period)
+  output[["plotly3"]] <- renderPlotly({
+    
+    click_shape <- input$map_opt_shape_click
+    
+    if(!is.null(click_shape) && input$drn != " "){
+
+      state <- input$`features-stats_weights`
+      weights <- state$weights
+      
+      if(!is.null(weights)){
+        p1 <- figure_targets_reached(drns_short[which(drns_long == input$drn)],
+                                weights, 
+                                click_shape$id)
+        
+        ggplotly(p1, width = 450, height = 300) %>%
+          layout(
+            margin = list(
+              b = 0  # bottom margin
+            )
+          )
+        
+      }
+    }
+  })
+  
+  
+  ## Network time series (observed period)
+  output[["plotly4"]] <- renderPlotly({
+    
+    click_shape <- input$optimize
+    
+    if(!is.null(click_shape) && input$drn != " " && cons_optimize == 1){
+      
+      p1 <- figure_inter_reached(drns_short[which(drns_long == input$drn)])
+      #   
+      # ggplotly(p1, width = 450, height = 300)
+      
+
+    }
+  })
 
 }
 
