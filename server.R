@@ -371,7 +371,7 @@ server <- function(input, output, session) {
   # Plot interactive map of the river network (data)
   output[["map_data"]] <- renderLeaflet({
 
-    enable("drn")
+    enable("drn_map")
 
     p <- leaflet() %>%
       addProviderTiles(providers$CartoDB.Positron, group = "CartoDB") %>%
@@ -389,7 +389,7 @@ server <- function(input, output, session) {
         options = layersControlOptions(collapsed = TRUE)
       ) %>% leafem::addMouseCoordinates()
     
-    updateSelectInput(session, "drn", choices = drns_long[-1], selected = "Albarine (France)")
+    updateSelectInput(session, "drn_map", choices = drns_long[-1], selected = "Albarine (France)")
     updateSelectInput(session, "Variable", choices = variables_long[-1], selected = "Predicted richness")
 
     # print(input$drn)
@@ -398,16 +398,16 @@ server <- function(input, output, session) {
   })
 
   ## Select bottom River network
-  observeEvent(input$drn, {
+  observeEvent(input$drn_map, {
     
-    if(input$drn != " "){
+    if(input$drn_map != " "){
       
       # data tab
       # Remove previous Leaflet map
       leafletProxy("map_data") %>% clearMarkers() %>% clearShapes()
       
       # Plot Leaflet map 
-      print_shape(drns_short[which(drns_long == input$drn)],
+      print_shape(drns_short[which(drns_long == input$drn_map)],
                   "map_data")
 
       # Enable SelectInput "Variable"
@@ -421,15 +421,38 @@ server <- function(input, output, session) {
     }
   })
   
+  ## Select bottom River network
+  observeEvent(input$drn_opt, {
+    
+    if(input$drn_opt != " "){
+      
+      # data tab
+      # Remove previous Leaflet map
+      leafletProxy("map_opt") %>% clearMarkers() %>% clearShapes()
+      
+      # Plot Leaflet map 
+      print_shape(drns_short[which(drns_long == input$drn_opt)],
+                  "map_opt")
+      
+      # Enable SelectInput "Variable"
+      shinyjs::enable("Variable")
+      
+      # Enable SelectInput "Scale"
+      shinyjs::enable("Scale")
+      
+      
+      
+    }
+  })
   
   ## Update range
   observeEvent(input$range, {
     
-    if(input$drn != " " && input$Variable != " "){
+    if(input$drn_map != " " && input$Variable != " "){
       #update_range(drns_short[which(drns_long == input$drn)], input$range)
       
       id_range = which(input$range == campaign_list)
-      drns = drns_short[which(drns_long == input$drn)]
+      drns = drns_short[which(drns_long == input$drn_map)]
       period = scale_list_short[which(scale_list == input$Scale)]
       
       update_map_data(drns, 
@@ -444,12 +467,12 @@ server <- function(input, output, session) {
   ## Update Variable SelectInput
   observeEvent(input$Variable, {
 
-    if(input$Variable != " " && input$drn != " "){
+    if(input$Variable != " " && input$drn_map != " "){
       
       shinyjs::show("plotly1")
 
       
-      drns = drns_short[which(drns_long == input$drn)]
+      drns = drns_short[which(drns_long == input$drn_map)]
       period = scale_list_short[which(scale_list == input$Scale)]
       
       
@@ -490,9 +513,9 @@ server <- function(input, output, session) {
       shinyjs::disable("Compare")
     }
     
-    if(input$Variable != " " && input$drn != " "){
+    if(input$Variable != " " && input$drn_map != " "){
       
-      drns = drns_short[which(drns_long == input$drn)]
+      drns = drns_short[which(drns_long == input$drn_map)]
       period = scale_list_short[which(scale_list == input$Scale)]
       
       id_range = which(input$range == campaign_list)
@@ -511,11 +534,11 @@ server <- function(input, output, session) {
   observeEvent(input$Compare, {
     
     #if(input$Compare){
-    if(input$Variable != " " && input$drn != " "){
+    if(input$Variable != " " && input$drn_map != " "){
       
       
       
-      drns = drns_short[which(drns_long == input$drn)]
+      drns = drns_short[which(drns_long == input$drn_map)]
       period = scale_list_short[which(scale_list == input$Scale)]
       id_range = which(input$range == campaign_list)
       
@@ -534,11 +557,11 @@ server <- function(input, output, session) {
     
     click_shape <- input$map_data_shape_click
     
-    if(input$Variable != " " && input$drn != " " && input$Scale != " "){
+    if(input$Variable != " " && input$drn_map != " " && input$Scale != " "){
       
       id_range = which(input$range == campaign_list)
       
-      is_in_map <- is_id(drns_short[which(drns_long == input$drn)], 
+      is_in_map <- is_id(drns_short[which(drns_long == input$drn_map)], 
                          variables_short[which(variables_long == input$Variable)],
                          id_range,
                          click_shape$id,
@@ -548,7 +571,7 @@ server <- function(input, output, session) {
           p1 <- figure_time_serie(variables_short[which(variables_long == input$Variable)], 
                                   variables_long[which(variables_long == input$Variable)], 
                                   click_shape$id, 
-                                  drns_short[which(drns_long == input$drn)],
+                                  drns_short[which(drns_long == input$drn_map)],
                                   id_range, 
                                   scale_list_short[which(scale_list == input$Scale)],
                                   input$Compare)
@@ -566,22 +589,22 @@ server <- function(input, output, session) {
   
   # OPTIMIZATION----------------------------------------------------------------
 
-  #Synchronize the maps using leafletProxy (map_data)
-  observe({
-
-    leafletProxy("map_data", data = leafletProxy("map_opt", session)) %>%
-      setView(lng = input$map_data_center$lng, lat = input$map_data_center$lat, zoom = input$map_data_zoom)
-
-    updateCoords(input$tabs, input$map_data_center$lng, input$map_data_center$lat, input$map_data_zoom)
-  })
-
-  #Synchronize the maps using leafletProxy (map_opt)
-  observe({
-    leafletProxy("map_opt", data = leafletProxy("map_data", session)) %>%
-      setView(lng = input$map_opt_center$lng, lat = input$map_opt_center$lat, zoom = input$map_opt_zoom)
-
-    updateCoords(input$tabs, input$map_opt_center$lng, input$map_opt_center$lat, input$map_opt_zoom)
-  })
+  # #Synchronize the maps using leafletProxy (map_data)
+  # observe({
+  # 
+  #   leafletProxy("map_data", data = leafletProxy("map_opt", session)) %>%
+  #     setView(lng = input$map_data_center$lng, lat = input$map_data_center$lat, zoom = input$map_data_zoom)
+  # 
+  #   updateCoords(input$tabs, input$map_data_center$lng, input$map_data_center$lat, input$map_data_zoom)
+  # })
+  # 
+  # #Synchronize the maps using leafletProxy (map_opt)
+  # observe({
+  #   leafletProxy("map_opt", data = leafletProxy("map_data", session)) %>%
+  #     setView(lng = input$map_opt_center$lng, lat = input$map_opt_center$lat, zoom = input$map_opt_zoom)
+  # 
+  #   updateCoords(input$tabs, input$map_opt_center$lng, input$map_opt_center$lat, input$map_opt_zoom)
+  # })
 
 
   
@@ -608,14 +631,16 @@ server <- function(input, output, session) {
       
       #updateSelectInput(session, "drn", choices = drns_long[-1], selected = "Albarine (France)")
 
-      leafletProxy("map_opt", data = leafletProxy("map_data", session)) %>%
-        setView(lng = input$map_data_center$lng, lat = input$map_data_center$lat, zoom = input$map_data_zoom)
-      
-      updateCoords(input$tabs, input$map_opt_center$lng, input$map_opt_center$lat, input$map_opt_zoom)
-      
+      # leafletProxy("map_opt", data = leafletProxy("map_data", session)) %>%
+      #   setView(lng = input$map_data_center$lng, lat = input$map_data_center$lat, zoom = input$map_data_zoom)
+      # 
+      # updateCoords(input$tabs, input$map_opt_center$lng, input$map_opt_center$lat, input$map_opt_zoom)
+      # 
       sync_first <<- FALSE
     }
 
+    updateSelectInput(session, "drn_opt", choices = drns_long[-1], selected = "Albarine (France)")
+    
     return(p)
 
   })
@@ -631,20 +656,20 @@ server <- function(input, output, session) {
   ## Select bottom River network
   observeEvent(input$optimize, {
 
-    if(input$drn != " "){
+    if(input$drn_opt != " "){
       
       state <- input$`features-stats_weights`
       weights <- state$weights
       
       if(!is.null(weights)){
-        optimizing(drns_short[which(drns_long == input$drn)],
+        optimizing(drns_short[which(drns_long == input$drn_opt)],
                    weights,
                    input$blm)
         
         cons_optimize <<- 1
         
-        resetLoadingButton("optimize")
       }
+      resetLoadingButton("optimize")
     }
   })
   
@@ -655,7 +680,7 @@ server <- function(input, output, session) {
       if (length(Sys.glob("shapefile.*"))>0){
         file.remove(Sys.glob("shapefile.*"))
       }
-      drn = drns_short[which(drns_long == input$drn)]
+      drn = drns_short[which(drns_long == input$drn_map)]
       var = variables_short[which(variables_long == input$Variable)]
       period = scale_list_short[which(scale_list == input$Scale)]
       id_range = which(input$range == campaign_list)
@@ -678,17 +703,17 @@ server <- function(input, output, session) {
     
     click_shape <- input$map_opt_shape_click
     
-    if(!is.null(click_shape) && input$drn != " "){
+    if(!is.null(click_shape) && input$drn_opt != " "){
 
       state <- input$`features-stats_weights`
       weights <- state$weights
       
       if(!is.null(weights)){
-        p1 <- figure_targets_reached(drns_short[which(drns_long == input$drn)],
+        p1 <- figure_targets_reached(drns_short[which(drns_long == input$drn_opt)],
                                 weights, 
                                 click_shape$id)
         
-        ggplotly(p1, width = 450, height = 300) %>%
+        ggplotly(p1, width = 550, height = 300) %>%
           layout(
             margin = list(
               b = 0  # bottom margin
@@ -705,9 +730,9 @@ server <- function(input, output, session) {
     
     click_shape <- input$optimize
     
-    if(!is.null(click_shape) && input$drn != " " && cons_optimize == 1){
+    if(!is.null(click_shape) && input$drn_opt != " " && cons_optimize == 1){
       
-      p1 <- figure_inter_reached(drns_short[which(drns_long == input$drn)])
+      p1 <- figure_inter_reached(drns_short[which(drns_long == input$drn_opt)])
       #   
       # ggplotly(p1, width = 450, height = 300)
       

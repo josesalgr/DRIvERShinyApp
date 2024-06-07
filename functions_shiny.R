@@ -1,4 +1,33 @@
 
+read_shp <- function(DRN){
+  # path to indicator file
+  path <- paste0("data/shp/",DRN,"/small_river_network.shp")
+  
+  # read shapefile
+  shp <- st_read(path)
+  
+  return(shp)
+}
+
+########## plots ###############################
+# Plot interactive map of the river network and watershed
+figure_map <- function(drn){
+  if(drn == "Lepsamanjoki"){
+    river_network <- read_shp("Lepsamaanjoki")
+  }else{
+    river_network <- read_shp(drn)
+  }
+  
+  river_network <- st_transform(river_network, 4326)
+  
+  p_map <-leaflet() %>%
+    addTiles() %>%
+    addProviderTiles(providers$OpenStreetMap) %>%
+    addPolylines(data = river_network, color = "darkblue",opacity = 1, weight=2) %>%
+    addScaleBar(position="bottomright")
+  return(p_map)
+}
+
 ################################################################################
 #---------------OPTIMIZATION----------------------------------------------------
 ################################################################################
@@ -79,6 +108,9 @@ get_bioinformation <- function(var, drn, period){
     
     file_name = paste0("data/data/biodiversity/", drn, "/", period, "/bio_data.csv")
   }
+  else if(var %in% c("temp_beta")){
+    file_name = paste0("data/data/biodiversity/", drn, "/", period, "/temp_beta_data.csv")
+  }
   else if(var %in% c("alpha", "beta", "gamma")){
     
     file_name = paste0("data/data/biodiversity/", drn, "/", period, "/biobeta_data.csv")
@@ -115,6 +147,10 @@ get_domain_bioinformation <- function(var, drn){
     
     file_name_per1 = paste0("data/data/biodiversity/", drn, "/", scale_list_short[1], "/bio_data.csv")
     file_name_per2 = paste0("data/data/biodiversity/", drn, "/", scale_list_short[2], "/bio_data.csv")
+  }
+  else if(var %in% c("temp_beta")){
+    file_name_per1 = paste0("data/data/biodiversity/", drn, "/", scale_list_short[1], "/temp_beta_data.csv")
+    file_name_per2 = paste0("data/data/biodiversity/", drn, "/", scale_list_short[2], "/temp_beta_data.csv")
   }
   else if(var %in% c("alpha", "beta", "gamma")){
     
@@ -162,6 +198,10 @@ get_difference_domain_bioinformation <- function(var, drn){
     
     file_name_per1 = paste0("data/data/biodiversity/", drn, "/", scale_list_short[1], "/bio_data.csv")
     file_name_per2 = paste0("data/data/biodiversity/", drn, "/", scale_list_short[2], "/bio_data.csv")
+  }
+  else if(var %in% c("temp_beta")){
+    file_name_per1 = paste0("data/data/biodiversity/", drn, "/", scale_list_short[1], "/temp_beta_data.csv")
+    file_name_per2 = paste0("data/data/biodiversity/", drn, "/", scale_list_short[2], "/temp_beta_data.csv")
   }
   else if(var %in% c("alpha", "beta", "gamma")){
     
@@ -250,17 +290,9 @@ print_shape <- function(drn, map_name){
         position = "bottomright",
         editOptions = editToolbarOptions(selectedPathOptions = selectedPathOptions())
       )  %>%
-      addStyleEditor(position = "bottomright", 
-                     openOnLeafletEditable = TRUE, 
-                     openOnLeafletDraw = FALSE, useGrouping = FALSE) %>%
       addLayersControl(
         baseGroups = c("CartoDB", "Elevation", "Satellite","Without background"),
-        options = layersControlOptions(collapsed=TRUE))%>%
-    leaflet.extras2::addEasyprint(options = easyprintOptions(
-      title = 'Print map',
-      position = 'bottomright',
-      exportOnly = TRUE, 
-      sizeModes = "A4Landscape"))
+        options = layersControlOptions(collapsed=TRUE))
 
 }
 
@@ -440,12 +472,7 @@ update_map_data <- function(drn, var, camp, period, compare){
                 opacity = 1,
                 bins = 10,
                 labFormat = labelFormat(digits = 5),
-                position = "topright") %>%
-      leaflet.extras2::addEasyprint(options = easyprintOptions(
-        title = 'Print map',
-        position = 'bottomright',
-        exportOnly = TRUE, 
-        sizeModes = "A4Landscape"))
+                position = "topright")
     
     
     
@@ -502,12 +529,7 @@ update_map_data <- function(drn, var, camp, period, compare){
                 labFormat = labelFormat(digits = 5),
                 opacity = 1,
                 bins = 10,
-                position = "topright") %>%
-      leaflet.extras2::addEasyprint(options = easyprintOptions(
-        title = 'Print map',
-        position = 'bottomright',
-        exportOnly = TRUE, 
-        sizeModes = "A4Landscape"))
+                position = "topright")
   }
   
   # shape_var <- terra::merge(shape, data_filtered, by.x = "ID", by.y = "WP4", all.x=TRUE)
@@ -573,9 +595,13 @@ calculate_opt_inputs <- function(drn, var){
   pu_dat$id <- as.numeric(pu_dat$id)
   pu_dat$cost <- 1
   pu_dat$status <- 0
+  pu_dat$id_old <- pu_dat$id
   
   # Create a list of data frames, each multiplied by a different value
   dfs <- purrr::map(1:6, ~ mutate(pu_dat, id = id + (.x * multiplier)))
+  
+  # Add a column "campaign" with values 1 and 2 to each dataframe in dfs
+  dfs <- purrr::map2(dfs, 1:6, ~ mutate(.x, campaign = .y))
   
   # Combine the data frames in the list into a single data frame
   pu_dat <- bind_rows(dfs)
@@ -592,31 +618,35 @@ calculate_opt_inputs <- function(drn, var){
     if(i == 1){
       data <- get_bioinformation(var_short, drn, period)
       
+      data$id_old <- data$WP4
+      
       data_filtered <- data %>%
         #filter(campaign == 6) %>%
-        select(WP4, campaign, var_short) %>%
+        select(WP4, id_old, campaign, var_short) %>%
         mutate(!!sym("WP4") := WP4 + campaign*multiplier) %>%
-        select(WP4, var_short)
+        select(WP4, id_old, campaign, var_short)
       
-      if(var_short %in% c("rich", "FD", "FR", "simp", "alpha", "beta", "gamma", "dem")){
+      if(var_short %in% c("rich", "FD", "FR", "simp", "temp_beta", "alpha", "beta", "gamma", "dem")){
         
         quantiles_var <- quantile(data_filtered[[var_short]], probs = c(0.5, 0.75, 0.90), na.rm = TRUE)
 
         data_filtered <- data_filtered %>%
           mutate(!!var_short := ifelse(data_filtered[[var_short]] > quantiles_var[1], 1, 0))
-
+        
       }
     }
     else{
       data_aux <- get_bioinformation(var_short, drn, period)
 
+      data_aux$id_old <- data_aux$WP4
+      
       data_aux_filtered <- data_aux %>%
         #filter(campaign == 6) %>%
-        select(WP4, campaign, var_short) %>%
+        select(WP4, id_old, campaign, var_short) %>%
         mutate(!!sym("WP4") := WP4 + campaign*multiplier) %>%
-        select(WP4, var_short)
+        select(WP4, id_old, campaign, var_short)
       
-      if(var_short %in% c("rich", "FD", "FR", "simp", "alpha", "beta", "gamma", "dem")){
+      if(var_short %in% c("rich", "FD", "FR", "simp", "temp_beta", "alpha", "beta", "gamma", "dem")){
         
         quantiles_var <- quantile(data_aux_filtered[[var_short]], probs = c(0.5, 0.75, 0.90), na.rm = TRUE)
         
@@ -625,23 +655,23 @@ calculate_opt_inputs <- function(drn, var){
       }
       
       data_filtered = data_aux_filtered %>%
-        left_join(data_filtered, by = "WP4")
+        left_join(data_filtered, by = c("WP4", "id_old", "campaign"))
     }
   }
-  
+
   #shape_var <- terra::merge(shape, data_filtered, by.x = "ID", by.y = "WP4", all.x=TRUE)
   
   #puvspr_dat <- as.data.frame(shape_var)
   #puvspr_dat <- puvspr_dat[, c("ID", set_var)]
   
   puvspr_dat <- data_filtered %>%
-    tidyr::pivot_longer(!WP4, names_to = "species", values_to = "amount")
+    tidyr::pivot_longer(-c(WP4, id_old, campaign), names_to = "species", values_to = "amount")
   
-  colnames(puvspr_dat) <- c("pu", "species", "amount")
+  colnames(puvspr_dat) <- c("pu", "id_old", "campaign", "species", "amount")
   puvspr_dat$pu <- as.numeric(puvspr_dat$pu)
   
   puvspr_dat <- na.omit(puvspr_dat)
-
+  
   #spec_dat---------------------------------------------------------------------
   names(var) = set_var
   
@@ -651,9 +681,9 @@ calculate_opt_inputs <- function(drn, var){
   
   puvspr_dat_2021 <- puvspr_dat %>%
     left_join(spec_dat, by = c("species" = "name")) %>%
-    select(pu, id, amount)
-
-  colnames(puvspr_dat_2021) <- c("pu", "species", "amount")
+    select(pu, id, amount, campaign, id_old)
+  
+  colnames(puvspr_dat_2021) <- c("pu", "species", "amount", "campaign", "id_old")
   
   #boundary---------------------------------------------------------------------
   #boundary_dat <- read.table("data/data/STcon_pseudo_6.csv", sep = ";", header = TRUE)
@@ -683,12 +713,14 @@ calculate_opt_inputs <- function(drn, var){
     if(i == 1){
       data <- get_bioinformation(var_short, drn, period)
       
-      data_filtered <- data %>%
-        select(WP4, campaign, var_short) %>%
-        mutate(!!sym("WP4") := WP4 + campaign*multiplier + 600000) %>%
-        select(WP4, var_short)
+      data$id_old <- data$WP4
       
-      if(var_short %in% c("rich", "FD", "FR", "simp", "alpha", "beta", "gamma", "dem")){
+      data_filtered <- data %>%
+        select(WP4, id_old, campaign, var_short) %>%
+        mutate(!!sym("WP4") := WP4 + campaign*multiplier + 600000) %>%
+        select(WP4, id_old, campaign, var_short)
+      
+      if(var_short %in% c("rich", "FD", "FR", "simp", "temp_beta", "alpha", "beta", "gamma", "dem")){
         
         quantiles_var <- quantile(data_filtered[[var_short]], probs = c(0.5, 0.75, 0.90), na.rm = TRUE)
         
@@ -698,15 +730,16 @@ calculate_opt_inputs <- function(drn, var){
     }
     else{
       data_aux <- get_bioinformation(var_short, drn, period)
+      data_aux$id_old <- data_aux$WP4
       
       data_aux_filtered <- data_aux %>%
         #filter(campaign == 6) %>%
-        select(WP4, campaign, var_short) %>%
+        select(WP4, id_old, campaign, var_short) %>%
         mutate(!!sym("WP4") := WP4 + campaign*multiplier + 600000) %>%
-        select(WP4, var_short)
+        select(WP4, id_old, campaign, var_short)
       
       
-      if(var_short %in% c("rich", "FD", "FR", "simp", "alpha", "beta", "gamma", "dem")){
+      if(var_short %in% c("rich", "FD", "FR", "simp", "temp_beta", "alpha", "beta", "gamma", "dem")){
         
         quantiles_var <- quantile(data_aux_filtered[[var_short]], probs = c(0.5, 0.75, 0.90), na.rm = TRUE)
         
@@ -715,19 +748,20 @@ calculate_opt_inputs <- function(drn, var){
       }
       
       data_filtered = data_aux_filtered %>%
-        left_join(data_filtered, by = "WP4")
+        left_join(data_filtered, by = c("WP4", "id_old", "campaign"))
     }
   }
   
+ 
   puvspr_dat_2100 <- data_filtered %>%
-    tidyr::pivot_longer(!WP4, names_to = "species", values_to = "amount")
+    tidyr::pivot_longer(-c(WP4, id_old, campaign), names_to = "species", values_to = "amount")
   
-  colnames(puvspr_dat_2100) <- c("pu", "species", "amount")
+  colnames(puvspr_dat_2100) <- c("pu", "id_old", "campaign","species", "amount")
   puvspr_dat_2100$pu <- as.numeric(puvspr_dat_2100$pu)
   puvspr_dat_2100 <- na.omit(puvspr_dat_2100)
   puvspr_dat_2100$species <- str_c(puvspr_dat_2100$species, "_2100")
   
-
+  
   #spec_dat---------------------------------------------------------------------
   names(var) = set_var
   
@@ -738,9 +772,9 @@ calculate_opt_inputs <- function(drn, var){
   
   puvspr_dat_2100 <- puvspr_dat_2100 %>%
     left_join(spec_dat_2100, by = c("species" = "name")) %>%
-    select(pu, id, amount)
+    select(pu, id, amount, campaign, id_old)
   
-  colnames(puvspr_dat_2100) <- c("pu", "species", "amount")
+  colnames(puvspr_dat_2100) <- c("pu", "species", "amount", "campaign", "id_old")
   
   puvspr_dat <- rbind(puvspr_dat_2021, puvspr_dat_2100)
   spec_dat <- rbind(spec_dat, spec_dat_2100)
@@ -771,85 +805,81 @@ optimizing <- function(drn, var, blm){
   
   last_sol <<- sol
   
-  update_map_opt(drn, sol, drn_country)
+  update_map_opt(drn, sol, drn_country, var)
+  
+  calculate_cons_rest(drn, var)
   
 }
 
 
-# Update the map using the information of Indicator
-# update_map_opt <- function(drn, sol, drn_country){
-#   
-#   shape <- get_shape(drn)
-# 
-#   data_filtered <- sol %>%
-#     select(id, solution_1)
-#   
-#   data_filtered <- data_filtered %>%
-#     mutate(WP4 = as.numeric(substr(id, nchar(id) - 3, nchar(id)))) %>%
-#     mutate(campaign = substr(id, nchar(1), nchar(1)))
-#   
-#   #Only frec of campaings in the best solution
-#   data_filtered <- data_filtered %>%
-#     group_by(WP4) %>%
-#     summarise(solution_1 = sum(solution_1)) %>%
-#     select(WP4, solution_1)
-#   
-# 
-#   shape_var <- terra::merge(shape, data_filtered, by.x = "ID", by.y = "WP4", all.x=TRUE)
-#   shape_var$inter = ifelse(shape_var$regine_rea == "perennial", 1, 5)
-#   
-#   ##palette
-#   levels(shape_var$solution_1) <- c(0,1)
-#   pal <- colorFactor(palette="Reds", domain=shape_var[["solution_1"]][,1], na.color="orange")
-#   #pal <- colorBin(palette="Blues", domain=data[,solution_1], na.color="orange")
-#   title_legend <- ""
-#   
-#   
-#   popup_map <- sprintf(
-#     "<strong>ID %s</strong><br/>
-#          Value: %g <br/>",
-#     shape_var$ID, 
-#     shape_var[["solution_1"]][,1]) %>% 
-#     lapply(htmltools::HTML)
-#   
-#   leafletProxy("map_opt", data = shape_var) %>%
-#     clearControls() %>%
-#     addPolylines(group = "Base",
-#                  weight = 3, 
-#                  color = ~pal(shape_var[["solution_1"]][,1]),
-#                  fill = FALSE, 
-#                  opacity = 1,
-#                  popup = popup_map,
-#                  dashArray = ~inter,
-#                  layerId = ~ID, 
-#                  highlightOptions = highlightOptions(
-#                    weight = 5,
-#                    bringToFront = TRUE,
-#                    sendToBack = TRUE)
-#     )%>%
-#     addLegend(group = "Base",
-#               pal = pal,
-#               title = title_legend,
-#               values = shape_var[["solution_1"]][,1],
-#               opacity = 1,
-#               position = "topright") %>%
-#     leaflet.extras2::addEasyprint(options = easyprintOptions(
-#       title = 'Print map',
-#       position = 'bottomright',
-#       exportOnly = TRUE, 
-#       sizeModes = "A4Landscape"))
-# }
+calculate_cons_rest <- function(drn, var){
+  
+  input_data <- calculate_opt_inputs(drn, var)
+  
+  # data_filtered_2100 <- input_data$puvspr_dat_2100 %>%
+  #   mutate(WP4 = as.numeric(substr(pu, nchar(pu) - 3, nchar(pu)))) %>%
+  #   mutate(campaign = substr(pu, nchar(1), nchar(1))) %>%
+  #   select(WP4, species, amount, campaign, id_old)
+  # 
+  data_filtered_2100 <- input_data$puvspr_dat_2100 %>%
+    rename(WP4 = id_old) %>%
+    #mutate(campaign = substr(pu, nchar(1), nchar(1))) %>%
+    select(WP4, species, amount, campaign)
+  
+  data_filtered_2100$period <- "2100"
+  
+  data_filtered_2100 <- data_filtered_2100 %>%
+    left_join(input_data$spec_dat, by = c("species" = "id")) %>%
+    mutate(name = gsub("_2100$", "", name))
+  
+  
+  data_filtered_2021 <- input_data$puvspr_dat_2021 %>%
+    rename(WP4 = id_old) %>%
+    #mutate(WP4 = as.numeric(substr(pu, nchar(pu) - 3, nchar(pu)))) %>%
+    #mutate(campaign = substr(pu, nchar(1), nchar(1))) %>%
+    select(WP4, species, amount, campaign)
+  
+  data_filtered_2021$period <- "2021"
+  
+  data_filtered_2021 <- data_filtered_2021 %>%
+    left_join(input_data$spec_dat, by = c("species" = "id")) %>%
+    mutate(name = gsub("_2100$", "", name))
+  
+  
+   data_species <- rbind(data_filtered_2100, data_filtered_2021)
+  
 
-update_map_opt <- function(drn, sol, drn_country){
+  # Group by WP4, campaign, name, and period, then summarize the amount
+  df_summarized <- data_species %>%
+    group_by(WP4, campaign, name, period) %>%
+    summarize(total_amount = sum(amount)) 
+  
+  # Spread the periods into separate columns to calculate the difference
+  df_wide <- df_summarized %>%
+    tidyr::pivot_wider(names_from = period, values_from = total_amount, names_prefix = "period_") %>%
+    mutate(difference = period_2100 - period_2021) %>%
+    group_by(WP4, name) %>%
+    summarize(total_difference = sum(difference), .groups = 'drop')
+  
+  df_wide <- df_wide %>%
+    group_by(WP4) %>%
+    summarize(total_difference_all = sum(total_difference), .groups = 'drop')
+
+  
+  return(df_wide)
+}
+
+
+update_map_opt <- function(drn, sol, drn_country, var){
   
   shape <- get_shape(drn)
+  cons_rest <- calculate_cons_rest(drn, var)
   
   data_filtered <- sol %>%
-    select(id, solution_1)
-  
-  data_filtered <- data_filtered %>%
-      mutate(WP4 = as.numeric(substr(id, nchar(id) - 3, nchar(id)))) %>%
-      mutate(campaign = substr(id, nchar(1), nchar(1)))
+    select(id, solution_1, id_old, campaign) %>%
+    rename(WP4 = id_old)
+      #mutate(WP4 = as.numeric(substr(id, nchar(id) - 3, nchar(id)))) %>%
+      #mutate(campaign = substr(id, nchar(1), nchar(1)))
 
   data_filtered <- data_filtered %>%
       group_by(WP4) %>%
@@ -861,70 +891,56 @@ update_map_opt <- function(drn, sol, drn_country){
   int <- read.table("data/data/regine_reaches.csv", sep = ",", header = TRUE)
   b_int <- left_join(data_filtered,int, by="ID") #join intermittence with freq 
   
-
-  
-  # 
-  # 
-  # 
-  # data_filtered_2100 <- data_filtered %>%
-  #   filter(id >= 600000) %>%
-  #   mutate(WP4 = as.numeric(substr(id, nchar(id) - 3, nchar(id)))) %>%
-  #   mutate(campaign = substr(id, nchar(1), nchar(1)))
-  # 
-  # 
-  # 
-  # data_filtered_2021 <- data_filtered %>%
-  #   filter(id < 600000) %>%
-  #   mutate(WP4 = as.numeric(substr(id, nchar(id) - 3, nchar(id)))) %>%
-  #   mutate(campaign = substr(id, nchar(1), nchar(1)))
-  # 
-  
-  
   shape_var <- terra::merge(shape, data_filtered, by.x = "ID", by.y = "ID", all.x=TRUE)
   shape_var$inter = ifelse(shape_var$regine_rea == "perennial", 1, 5)
+  
+  shape_var <- terra::merge(shape_var, cons_rest, by.x = "ID", by.y = "WP4", all.x=TRUE)
   
   ##palette
   levels(shape_var$solution_1) <- c(0,1)
   pal <- colorFactor(palette="Reds", domain=shape_var[["solution_1"]][,1], na.color="orange")
   #pal <- colorBin(palette="Blues", domain=data[,solution_1], na.color="orange")
+  
+  
+  # Define two palettes
+  shape_var$manage <- ifelse(shape_var$total_difference_all > 0, "Conservation", ifelse(shape_var$total_difference_all < 0, "Restauration", "No recomendation"))
+  
   title_legend <- ""
   
   
   popup_map <- sprintf(
     "<strong>ID %s</strong><br/>
          Value: %g <br/>
-         Type: %s <br/>",
+         Type: %s <br/>
+         Potential for: %s <br/>",
     shape_var$ID, 
     shape_var[["solution_1"]][,1],
-    shape_var$regine_rea) %>% 
+    shape_var$regine_rea,
+    shape_var$manage) %>% 
     lapply(htmltools::HTML)
-  
+
+
   leafletProxy("map_opt", data = shape_var) %>%
     clearControls() %>%
     addPolylines(group = "Base",
-                 weight = 3, 
-                 color = ~pal(shape_var[["solution_1"]][,1]),
-                 fill = FALSE, 
+                 weight = 3,
+                 color = ~pal(shape_var$solution_1),
+                 fill = FALSE,
                  opacity = 1,
                  popup = popup_map,
                  dashArray = ~inter,
-                 layerId = ~ID, 
+                 layerId = ~ID,
                  highlightOptions = highlightOptions(
                    weight = 5,
                    bringToFront = TRUE,
                    sendToBack = TRUE)
     )%>%
-    addLegend(group = "Base",
+    addLegend(group = "Base2",
               pal = pal,
               title = title_legend,
-              values = shape_var[["solution_1"]][,1],
+              values = shape_var$solution_1,
               opacity = 1,
-              position = "topright") %>%
-    leaflet.extras2::addEasyprint(options = easyprintOptions(
-      title = 'Print map',
-      position = 'bottomright',
-      exportOnly = TRUE, 
-      sizeModes = "A4Landscape"))
+              position = "topright")
 }
 
 
@@ -934,17 +950,19 @@ figure_targets_reached <- function(drn, var, id){
   input_data <- calculate_opt_inputs(drn, var)
   
   data_filtered_2100 <- input_data$puvspr_dat_2100 %>%
+    rename(WP4 = id_old) %>%
     #filter(pu >= 600000) %>%
-    mutate(WP4 = as.numeric(substr(pu, nchar(pu) - 3, nchar(pu)))) %>%
-    mutate(campaign = substr(pu, nchar(1), nchar(1))) %>%
+    # mutate(WP4 = as.numeric(substr(pu, nchar(pu) - 3, nchar(pu)))) %>%
+    # mutate(campaign = substr(pu, nchar(1), nchar(1))) %>%
     select(WP4, species, amount, campaign)
   
   data_filtered_2100$period <- "2100"
 
   data_filtered_2021 <- input_data$puvspr_dat_2021 %>%
+    rename(WP4 = id_old) %>%
     #filter(pu < 600000) %>%
-    mutate(WP4 = as.numeric(substr(pu, nchar(pu) - 3, nchar(pu)))) %>%
-    mutate(campaign = substr(pu, nchar(1), nchar(1))) %>%
+    # mutate(WP4 = as.numeric(substr(pu, nchar(pu) - 3, nchar(pu)))) %>%
+    # mutate(campaign = substr(pu, nchar(1), nchar(1))) %>%
     select(WP4, species, amount, campaign)
   
   data_filtered_2021$period <- "2021"
@@ -983,12 +1001,20 @@ figure_targets_reached <- function(drn, var, id){
     mutate(name = gsub("_2100$", "", name)) %>%
     mutate(contribution = sum_species_wp4/(total_sum_species*prop))
   
+  variables <- data.frame(
+    name = variables_short,
+    long_name = variables_long
+  )
+  
+  # Perform the left join
+  prop_data <- prop_data %>%
+    left_join(variables, by = "name")
 
   # long_title = paste0("Comparation of the temporal trend of ",var_long, " between ", "2020 and ", period)
   # wrapped_title <- str_wrap(long_title, width = max_width)
   # dom_summary = get_difference_domain_bioinformation(var, drn)
   #   
-  p1 <- ggplot(prop_data, aes(x = factor(name), y = contribution, fill = factor(period))) +
+  p1 <- ggplot(prop_data, aes(x = factor(long_name), y = contribution, fill = factor(period))) +
     geom_bar(stat = "identity", position = "dodge") +
     labs(
       title = "Contribution of the river section to the conservation target",
@@ -1013,11 +1039,12 @@ figure_inter_reached <- function(drn){
   shape <- get_shape(drn)
   
   data_filtered <- last_sol %>%
-    select(id, solution_1)
-  
-  data_filtered <- data_filtered %>%
-    mutate(WP4 = as.numeric(substr(id, nchar(id) - 3, nchar(id)))) %>%
-    mutate(campaign = substr(id, nchar(1), nchar(1)))
+    select(id, solution_1, id_old, campaign) %>%
+    rename(WP4 = id_old)
+
+  # data_filtered <- data_filtered %>%
+  #   mutate(WP4 = as.numeric(substr(id, nchar(id) - 3, nchar(id)))) %>%
+  #   mutate(campaign = substr(id, nchar(1), nchar(1)))
   
   data_filtered <- data_filtered %>%
     group_by(WP4, campaign) %>%

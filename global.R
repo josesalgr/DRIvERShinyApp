@@ -9,7 +9,6 @@ library(shinydashboardPlus)
 library(shinyjs)
 library(waiter)
 library(sf)
-library(ggiraph)
 library(ggplot2)
 library(plotly)
 library(patchwork)
@@ -47,27 +46,8 @@ drns_long <- c(" ","Albarine (France)")
 drns_short <- c(" ","Albarine")
 drns_countries <- c(" ","France")
 
-indicators_long <- c(
-  "RelInt: Proportion of river length with intermittent conditions [%]",
-  "RelFlow: Proportion of river length with flowing conditions [%]",
-  "PatchC: Proportion of reach length with changing flowing and intermittent conditions compared to adjacent downstream reaches [%]",
-  "conD: Number of days with dry conditions",
-  "conF: Number of days with flowing conditions",
-  "durD: Maximum number of consecutive days with dry conditions",
-  "durF: Maximum number of consecutive days with flowing conditions",
-  "numFreDr: Absolute number of drying events",
-  "numFreRW: Absolute number of rewetting events",
-  "FstDrE: Julian day of first drying event per year [1-366]",
-  "Temp: Temperature [°C]",
-  "Precip: Precipitation [mm]",
-  "ET: Evapotranspiration [mm]"
-)
-indicators_short <- c( "RelInt","RelFlow","PatchC",
-                       "conD","conF","durD","durF","numFreDr","numFreRW",
-                       "FstDrE", "Temp","Precip","ET")
-
 variables_short <- c(" ","rich", "simp", "FD",	
-                     "FR", "alpha", "beta", "gamma",
+                     "FR", "temp_beta", "alpha", "beta", "gamma",
                      "dem", "co2",
                      "dr_lr", "dr_ss", "er_rip",
                      "er_sl", "flo_rip", "flo_sl", "th_reg")
@@ -75,7 +55,8 @@ variables_short <- c(" ","rich", "simp", "FD",
 variables_long <- c(" ","Predicted richness", 
                     "Predicted inverse simpson diversity",
                     "Predicted functional diversity",	
-                    "Predicted functional richness", 
+                    "Predicted functional richness",
+                    "Temporal Beta diversity",
                     "Alpha diversity",
                     "Beta diversity",
                     "Gamma diversity",

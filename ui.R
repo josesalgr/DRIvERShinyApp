@@ -14,21 +14,20 @@ sidebar <- dashboardSidebar(
     menuItem("Data exploration", tabName = "tab_map", icon = icon("picture", lib = "glyphicon")),
     menuItem("Optimization", tabName = "tab_opt", icon = icon("cog", lib = "glyphicon")),
     
-
-    selectInput("drn", label = tags$span(
-      "River network", 
-      tags$i(
-        class = "glyphicon glyphicon-info-sign", 
-        style = "color:#FFBF00;",
-        title = "Information about things"
-      )),
-      choices = drns_long,
-      selected = " "),
-    
     hr(),
     
     conditionalPanel(
       condition = "input.tabs == 'tab_map'",
+      
+      selectInput("drn_map", label = tags$span(
+        "River network", 
+        tags$i(
+          class = "glyphicon glyphicon-info-sign", 
+          style = "color:#FFBF00;",
+          title = "Information about things"
+        )),
+        choices = drns_long,
+        selected = " "),
       
       
       shinyjs::disabled(
@@ -40,9 +39,9 @@ sidebar <- dashboardSidebar(
                               style = "color:#FFBF00;",
                               title = "Information about things"
                             )),
-                    choices = list('Aquatic Macroinvertebrates biodiversity' = variables_long[1:8],
-                                   'Ecological Functions' = variables_long[9:10],
-                                   'Ecosystem Services' = variables_long[11:16]),
+                    choices = list('Aquatic Macroinvertebrates biodiversity' = variables_long[2:9],
+                                   'Ecological Functions' = variables_long[10:11],
+                                   'Ecosystem Services' = variables_long[12:17]),
                     selected = " ")),
       
       shinyjs::disabled(
@@ -76,6 +75,16 @@ sidebar <- dashboardSidebar(
       #  size = "mini"
       #),
       
+      selectInput("drn_opt", label = tags$span(
+        "River network", 
+        tags$i(
+          class = "glyphicon glyphicon-info-sign", 
+          style = "color:#FFBF00;",
+          title = "Information about things"
+        )),
+        choices = drns_long,
+        selected = " "),
+      
       theme = bslib::bs_theme(5),
       # make sure that js and css are set and added
       tags$head(tags$style(css)),
@@ -84,9 +93,9 @@ sidebar <- dashboardSidebar(
       weightedPickerInput(
         id = "features",
         label = "Selected features:", 
-        choices = list('Aquatic Macroinvertebrates biodiversity' = variables_long[2:8],
-                       'Ecological Functions' = variables_long[9:10],
-                       'Ecosystem Services' = variables_long[11:16]),
+        choices = list('Aquatic Macroinvertebrates biodiversity' = variables_long[2:9],
+                       'Ecological Functions' = variables_long[10:11],
+                       'Ecosystem Services' = variables_long[12:17]),
         selected = NULL
       ),
       
@@ -112,7 +121,7 @@ sidebar <- dashboardSidebar(
       
       noUiSliderInput(
         inputId = "blm", label = "Aggregation:",
-        min = 0, max = 100,
+        min = 0, max = 10,
         value = 0, tooltips = TRUE,
         step = 0.01, orientation = "horizontal",
         color = "forestgreen", inline = FALSE,
@@ -359,7 +368,7 @@ and Outcomes 7: e77750. <a href="https://doi.org/10.3897/rio.7.e77750" target="_
 
             absolutePanel(id = "controls_opt", class = "panel panel-default", fixed = FALSE,
                           draggable = FALSE, top = 60, left = 290, right = "auto", bottom = 0,
-                          width = 500, height = 310, #310
+                          width = 600, height = 310, #310
                           
                           column(12, tabsetPanel(id="plot_tabs"),
                                  div(style = "margin-top: 0px;",
@@ -367,7 +376,7 @@ and Outcomes 7: e77750. <a href="https://doi.org/10.3897/rio.7.e77750" target="_
             ),
 
             absolutePanel(id = "controls_opt", class = "panel panel-default", fixed = FALSE,
-                          draggable = FALSE, top = 60, left = 795, right = "auto", bottom = 0,
+                          draggable = FALSE, top = 60, left = 895, right = "auto", bottom = 0,
                           width = 360, height = 310, #310
                           
                           div(class = "center-content",
