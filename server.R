@@ -105,274 +105,13 @@ server <- function(input, output, session) {
     p_map
   })
   
-  ### Results exploration
-  ## Selected options (find short names)
-  selected_drn <- reactive({
-    k_drn <- which(drns_long == input$drn)
-    drns_short[k_drn]
-  })
-  
-  selected_indicator <- reactive({
-    k_ind <- which(indicators_long == input$indicator)
-    indicators_short[k_ind]
-  })
-  
-  selected_ssp_plot3 <- reactive({
-    k_ssp <- which(ssp_long == input$ssp_plot3)
-    ssp_short[k_ssp]
-  })
-  
-  selected_ssp_plot10 <- reactive({
-    k_ssp <- which(ssp_long == input$ssp_plot10)
-    ssp_short[k_ssp]
-  })
-  
-  selected_gcm_plot10 <- reactive({
-    k_gcm <- which(gcm_long == input$gcm_plot10)
-    gcm_short[k_gcm]
-  })
-  
-  toListen <- reactive({
-    list(input$indicator,input$drn,input$dataset)
-  })
-  
-  observeEvent(toListen(), {
-    session$sendCustomMessage(type = 'plot6_set', message = character(0))
-  })
-  
-  observeEvent(toListen(), {
-    session$sendCustomMessage(type = 'plot10_set', message = character(0))
-  })
-  
-  ## Dynamic boxes
-  # Box 1 : interannual variability (Network indicators)
-  output[["box1"]] <- renderUI({
-    if(selected_indicator() %in% network_ind_Y)
-    {
-      if(input$dataset == "Observed (1960-2021)"){
-        box(title = "Inter-annual variability", width = 6, status = "primary", solidHeader = TRUE,
-            plotlyOutput("plot1")
-        )
-      }else{
-        tabBox(title = "Inter-annual variability", side="right",
-               tabPanel("Continuous",
-                        plotlyOutput("plot2")),
-               tabPanel("By periods",
-                        selectInput("ssp_plot3", label = "Scenario", choices = ssp_long),
-                        plotOutput("plot3"))
-        )
-      }
-    }
-  })
-  
-  # Box 2 : seasonal pattern (Network indicators)
-  output[["box2"]] <- renderUI({
-    if(selected_indicator() %in% network_ind_M)
-    {
-      box(title = "Seasonal pattern", width = 6, status = "primary", solidHeader = TRUE,
-          if(input$dataset == "Observed (1960-2021)"){
-            plotlyOutput("plot4")
-          }else{
-            plotlyOutput("plot5")
-          }
-      )
-    }
-  })
-  
-  # Box 3 : spatial pattern (Reach indicators)
-  output[["box3"]] <- renderUI({
-    if((selected_indicator() %in% reach_ind_Y) & input$dataset == "Observed (1960-2021)")
-    {
-      if(selected_indicator() %in% reach_ind_M)
-      {
-        tabBox(title = "Spatial pattern", side="right",
-               tabPanel("Time aggregation",
-                        selectInput("period_aggr_plot6", label = "Period", choices = c("Annual","January","February","March","April","May","June","July","August","September","October","November","December")),
-                        girafeOutput("plot6"),
-                        "Click on a reach to plot its flow intermittence pattern."
-               ),
-               tabPanel("By date",
-                        fluidRow(
-                          column(width=3,selectInput("year_plot7", label = "Year", choices = 1960:2021)),
-                          column(width=3,selectInput("month_plot7", label = "Month", choices = c("Annual","January","February","March","April","May","June","July","August","September","October","November","December")))
-                        ),
-                        girafeOutput("plot7"))
-        )
-      }else{
-        tabBox(title = "Spatial pattern", side="right",
-               tabPanel("Time aggregation",
-                        girafeOutput("plot6"),
-                        "Click on a reach to plot its flow intermittence pattern."),
-               tabPanel("By date",
-                        selectInput("year_plot7", label = "Year", choices = 1960:2021),
-                        girafeOutput("plot7"))
-        )
-      }
-    }else if ((selected_indicator() %in% reach_ind_Y) & input$dataset == "Projections (1985-2100)")
-    {
-      box(title = "Evolution of the spatial pattern", width = 12, status = "primary", solidHeader = TRUE,
-          fluidRow(
-            column(width=6,selectInput("ssp_plot10", label = "Scenario", choices = ssp_long)),
-            column(width=3,selectInput("gcm_plot10", label = "GCM", choices = gcm_long))
-          ),
-          fluidRow(
-            column(width = 12,
-                   girafeOutput("plot10", width="auto", height="auto"))
-          ),
-          "Click on a reach to plot its evolution under climate change.")
-    }
-  })
-  
-  # Box 4 : inter-annual variability and seasonal pattern for a specific reach (Reach indicators)
-  output[["box4"]] <- renderUI({
-    if(length(input$plot6_selected) > 0)
-    {
-      tabBox(title = paste0("Reach ",input$plot6_selected), side="right",
-             tabPanel("Inter-annual variability",
-                      plotlyOutput("plot8")),
-             tabPanel("Seasonal pattern",
-                      if(selected_indicator() %in% reach_ind_M)
-                      {
-                        plotlyOutput("plot9")
-                      }else{
-                        textOutput("text9")
-                      }
-             )
-      )
-    }else if(length(input$plot10_selected) > 0)
-    {
-      tabBox(title = paste0("Reach ",input$plot10_selected," projections"), side="right",
-             tabPanel("Continuous",
-                      plotlyOutput("plot11")),
-             tabPanel("By period",
-                      plotOutput("plot12")),
-             tabPanel("Seasonal pattern",
-                      if(selected_indicator() %in% reach_ind_M)
-                      {
-                        plotlyOutput("plot13")
-                      }else{
-                        textOutput("text9")
-                      })
-      )
-    }
-  })
-  
-  ## Plots
-  # Network yearly time series (observed period)
-  output[["plot1"]] <- renderPlotly({
-    p1 <- figure_1(selected_drn(), input$drn, selected_indicator(), input$indicator)
-    ggplotly(p1)
-  })
-  
-  # Network yearly time series (projections)
-  output[["plot2"]] <- renderPlotly({
-    p2 <- figure_2(selected_drn(), input$drn, selected_indicator(), input$indicator)
-    ggplotly(p2)
-  })
-  
-  # Network yearly by periods (projections)
-  output[["plot3"]] <- renderPlot({
-    p3 <- figure_3(selected_drn(), input$drn, selected_indicator(), input$indicator, selected_ssp_plot3())
-    p3
-  })
-  
-  # Network seasonal pattern (observed period)
-  output[["plot4"]] <- renderPlotly({
-    p4 <- figure_4(selected_drn(), input$drn, selected_indicator(), input$indicator)
-    ggplotly(p4)
-  })
-  
-  # Network seasonal pattern (projections)
-  output[["plot5"]] <- renderPlotly({
-    p5 <- figure_5(selected_drn(), input$drn, selected_indicator(), input$indicator)
-    ggplotly(p5)
-  })
-  
-  # Spatial pattern aggregated (observed period)
-  output[["plot6"]] <- renderGirafe({
-    if(selected_indicator()  %in% reach_ind_M)
-    {
-      p6 <- figure_6(selected_drn(), input$drn, selected_indicator(), input$indicator, input$period_aggr_plot6)
-    }else{
-      p6 <- figure_6_FstDrE(selected_drn(), input$drn, selected_indicator(), input$indicator)
-    }
-    
-    x6 <- girafe(ggobj = p6)
-    x6 <- girafe_options(x6,
-                         opts_selection(type = "single",
-                                        css = "color:red;stroke:red;r:5pt;"))
-  })
-  
-  # Spatial pattern by date (observed period)
-  output[["plot7"]] <- renderGirafe({
-    if(selected_indicator()  %in% c("conD","conF","numFreDr","numFreRW"))
-    {
-      p7 <- figure_7(selected_drn(), input$drn, selected_indicator(), input$indicator, input$year_plot7, input$month_plot7)
-    }else if(selected_indicator()  %in% c("durD","durF")){
-      p7 <- figure_7_dur(selected_drn(), input$drn, selected_indicator(), input$indicator, input$year_plot7, input$month_plot7)
-    }else{
-      p7 <- figure_7_FstDrE(selected_drn(), input$drn, selected_indicator(), input$indicator, input$year_plot7)
-    }
-    
-    x7 <- girafe(ggobj = p7)
-    x7 <- girafe_options(x7,
-                         opts_selection(type = "none",
-                                        css = "color:red;stroke:red;r:5pt;"))
-  })
-  
-  # Reach yearly time series (observed period)
-  output[["plot8"]] <- renderPlotly({
-    p8 <- figure_8(selected_drn(), input$drn, selected_indicator(), input$indicator, input$plot6_selected)
-    ggplotly(p8)
-  })
-  
-  # Reach seasonal pattern (observed period)
-  output[["plot9"]] <- renderPlotly({
-    p9 <- figure_9(selected_drn(), input$drn, selected_indicator(), input$indicator, input$plot6_selected)
-    ggplotly(p9)
-  })
-  output$text9 <- renderText({"There is no seasonal pattern for this indicator."})
-  
-  # Spatial pattern yearly aggregated (projections)
-  output[["plot10"]] <- renderGirafe({
-    p10 <- figure_10(selected_drn(), input$drn, selected_indicator(), input$indicator, selected_ssp_plot10(), selected_gcm_plot10())
-    
-    # x10 <- wrap_plots(p10)
-    x10 <- p10[[1]]+p10[[2]]
-    x10 <- girafe(ggobj = x10)
-    x10 <- girafe_options(x10,
-                          opts_selection(type = "single",
-                                         css = "color:red;stroke:red;r:5pt;"))
-    x10
-  })
-  
-  # Reach yearly time series (projections)
-  output[["plot11"]] <- renderPlotly({
-    p11 <- figure_11(selected_drn(), input$drn, selected_indicator(), input$indicator, input$plot10_selected)
-    ggplotly(p11)
-  })
-  
-  # Reach yearly by periods (projections)
-  output[["plot12"]] <- renderPlot({
-    p12 <- figure_12(selected_drn(), input$drn, selected_indicator(), input$indicator, input$plot10_selected, selected_ssp_plot10())
-    p12
-  })
-  
-  # Reach seasonal pattern (projections)
-  output[["plot13"]] <- renderPlotly({
-    p13 <- figure_13(selected_drn(), input$drn, selected_indicator(), input$indicator, input$plot10_selected)
-    ggplotly(p13)
-  })
-  
-  
-
   # DATA VISUALIZATION----------------------------------------------------------
 
   # Plot interactive map of the river network (data)
   output[["map_data"]] <- renderLeaflet({
 
     enable("drn_map")
-
+    
     p <- leaflet() %>%
       addProviderTiles(providers$CartoDB.Positron, group = "CartoDB") %>%
       addProviderTiles(providers$Esri.WorldShadedRelief, group = "Elevation") %>%
@@ -390,14 +129,15 @@ server <- function(input, output, session) {
       ) %>% leafem::addMouseCoordinates()
     
     updateSelectInput(session, "drn_map", choices = drns_long[-1], selected = "Albarine (France)")
-    updateSelectInput(session, "Variable", choices = variables_long[-1], selected = "Predicted richness")
-
-    # print(input$drn)
-
+    updatePickerInput(session, "Variable", choices = list('Aquatic Macroinvertebrates biodiversity' = variables_long[2:5],
+                                                          'Ecological Functions' = variables_long[6:7],
+                                                          'Ecosystem Services' = variables_long[8:13]),
+                      selected = " ")
+    
     return(p)
   })
 
-  ## Select bottom River network
+  ## Select bottom River network in Data exploration tab
   observeEvent(input$drn_map, {
     
     if(input$drn_map != " "){
@@ -416,12 +156,15 @@ server <- function(input, output, session) {
       # Enable SelectInput "Scale"
       shinyjs::enable("Scale")
       
-
-      
+      updatePickerInput(session, "Variable", choices = list('Aquatic Macroinvertebrates biodiversity' = variables_long[2:5],
+                                                            'Ecological Functions' = variables_long[6:7],
+                                                            'Ecosystem Services' = variables_long[8:13]),
+                        selected = " ")
+    
     }
   })
   
-  ## Select bottom River network
+  ## Select bottom River network in Optimization tab
   observeEvent(input$drn_opt, {
     
     if(input$drn_opt != " "){
@@ -435,20 +178,18 @@ server <- function(input, output, session) {
                   "map_opt")
       
       # Enable SelectInput "Variable"
-      shinyjs::enable("Variable")
+      shinyjs::enable("optimize")
       
-      # Enable SelectInput "Scale"
-      shinyjs::enable("Scale")
-      
-      
-      
+      shinyjs::enable("downloadPDF")
+  
+      cons_optimize <<- 0
     }
   })
   
   ## Update range
   observeEvent(input$range, {
     
-    if(input$drn_map != " " && input$Variable != " "){
+    if(input$drn_map != " " && !is.null(input$Variable) && input$Variable != " "){
       #update_range(drns_short[which(drns_long == input$drn)], input$range)
       
       id_range = which(input$range == campaign_list)
@@ -467,9 +208,9 @@ server <- function(input, output, session) {
   ## Update Variable SelectInput
   observeEvent(input$Variable, {
 
-    if(input$Variable != " " && input$drn_map != " "){
+    if(input$Variable != " " & input$drn_map != " "){
       
-      shinyjs::show("plotly1")
+      # shinyjs::show("plotly1")
 
       
       drns = drns_short[which(drns_long == input$drn_map)]
@@ -485,7 +226,7 @@ server <- function(input, output, session) {
       }
       
       id_range = which(input$range == campaign_list)
-        
+
       update_map_data(drns, 
                    variables_short[which(variables_long == input$Variable)],
                    id_range,
@@ -513,7 +254,7 @@ server <- function(input, output, session) {
       shinyjs::disable("Compare")
     }
     
-    if(input$Variable != " " && input$drn_map != " "){
+    if(input$Variable != " " && !is.null(input$Variable) && input$drn_map != " "){
       
       drns = drns_short[which(drns_long == input$drn_map)]
       period = scale_list_short[which(scale_list == input$Scale)]
@@ -534,9 +275,7 @@ server <- function(input, output, session) {
   observeEvent(input$Compare, {
     
     #if(input$Compare){
-    if(input$Variable != " " && input$drn_map != " "){
-      
-      
+    if(input$Variable != " " && !is.null(input$Variable) && input$drn_map != " "){
       
       drns = drns_short[which(drns_long == input$drn_map)]
       period = scale_list_short[which(scale_list == input$Scale)]
@@ -555,9 +294,9 @@ server <- function(input, output, session) {
   ## Network time series (observed period)
   output[["plotly2"]] <- renderPlotly({
     
-    click_shape <- input$map_data_shape_click
-    
-    if(input$Variable != " " && input$drn_map != " " && input$Scale != " "){
+    if(input$Variable != " " && !is.null(input$Variable) && input$drn_map != " " && input$Scale != " "){
+      
+      click_shape <- input$map_data_shape_click
       
       id_range = which(input$range == campaign_list)
       
@@ -639,7 +378,7 @@ server <- function(input, output, session) {
       sync_first <<- FALSE
     }
 
-    updateSelectInput(session, "drn_opt", choices = drns_long[-1], selected = "Albarine (France)")
+    updateSelectInput(session, "drn_opt", choices = drns_long[-1], selected = drns_long[1])
     
     return(p)
 
@@ -661,7 +400,7 @@ server <- function(input, output, session) {
       state <- input$`features-stats_weights`
       weights <- state$weights
       
-      if(!is.null(weights)){
+      if(!is.null(weights) && is.list(weights) && length(weights) != 0){
         optimizing(drns_short[which(drns_long == input$drn_opt)],
                    weights,
                    input$blm)
@@ -690,7 +429,7 @@ server <- function(input, output, session) {
       file_name = paste0(drn, "_", var, "_", period, "_camp", id_range, ".shp")
       
       terra::writeVector(shape, filename = "shapefile.shp")
-      zip(zipfile='shapefile.zip', files=Sys.glob("shapefile.*"))
+      utils::zip(zipfile='shapefile.zip', files=Sys.glob("shapefile.*"))
       file.copy("shapefile.zip", file)
       if (length(Sys.glob("shapefile.*"))>0){
         file.remove(Sys.glob("shapefile.*"))
@@ -703,7 +442,7 @@ server <- function(input, output, session) {
     
     click_shape <- input$map_opt_shape_click
     
-    if(!is.null(click_shape) && input$drn_opt != " "){
+    if(!is.null(click_shape) && input$drn_opt != " " && cons_optimize == 1){
 
       state <- input$`features-stats_weights`
       weights <- state$weights
@@ -713,13 +452,14 @@ server <- function(input, output, session) {
                                 weights, 
                                 click_shape$id)
         
-        ggplotly(p1, width = 550, height = 300) %>%
-          layout(
-            margin = list(
-              b = 0  # bottom margin
+        if (!is.null(p1)) {
+          ggplotly(p1, width = 550, height = 300) %>%
+            layout(
+              margin = list(
+                b = 0  # bottom margin
+              )
             )
-          )
-        
+        }
       }
     }
   })
@@ -733,12 +473,117 @@ server <- function(input, output, session) {
     if(!is.null(click_shape) && input$drn_opt != " " && cons_optimize == 1){
       
       p1 <- figure_inter_reached(drns_short[which(drns_long == input$drn_opt)])
-      #   
-      # ggplotly(p1, width = 450, height = 300)
-      
 
     }
   })
 
+ 
+  output$downloadPDF <- downloadHandler(
+    filename = function() {
+      paste("plots-", Sys.Date(), ".pdf", sep = "")
+    },
+    content = function(file) {
+      
+      if(cons_optimize == 1){
+        
+        sol = last_sol[, c("solution_1")]
+        print(last_model)
+        
+        repr <- last_model$feature_abundances_in_planning_units()
+        targ <- last_model$feature_targets()
+
+        repr = as.data.frame(repr)
+        repr$cost <- round(repr$cost, 3)
+        repr$variable <- rownames(repr)
+        repr$target = round(targ$value, 3)
+        
+        repr <- repr %>%
+          mutate(
+            current = if_else(!grepl("_future$", variable), cost, NA_real_), 
+            future = if_else(grepl("_future$", variable), cost, NA_real_)  
+          ) %>%
+          mutate(variable = sub("_future$", "", variable)) %>%
+          group_by(variable) %>%
+          summarise(
+            current = max(current, na.rm = TRUE), 
+            future = max(future, na.rm = TRUE),
+            target = max(target, na.rm = TRUE)
+          ) %>%
+          mutate(variable_long = variables_long[match(variable, variables_short)]) %>%
+          select(variable_long, current, future, target) %>%
+          rename(Variable = variable_long)
+        
+        features_names <- last_model$feature_names()
+        features_names <- variables_long[match(features_names, variables_short)] 
+        features_names <- paste0(na.omit(features_names), collapse = ", ")
+        
+        n_line = -3.5
+        
+        pdf(file)
+        
+        # Insertar texto entre gráficos
+        plot.new()  # Crear un nuevo lienzo para el texto
+        title("REPORT", cex = 1.5, line = -1, col = "black") # Texto centrado en la página
+        
+        mtext(paste0("River network: ", input$drn_opt), side = 3, line = n_line, adj = 0)
+        
+        n_line = n_line-1.2
+        mtext(paste0("Number of planning units: ", last_model$number_of_planning_units()), side = 3, line = n_line, adj = 0)
+
+        wrapped_text <- strwrap(paste0("Features selected: ", features_names), width = 80)
+        n_line = n_line-1.2
+        for (i in seq_along(wrapped_text)) {
+          mtext(wrapped_text[i], side = 3, line = n_line, adj = 0)
+          n_line = n_line- 1
+        }
+        
+        n_line = n_line-0.2
+        mtext(paste0("Aggregation level: ", input$blm), side = 3, line = n_line, adj = 0)
+        
+        
+        #mtext(paste0("Features selected: ", features_names), side = 3, line = -3.5, adj = 0)
+        
+        
+        
+        plot.new() 
+        # Insertar la tabla en el PDF
+        mtext(paste0("Representativeness "), side = 3, line = -3.5, adj = 0)
+        grid.table(repr)
+        
+        state <- input$`features-stats_weights`
+        weights <- state$weights
+        
+        p1 <- update_map_opt_ggplot(drns_short[which(drns_long == input$drn_opt)],
+                              last_sol,
+                              weights)
+
+        print(p1)
+        
+        p1 <- figure_inter_reached_ggplot(drns_short[which(drns_long == input$drn_opt)])
+        
+        print(p1)
+        
+        click_shape <- input$map_opt_shape_click
+        
+        if(!is.null(click_shape) && input$drn_opt != " "){
+          
+          state <- input$`features-stats_weights`
+          weights <- state$weights
+          
+          if(!is.null(weights)){
+            p2 <- figure_targets_reached(drns_short[which(drns_long == input$drn_opt)],
+                                         weights, 
+                                         click_shape$id)
+          }
+          
+          print(p2)
+        }
+        
+        dev.off()
+      } else {
+        showNotification("Imposible to generate PDF: You need to run first a model.", type = "error")
+      }
+    }
+  )
 }
 

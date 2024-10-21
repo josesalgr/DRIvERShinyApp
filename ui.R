@@ -3,14 +3,13 @@
 header <- dashboardHeader(title = img(src = "DRYvER-Logo-1.png", height = 45, align = "left"))
 
 sidebar <- dashboardSidebar(
-  width = 270, collapsed = FALSE, 
+  width = 290, collapsed = FALSE, 
   sidebarMenu(id = "tabs",
     menuItem("General", tabName = "tab_main", icon = icon("home", lib = "glyphicon"),
              menuSubItem("About the DRYvER project","tab_dryver"),
              menuSubItem("DRYvER-OptimApp","tab_dryver-OptimApp")
     ),
     menuItem("DRYvER case studies", tabName = "tab_drns", icon = icon("map-marker", lib = "glyphicon")),
-    #menuItem("Results exploration", tabName = "tab_results", icon = icon("stats", lib = "glyphicon")),
     menuItem("Data exploration", tabName = "tab_map", icon = icon("picture", lib = "glyphicon")),
     menuItem("Optimization", tabName = "tab_opt", icon = icon("cog", lib = "glyphicon")),
     
@@ -24,25 +23,25 @@ sidebar <- dashboardSidebar(
         tags$i(
           class = "glyphicon glyphicon-info-sign", 
           style = "color:#FFBF00;",
-          title = "Information about things"
+          title = "Select the river network for analysis in the chosen region"
         )),
         choices = drns_long,
         selected = " "),
       
-      
-      shinyjs::disabled(
-        selectInput("Variable", 
-                    label = tags$span(
-                            "Indicator", 
-                            tags$i(
-                              class = "glyphicon glyphicon-info-sign", 
-                              style = "color:#FFBF00;",
-                              title = "Information about things"
-                            )),
-                    choices = list('Aquatic Macroinvertebrates biodiversity' = variables_long[2:9],
-                                   'Ecological Functions' = variables_long[10:11],
-                                   'Ecosystem Services' = variables_long[12:17]),
-                    selected = " ")),
+      pickerInput(
+        inputId = "Variable",
+        label = tags$span(
+                    "Indicator",
+                    tags$i(
+                    class = "glyphicon glyphicon-info-sign",
+                    style = "color:#FFBF00;",
+                    title = "Choose the indicator to display on the map"
+                    )),
+        choices = list('Aquatic Macroinvertebrates biodiversity' = variables_long[2:5],
+                       'Ecological Functions' = variables_long[6:7],
+                       'Ecosystem Services' = variables_long[8:13]),
+        selected = " "
+      ),
       
       shinyjs::disabled(
         selectInput("Scale", 
@@ -51,36 +50,22 @@ sidebar <- dashboardSidebar(
                       tags$i(
                         class = "glyphicon glyphicon-info-sign", 
                         style = "color:#FFBF00;",
-                        title = "Information about things"
+                        title = "Select between current data (2021) or future projections"
                       )),
                     choices = scale_list)),
-      #shinyjs::hidden(
-      #noUiSliderInput(
-      #   inputId = "percent", label = "Percentile",
-      #   min = 50, max = 100,
-      #   value = 75, tooltips = TRUE,
-      #   step = 5, orientation = "horizontal",
-      #   color = "forestgreen", inline = FALSE,
-      #   format = wNumbFormat(decimals = 0),
-      #   height = "15px", width = "250px"
-      # )),
-      
+
       absolutePanel(bottom = "2%", left = "40%", width = "100%", 
                     downloadButton("downloadData", "", style = "color: black;"))
     ),
     conditionalPanel(
       condition = "input.tabs == 'tab_opt'",
-      #switchInput(label = "Lock",
-      #  inputId = "Id016",
-      #  size = "mini"
-      #),
-      
+
       selectInput("drn_opt", label = tags$span(
         "River network", 
         tags$i(
           class = "glyphicon glyphicon-info-sign", 
           style = "color:#FFBF00;",
-          title = "Information about things"
+          title = "Select the river network for analysis in the chosen region"
         )),
         choices = drns_long,
         selected = " "),
@@ -92,35 +77,28 @@ sidebar <- dashboardSidebar(
       
       weightedPickerInput(
         id = "features",
-        label = "Selected features:", 
-        choices = list('Aquatic Macroinvertebrates biodiversity' = variables_long[2:9],
-                       'Ecological Functions' = variables_long[10:11],
-                       'Ecosystem Services' = variables_long[12:17]),
-        selected = NULL
+        label = tags$span(
+          "Features", 
+          tags$i(
+            class = "glyphicon glyphicon-info-sign", 
+            style = "color:#FFBF00;",
+            title = "Choose the variables to incorpore in the mathamtical optimization"
+          )),
+        choices = list('Aquatic Macroinvertebrates biodiversity' = variables_long[2:5],
+                       'Ecological Functions' = variables_long[6:7],
+                       'Ecosystem Services' = variables_long[8:13]),
+        selected = " "
       ),
-      
-      # pickerInput(
-      #   inputId = "features",
-      #   label = "Selected features:", 
-      #   choices = variables_short[-1],
-      #   multiple = TRUE,
-      #   options = list(
-      #     `actions-box` = TRUE,
-      #     `selected-text-format` = "count > 2")
-      # ),
-      # 
-      # noUiSliderInput(
-      #   inputId = "target", label = "Target:",
-      #   min = 0, max = 1,
-      #   value = 0, tooltips = TRUE,
-      #   step = 0.1, orientation = "horizontal",
-      #   color = "forestgreen", inline = FALSE,
-      #   format = wNumbFormat(decimals = 1),
-      #   height = "15px", width = "250px"
-      # ),
-      
+
       noUiSliderInput(
-        inputId = "blm", label = "Aggregation:",
+        inputId = "blm", 
+        label = tags$span(
+          "Agreggation", 
+          tags$i(
+            class = "glyphicon glyphicon-info-sign", 
+            style = "color:#FFBF00;",
+            title = "Choose the agreggation level of the solution"
+        )),
         min = 0, max = 10,
         value = 0, tooltips = TRUE,
         step = 0.01, orientation = "horizontal",
@@ -129,33 +107,20 @@ sidebar <- dashboardSidebar(
         height = "15px", width = "250px"
       ),
       
-      absolutePanel(bottom = "5%", left = "25%",
-      # actionBttn(
-      #   "optimize",
-      #   label = "Optimize",
-      #   icon("sliders"),
-      #   style = "bordered",
-      #   color = "success",
-      #   size = "md",
-      #   block = FALSE,
-      #   no_outline = TRUE,
-      # )
-      # 
-      loadingButton(
-        "optimize", 
-        label = "Optimize",
-        style = "background-color: forestgreen; border-color: forestgreen; font-size: 16px;",
-        loadingLabel = "Optimizing...",
+      absolutePanel(bottom = "5%", left = "15%",
+
+      shinyjs::disabled(
+        loadingButton(
+          "optimize", 
+          label = "Optimize",
+          style = "background-color: forestgreen; border-color: forestgreen; font-size: 16px;",
+          loadingLabel = "Optimizing...",
+        )
+      ),
+      shinyjs::disabled(
+        downloadButton("downloadPDF", "PDF")
       )
-      )),
-    
-    
-    shinyjs::hidden(
-    selectInput("indicator", label = "Indicator", choices = list('Climate' = indicators_long[11:13],
-                                                                 'Flow intermittence' = indicators_long[1:10]))),
-    
-    shinyjs::hidden(
-    selectInput("dataset", label = "Climate dataset", choices = c("Observed (1960-2021)","Projections (1985-2100)")))
+      ))
   )
 )
 
@@ -296,26 +261,27 @@ and Outcomes 7: e77750. <a href="https://doi.org/10.3897/rio.7.e77750" target="_
             ##########################################################################
             chooseSliderSkin("Flat", color = "green"),
               
-            absolutePanel(bottom = "0%", left = "50%",
+            absolutePanel(bottom = "0%", right = "40%",
                           shinyjs::disabled(
-                            sliderTextInput("range", label = "", 
+                            sliderTextInput("range", label = "",
                                             choices = campaign_list,
                                             selected = campaign_list[1],
                                             grid = TRUE
-                                            
+
                             )),
             ),
             shinyjs::disabled(
-            absolutePanel(bottom = "1.5%", left = "68%",
+            absolutePanel(bottom = "1.5%", right = "20%",
                           shinyjs::disabled(
                           awesomeCheckbox(
                             inputId = "Compare",
-                            label = "Compare", 
+                            label = "Compare",
                             value = FALSE,
                             status = "success"
                           )),
             )),
             
+  
             ##########################################################################
             # Left bar
             ##########################################################################
@@ -350,18 +316,6 @@ and Outcomes 7: e77750. <a href="https://doi.org/10.3897/rio.7.e77750" target="_
             ##########################################################################
             chooseSliderSkin("Flat", color = "green"),
             
-            # absolutePanel(bottom = "0%", left = "50%",
-            #               awesomeRadio(
-            #                 inputId = "Id048",
-            #                 label = "", 
-            #                 choices = c("All   ", "Only perennes   ", "Only perennes s"),
-            #                 selected = "All   ",
-            #                 inline = TRUE, 
-            #                 status = "success"
-            #               ),
-            # ),
-            
-
             ##########################################################################
             # Left bar
             ##########################################################################

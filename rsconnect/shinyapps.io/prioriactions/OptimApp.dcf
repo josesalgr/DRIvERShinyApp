@@ -1,0 +1,12 @@
+name: OptimApp
+title: OptimApp
+username: prioriactions
+account: prioriactions
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 12144157
+bundleId: 8723714
+url: https://prioriactions.shinyapps.io/OptimApp/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

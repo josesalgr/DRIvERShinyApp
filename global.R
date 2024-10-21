@@ -1,11 +1,8 @@
 # load libraries
 library(shiny)
 library(zip)
-library(lubridate)
 library(dplyr)
-library(viridis)
 library(shinydashboard)
-library(shinydashboardPlus)
 library(shinyjs)
 library(waiter)
 library(sf)
@@ -14,13 +11,32 @@ library(plotly)
 library(patchwork)
 library(leaflet)
 library(pals)
+library(gridExtra)
 
 library(htmlwidgets)
 library(terra)
 library(leaflet.extras)
 library(leaflet.extras2, include.only = c("easyprintOptions"))
 library(shinyWidgets)
+
+
+#RCBC---------------------------------------------------------------------------
+# 
+# # Run system commands to install required libraries
+# system("apt-get install -y coinor-libcbc-dev coinor-libclp-dev")
+# 
+# 
+# if (!require(remotes))
+#   install.packages("remotes")
+# remotes::install_github("dirkschumacher/rcbc")
+# https://optimapp.shinyapps.io/OptimApp/
+
+
+#-------------------------------------------------------------------------------
+
+
 library(prioritizr)
+library(Rsymphony)
 library(stringr)
 
 library(sass)
@@ -29,8 +45,18 @@ library(glue)
 library(tibble)
 library(stats)
 library(scales)
-library(shinycssloaders)
 library(shinyFeedback)
+library(conflicted)
+
+conflict_prefer("select", "dplyr")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("box", "shinydashboard")
+# conflict_prefer("dashboardPage", "shinydashboardPlus")
+# conflict_prefer("dashboardHeader", "shinydashboard")
+# conflict_prefer("dashboardSiderbar", "shinydashboard")
+conflict_prefer("layout", "plotly")
+
+
 
 # sourcing fonctions
 source("functions_shiny.R")
@@ -38,28 +64,31 @@ source("functions_shiny.R")
 # Settings
 
 #drns
-# drns_long <- c("Albarine (France)","Bükkösdi (Hungary)","Butižnica (Croatia)","Genal (Spain)","Lepsämänjoki (Finland)","Velička (Czech Rep.)")
-# drns_short <- c("Albarine","Bukkosdi","Butiznica","Genal","Lepsamaanjoki","Velicka")
-# drns_countries <- c("France", "Hungary", "Croatia", "Spain", "Finland", "Czech")
+drns_long <- c(" ","Albarine (France)","Bükkösdi (Hungary)","Butižnica (Croatia)","Genal (Spain)","Lepsämänjoki (Finland)","Velička (Czech Rep.)")
+drns_short <- c(" ","Albarine","Bukkosdi","Butiznica","Genal","Lepsamaanjoki","Velicka")
+drns_countries <- c(" ","France", "Hungary", "Croatia", "Spain", "Finland", "Czech")
 
-drns_long <- c(" ","Albarine (France)")
-drns_short <- c(" ","Albarine")
-drns_countries <- c(" ","France")
+# drns_long <- c(" ","Albarine (France)")
+# drns_short <- c(" ","Albarine")
+# drns_countries <- c(" ","France")
 
-variables_short <- c(" ","rich", "simp", "FD",	
-                     "FR", "temp_beta", "alpha", "beta", "gamma",
+variables_short <- c(" ","FD",	
+                     "FR", "temp_beta", "beta",
                      "dem", "co2",
                      "dr_lr", "dr_ss", "er_rip",
-                     "er_sl", "flo_rip", "flo_sl", "th_reg")
+                     "er_sl", "flo_rip", "flo_sl")
 
-variables_long <- c(" ","Predicted richness", 
-                    "Predicted inverse simpson diversity",
-                    "Predicted functional diversity",	
+variables_short_percentile <- c("FD", "FR", "temp_beta", "beta", "dem")
+variables_short_sd <- c("FD", "FR", "dem", "co2")
+
+variables_short_biodiversity <- c("FD", "FR", "temp_beta", "beta")
+variables_short_ecological_functions <- c("dem", "co2")
+variables_short_ecosystem_services <- c("dr_lr", "dr_ss", "er_rip", "er_sl", "flo_rip", "flo_sl")
+
+variables_long <- c(" ","Predicted functional diversity",	
                     "Predicted functional richness",
                     "Temporal Beta diversity",
-                    "Alpha diversity",
                     "Beta diversity",
-                    "Gamma diversity",
                     "Leaf litter decomposition",
                     "Co2 sequestration",
                     "Drought local recharge index",
@@ -67,11 +96,10 @@ variables_long <- c(" ","Predicted richness",
                     "Erosion regulation in riparian areas",
                     "Erosion regulation in slopes",
                     "Flood regulation in riparian areas",
-                    "Flood regulation in slopes",
-                    "Thermal regulation")
+                    "Flood regulation in slopes")
 
-scale_list <- c("Present (2021)", "Projection (2100)")
-scale_list_short <- c("2021", "2100")
+scale_list <- c("Current (2021)", "Projection (2040 - 2070)")
+scale_list_short <- c("current", "future")
 
 campaign_list <- c("Jan-Feb", "Mar-Apr", "May-Jun", "Jul-Aug", "Sep-Oct", "Nov-Dec")
 
@@ -88,7 +116,9 @@ ssp_short <- c("ssp126","ssp370","ssp585")
 gcm_long <- c("GFDL-ESM4", "IPSL-CM6A-LR", "MPI-ESM1-2-HR", "MRI-ESM2-0", "UKESM1-0-LL")
 gcm_short <- c("gfdl-esm4", "ipsl-cm6a-lr", "mpi-esm1-2-hr", "mri-esm2-0", "ukesm1-0-ll")
 last_sol = c()
+last_model = c()
 cons_optimize = 0
+
 
 css <- sass(sass_file("www/css/styles.scss"))
 

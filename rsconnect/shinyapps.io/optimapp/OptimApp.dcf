@@ -5,7 +5,7 @@ account: optimapp
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 11653814
-bundleId:
+bundleId: 9139637
 url: https://optimapp.shinyapps.io/OptimApp/
 version: 1
 asMultiple: FALSE
