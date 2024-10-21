@@ -263,7 +263,7 @@ print_shape <- function(drn, map_name){
 figure_time_serie <- function(var, var_long, id, drn, camp, period, compare){
   
   # Automatically wrap the title based on a maximum width
-  max_width <- 50
+  max_width <- 60
   
   if(var_long == "Co2 sequestration"){
     y_units = "gC-co2/m2"
@@ -275,9 +275,10 @@ figure_time_serie <- function(var, var_long, id, drn, camp, period, compare){
   
   if(compare){
     data_ini <- get_bioinformation(var, drn, "current")
-    data_final <- get_bioinformation(var, drn, period)
+    data_final <- get_bioinformation(var, drn, "future")
+    period <- "future"
     
-    long_title = paste0("Comparation of the temporal trend of ",var_long, " between ", "2021 and ", period)
+    long_title = paste0("Comparation of the temporal trend of ",var_long, " between ", "current (2021) and ", period)
     wrapped_title <- str_wrap(long_title, width = max_width)
     dom_summary = get_difference_domain_bioinformation(var, drn)
     
@@ -300,11 +301,16 @@ figure_time_serie <- function(var, var_long, id, drn, camp, period, compare){
       
       data_filtered = rbind(data_ini_filtered, data_final_filtered)
       
+      # Revisar niveles de period
+      data_filtered <- data_filtered %>%
+        mutate(period = factor(period, levels = c("2021", "future"), labels = c("2021", "Future")))
+      
       p1 <- ggplot(data_filtered, aes(x=campaign, y=value, group = period, color = period))+
         geom_line()+
         geom_point() +
         geom_ribbon(aes(ymin = value - value_sd, ymax = value + value_sd, fill = period), alpha = 0.2, color = NA) +  # Shaded ribbon for SD
-        scale_color_manual(values = c("black", "forestgreen"), name = " ")+
+        scale_color_manual(values = c("black", "forestgreen"), guide = "none") +  # Removes legend title for color
+        scale_fill_manual(values = c("black", "forestgreen"), guide = "none") + 
         theme_bw()+
         ylab(y_units)+xlab("Campaign")+
         ggtitle(wrapped_title)+
@@ -322,6 +328,9 @@ figure_time_serie <- function(var, var_long, id, drn, camp, period, compare){
         select(campaign, value, period)
     
       data_filtered = rbind(data_ini_filtered, data_final_filtered)
+      
+      data_filtered <- data_filtered %>%
+        mutate(period = factor(period, levels = c("2021", "future")))
       
       p1 <- ggplot(data_filtered, aes(x=campaign, y=value, group = period, color = period))+
         geom_line()+
@@ -344,7 +353,13 @@ figure_time_serie <- function(var, var_long, id, drn, camp, period, compare){
     data_filtered <- data %>%
       filter(WP4 == id)
     
-    long_title = paste0("Temporal trend of ",var_long, " in ", period)
+    if(period == "current")
+      period_text = "current (2021)"
+    else{
+      period_text = "future"
+    }
+    
+    long_title = paste0("Temporal trend of ",var_long, " in ", period_text)
     wrapped_title <- str_wrap(long_title, width = max_width)
     dom_summary = get_domain_bioinformation(var, drn)
     
@@ -384,64 +399,80 @@ figure_time_serie <- function(var, var_long, id, drn, camp, period, compare){
 
 # Update the map using the information of Indicator
 update_map_data <- function(drn, var, camp, period, compare){
+
   
   shape <- get_shape(drn)
-  
+
   if(compare){
     data_ini <- get_bioinformation(var, drn, "current")
-    data_final <- get_bioinformation(var, drn, period)
+    data_final <- get_bioinformation(var, drn, "future")
 
     data_ini_filtered <- data_ini %>%
       filter(campaign == camp) %>%
       select(WP4, "value")
-    
+
     data_final_filtered <- data_final %>%
       filter(campaign == camp) %>%
       select(WP4, "value")
-    
+  
     data_filtered = data_final_filtered %>%
       left_join(data_ini_filtered, by = "WP4")
-    
+ 
     data_filtered = data_filtered %>%
       mutate(diff = data_filtered[,2] - data_filtered[,3])%>%
       mutate(ID = WP4)
 
     shape_var <- terra::merge(shape, data_filtered, by.x = "ID", by.y = "WP4", all.x=TRUE)
-    
+
     int_curr <- read.table(paste0("data/data/regimes/", drn, "/current/intermit.csv"), sep = ",", header = TRUE)
     id_col_reg = which(colnames(int_curr) == "Regime")
     colnames(int_curr)[id_col_reg] = "RegimeC"
-    
+
     int_future <- read.table(paste0("data/data/regimes/", drn, "/future/intermit.csv"), sep = ",", header = TRUE)
     id_col_reg = which(colnames(int_future) == "Regime")
     colnames(int_future)[id_col_reg] = "RegimeF"
-    
+
     b_int <- left_join(data_filtered,int_curr, by="WP4") #join intermittence with freq 
     b_int <- left_join(b_int,int_future, by="WP4") #join intermittence with freq 
-    
     shape_var <- terra::merge(shape, b_int, by.x = "ID", by.y = "WP4", all.x=TRUE)
-    shape_var$inter = ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF == "perennial", 1, 
-                             ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF != "perennial", "1,5",
-                                    10))
-    
-    dom_summary = get_difference_domain_bioinformation(var, drn)
-    
-    pal <- colorNumeric(palette="RdYlBu", domain = c(dom_summary$min_var, dom_summary$max_var), na.color="orange")
 
-    title_legend <- ""
+    if(period == "current"){
+      shape_var$popup_text_regime <- shape_var$RegimeC
+    }
+    else{
+      shape_var$popup_text_regime <- shape_var$RegimeF
+    }
+    
+    shape_var$inter = ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF == "perennial", "1", 
+                             ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF != "perennial", "10", "1,5"))
+    
+                                    
+    dom_summary = get_difference_domain_bioinformation(var, drn)
+  
+    pal <- colorNumeric(palette="RdYlBu", domain = c(dom_summary$min_var, dom_summary$max_var), na.color="orange")
+ 
+    title_legend <- "Value"
     
     popup_map <- sprintf(
       "<strong>ID %s</strong><br/>
-         Difference: %g <br/>
+         Value: %g <br/>
          Type: %s <br/>",
       shape_var$ID, 
       shape_var$diff,
-      shape_var$RegimeC) %>% 
+      shape_var$popup_text_regime) %>% 
       lapply(htmltools::HTML)
     
     
     leafletProxy("map_data", data = shape_var) %>%
       clearControls() %>%
+      # Add Custom Legend for Line Patterns
+      addControl(html = "<div style='background: white; padding: 5px;'>
+                        <div style='font-weight: bold;'>Types of regimes </div> 
+                        <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2;' /></svg> Perennial</div>
+                        <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2; stroke-dasharray:1,5;' /></svg> Perennial to Intermittent</div>
+                        <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2; stroke-dasharray:5,5;' /></svg> Intermittent</div>
+                      </div>", 
+                 position = "topright") %>%
       addPolylines(group = "Base",
                    weight = 3, 
                    color = ~pal(shape_var$diff),
@@ -456,25 +487,15 @@ update_map_data <- function(drn, var, camp, period, compare){
                      bringToFront = TRUE,
                      sendToBack = TRUE)
       )%>%
-      addLegend(group = "Base",
-                pal = pal,
-                title = title_legend,
-                values = shape_var$diff,
-                labels = c("Dashed Line", "Solid Line"),
-                opacity = 1,
-                bins = 10,
-                labFormat = labelFormat(digits = 5),
-                position = "topright") %>%
-      # Add Custom Legend for Line Patterns
-      addControl(html = "<div style='background: white; padding: 5px;'>
-                        <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2;' /></svg> Perennial</div>
-                        <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2; stroke-dasharray:1,5;' /></svg> Perennial to Intermittent</div>
-                        <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2; stroke-dasharray:5,5;' /></svg> Intermittent</div>
-                      </div>", 
-                 position = "topright")
-    
-    
-    
+      addLegend_decreasing(group = "Base",
+                           pal = pal,
+                           title = title_legend,
+                           values = shape_var$diff,
+                           labFormat = labelFormat( digits = 5),
+                           decreasing = TRUE,
+                           opacity = 1,
+                           bins = 10,
+                           position = "topright")
   }
   else{
     data <- get_bioinformation(var, drn, period)
@@ -500,15 +521,22 @@ update_map_data <- function(drn, var, camp, period, compare){
     b_int <- left_join(b_int,int_future, by = "WP4")  #join intermittence with freq 
     
     shape_var <- terra::merge(shape, b_int, by.x = "ID", by.y = "WP4", all.x=TRUE)
-    shape_var$inter = ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF == "perennial", 1, 
-                             ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF != "perennial", "1,5",
-                                    10))
+    
+    if(period == "current"){
+      shape_var$popup_text_regime <- shape_var$RegimeC
+    }
+    else{
+      shape_var$popup_text_regime <- shape_var$RegimeF
+    }
+
+    shape_var$inter = ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF == "perennial", "1", 
+                             ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF != "perennial", "10", "1,5"))
     
     dom_summary = get_domain_bioinformation(var, drn)
 
-    pal <- colorNumeric(palette="BrBG", domain=c(dom_summary$min_var, dom_summary$max_var), na.color="orange")
-    
-    title_legend <- ""
+    pal <- colorNumeric(palette="BrBG", domain=c(dom_summary$min_var, dom_summary$max_var), na.color="orange", reverse = FALSE)
+
+    title_legend <- "Value"
     
     popup_map <- sprintf(
       "<strong>ID %s</strong><br/>
@@ -516,7 +544,7 @@ update_map_data <- function(drn, var, camp, period, compare){
          Type: %s <br/>",
       shape_var$ID, 
       shape_var[["value"]][,1],
-      shape_var$RegimeC) %>% 
+      shape_var$popup_text_regime) %>% 
       lapply(htmltools::HTML)
     
     
@@ -524,9 +552,10 @@ update_map_data <- function(drn, var, camp, period, compare){
       clearControls() %>%
       # Add Custom Legend for Line Patterns
       addControl(html = "<div style='background: white; padding: 5px;'>
+                        <div style='font-weight: bold;'>Types of regimes </div> 
                         <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2;' /></svg> Perennial</div>
-                        <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2; stroke-dasharray:1,5;' /></svg> Perennial to Intermittent</div>
-                        <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2; stroke-dasharray:5,5;' /></svg> Intermittent</div>
+                        <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2; stroke-dasharray:5,5;' /></svg> Perennial to Intermittent</div>
+                        <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2; stroke-dasharray:1,5;' /></svg>Intermittent</div>
                       </div>", 
                  position = "topright") %>%
       addPolylines(group = "Base",
@@ -543,17 +572,229 @@ update_map_data <- function(drn, var, camp, period, compare){
                      bringToFront = TRUE,
                      sendToBack = TRUE)
       )%>%
-      addLegend(group = "Base",
+      addLegend_decreasing(group = "Base",
                 pal = pal,
                 title = title_legend,
-                values = shape_var[["value"]][,1],
+                values = as.numeric(shape_var[["value"]][,1]),
                 labFormat = labelFormat(digits = 5),
+                decreasing = TRUE,
                 opacity = 1,
                 bins = 10,
                 position = "topright")
+
   }
 }
 
+
+
+# Update the map using the information of Indicator
+update_map_data_click <- function(drn, var, camp, period, compare, clicked_id, red){
+  
+  shape <- get_shape(drn)
+  
+  if(compare){
+    data_ini <- get_bioinformation(var, drn, "current")
+    data_final <- get_bioinformation(var, drn, "future")
+    
+    data_ini_filtered <- data_ini %>%
+      filter(campaign == camp) %>%
+      select(WP4, "value")
+    
+    data_final_filtered <- data_final %>%
+      filter(campaign == camp) %>%
+      select(WP4, "value")
+    
+    data_filtered = data_final_filtered %>%
+      left_join(data_ini_filtered, by = "WP4")
+    
+    data_filtered = data_filtered %>%
+      mutate(diff = data_filtered[,2] - data_filtered[,3])%>%
+      mutate(ID = WP4)
+    
+    shape_var <- terra::merge(shape, data_filtered, by.x = "ID", by.y = "WP4", all.x=TRUE)
+    
+    int_curr <- read.table(paste0("data/data/regimes/", drn, "/current/intermit.csv"), sep = ",", header = TRUE)
+    id_col_reg = which(colnames(int_curr) == "Regime")
+    colnames(int_curr)[id_col_reg] = "RegimeC"
+    
+    int_future <- read.table(paste0("data/data/regimes/", drn, "/future/intermit.csv"), sep = ",", header = TRUE)
+    id_col_reg = which(colnames(int_future) == "Regime")
+    colnames(int_future)[id_col_reg] = "RegimeF"
+    
+    b_int <- left_join(data_filtered,int_curr, by="WP4") #join intermittence with freq 
+    b_int <- left_join(b_int,int_future, by="WP4") #join intermittence with freq 
+    shape_var <- terra::merge(shape, b_int, by.x = "ID", by.y = "WP4", all.x=TRUE)
+    
+    if(period == "current"){
+      shape_var$popup_text_regime <- shape_var$RegimeC
+    }
+    else{
+      shape_var$popup_text_regime <- shape_var$RegimeF
+    }
+    
+    shape_var$inter = ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF == "perennial", "1", 
+                             ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF != "perennial", "10", "1,5"))
+    
+    
+    dom_summary = get_difference_domain_bioinformation(var, drn)
+    
+    pal <- colorNumeric(palette="RdYlBu", domain = c(dom_summary$min_var, dom_summary$max_var), na.color="orange")
+    
+    title_legend <- "Value"
+    
+    if(red){
+      popup_map <- sprintf(
+        "<strong>ID %s</strong><br/>
+         Value: %g <br/>
+         Type: %s <br/>",
+        clicked_id[['id']], 
+        shape_var[shape_var$ID == clicked_id[['id']], "diff"]$diff,
+        shape_var[shape_var$ID == clicked_id[['id']], "popup_text_regime"]$popup_text_regime) %>% 
+        lapply(htmltools::HTML)
+      
+      lng <- clicked_id[['lng']]  # La columna para longitud
+      lat <- clicked_id[['lat']]   # La columna para latitud
+      
+      leafletProxy("map_data", data = shape_var) %>%
+        #removeShape(layerId = clicked_id[['id']]) %>%
+        addPolylines(
+          data = shape_var[shape_var$ID == clicked_id[['id']], ],  # Vuelve a agregar la línea seleccionada con color rojo
+          group = "Base",
+          weight = 3,
+          color = "red",  # Nuevo color para la línea seleccionada
+          opacity = 1,
+          fill = FALSE, 
+          dashArray = ~inter,
+          layerId = ~ID, 
+          highlightOptions = highlightOptions(
+            weight = 5,
+            color = "red",
+            bringToFront = TRUE,
+            sendToBack = TRUE)
+        )%>%
+        addPopups(
+          lng = lng,
+          lat = lat,
+          popup = popup_map
+        )
+    }
+    else{
+  
+      leafletProxy("map_data", data = shape_var) %>%
+        #removeShape(layerId = clicked_id) %>%
+        addPolylines(
+          data = shape_var[shape_var$ID == clicked_id, ],  # Vuelve a agregar la línea seleccionada con color rojo
+          group = "Base",
+          weight = 3,
+          color = ~pal(shape_var[shape_var$ID == clicked_id, "diff"]$diff),
+          opacity = 1,
+          fill = FALSE, 
+          dashArray = ~inter,
+          layerId = ~ID, 
+          highlightOptions = highlightOptions(
+            weight = 5,
+            color = "red",
+            bringToFront = TRUE,
+            sendToBack = TRUE)
+        )
+    }
+  }
+  else{
+    data <- get_bioinformation(var, drn, period)
+    
+    data_filtered <- data %>%
+      filter(campaign == camp) %>%
+      select(WP4, "value") %>%
+      mutate(ID = WP4)#%>%
+    #distinct(ID, .keep_all = TRUE)
+    
+    
+    shape_var <- terra::merge(shape, data_filtered, by.x = "ID", by.y = "WP4", all.x=TRUE)
+    
+    int_curr <- read.table(paste0("data/data/regimes/", drn, "/current/intermit.csv"), sep = ",", header = TRUE)
+    id_col_reg = which(colnames(int_curr) == "Regime")
+    colnames(int_curr)[id_col_reg] = "RegimeC"
+    
+    int_future <- read.table(paste0("data/data/regimes/", drn, "/future/intermit.csv"), sep = ",", header = TRUE)
+    id_col_reg = which(colnames(int_future) == "Regime")
+    colnames(int_future)[id_col_reg] = "RegimeF"
+    
+    b_int <- left_join(data_filtered,int_curr, by = "WP4") #join intermittence with freq 
+    b_int <- left_join(b_int,int_future, by = "WP4")  #join intermittence with freq 
+    
+    shape_var <- terra::merge(shape, b_int, by.x = "ID", by.y = "WP4", all.x=TRUE)
+    
+    if(period == "current"){
+      shape_var$popup_text_regime <- shape_var$RegimeC
+    }
+    else{
+      shape_var$popup_text_regime <- shape_var$RegimeF
+    }
+    
+    shape_var$inter = ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF == "perennial", "1", 
+                             ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF != "perennial", "10", "1,5"))
+    
+    dom_summary = get_domain_bioinformation(var, drn)
+    pal <- colorNumeric(palette="BrBG", domain=c(dom_summary$min_var, dom_summary$max_var), na.color="orange", reverse = FALSE)
+
+    if(red){
+      popup_map <- sprintf(
+        "<strong>ID %s</strong><br/>
+         Value: %g <br/>
+         Type: %s <br/>",
+        clicked_id[['id']], 
+        shape_var[shape_var$ID == clicked_id[['id']], "value"]$value,
+        shape_var[shape_var$ID == clicked_id[['id']], "popup_text_regime"]$popup_text_regime) %>% 
+        lapply(htmltools::HTML)
+      
+      lng <- clicked_id[['lng']]  # La columna para longitud
+      lat <- clicked_id[['lat']]   # La columna para latitud
+
+      leafletProxy("map_data", data = shape_var) %>%
+        #removeShape(layerId = clicked_id[['id']]) %>%
+        addPolylines(
+          data = shape_var[shape_var$ID == clicked_id[['id']], ],  # Vuelve a agregar la línea seleccionada con color rojo
+          group = "Base",
+          weight = 3,
+          color = "red",  # Nuevo color para la línea seleccionada
+          opacity = 1,
+          fill = FALSE, 
+          dashArray = ~inter,
+          layerId = ~ID, 
+          highlightOptions = highlightOptions(
+            weight = 5,
+            color = "red",
+            bringToFront = TRUE,
+            sendToBack = TRUE)
+        )%>%
+        addPopups(
+          lng = lng,
+          lat = lat,
+          popup = popup_map
+        )
+    }
+    else{
+
+      leafletProxy("map_data", data = shape_var) %>%
+        #removeShape(layerId = clicked_id) %>%
+        addPolylines(
+          data = shape_var[shape_var$ID == clicked_id, ],  # Vuelve a agregar la línea seleccionada con color rojo
+          group = "Base",
+          weight = 3,
+          color = ~pal(shape_var[shape_var$ID == clicked_id, "value"]$value),
+          opacity = 1,
+          fill = FALSE, 
+          dashArray = ~inter,
+          layerId = ~ID, 
+          highlightOptions = highlightOptions(
+            weight = 5,
+            color = "red",
+            bringToFront = TRUE,
+            sendToBack = TRUE)
+        )
+    }
+  }
+}
 
 # The shape clicked is valid?
 is_id <- function(drn, var, camp, id, period){
@@ -926,9 +1167,9 @@ update_map_opt <- function(drn, sol, var){
   
   shape_var <- terra::merge(shape, b_int, by.x = "ID", by.y = "ID", all.x=TRUE)
   
-  shape_var$inter = ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF == "perennial", 1, 
-                           ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF != "perennial", "1,5",
-                           10))
+  shape_var$inter = ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF == "perennial", "1", 
+                           ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF != "perennial", "10", "1,5"))
+  
   
   shape_var$regine_rea = ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF == "perennial", "perennial", 
                            ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF != "perennial", "perennial -> intermittent",
@@ -995,6 +1236,14 @@ update_map_opt <- function(drn, sol, var){
 
   leafletProxy("map_opt") %>% 
     clearControls() %>%
+    # Add Custom Legend for Line Patterns
+    addControl(html = "<div style='background: white; padding: 5px;'>
+                        <div style='font-weight: bold;'>Types of regimes </div> 
+                        <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2;' /></svg> Perennial</div>
+                        <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2; stroke-dasharray:5,5;' /></svg> Perennial to Intermittent</div>
+                        <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2; stroke-dasharray:1,5;' /></svg>Intermittent</div>
+                      </div>", 
+               position = "topright") %>%
     addPolylines(data = Norecomendation_data,
                  group = "Norecomendation",
                  weight = 3,
@@ -1023,18 +1272,12 @@ update_map_opt <- function(drn, sol, var){
                    bringToFront = TRUE,
                    sendToBack = TRUE)
     ) %>%
-    # Add Custom Legend for Line Patterns
-    addControl(html = "<div style='background: white; padding: 5px;'>
-                        <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2;' /></svg> Perennial</div>
-                        <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2; stroke-dasharray:1,5;' /></svg> Perennial to Intermittent</div>
-                        <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2; stroke-dasharray:5,5;' /></svg> Intermittent</div>
-                      </div>", 
-               position = "topright") %>%
-    addLegend(group = "Conservation",
+    addLegend_decreasing(group = "Conservation",
               pal = pal_cons,
               title = "Conservation (frec)",
               values = conservation_data$solution_1,
               opacity = 1,
+              decreasing = TRUE,
               position = "topright") %>%
     addPolylines(data = restauration_data,
                  group = "Restoration",
@@ -1050,26 +1293,221 @@ update_map_opt <- function(drn, sol, var){
                    bringToFront = TRUE,
                    sendToBack = TRUE)
     ) %>%
-    addLegend(group = "Restoration",
+    addLegend_decreasing(group = "Restoration",
               pal = pal_rec,
               title = "Restoration (frec)",
               values = restauration_data$solution_1,
               opacity = 1,
-              position = "topright") %>%
-    # # Add Custom Legend for Line Patterns
-    # addControl(html = "<div style='background: white; padding: 5px;'>
-    #                     <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2;' /></svg> Perennial</div>
-    #                     <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2; stroke-dasharray:1,5;' /></svg> Perennial to Intermittent</div>
-    #                     <div><svg height='10' width='20'><line x1='0' y1='5' x2='20' y2='5' style='stroke:black; stroke-width:2; stroke-dasharray:5,5;' /></svg> Intermittent</div>
-    #                   </div>", 
-    #            position = "topright") %>%
-      addLayersControl(
-        #overlayGroups = c("Conservation", "Restauration"),
-        baseGroups = c("CartoDB", "Elevation", "Satellite","Without background"),
-        options = layersControlOptions(collapsed = TRUE)
-      )
+              decreasing = TRUE,
+              position = "topright")
 }
 
+update_map_opt_click <- function(drn, sol, var, clicked_id, red){
+
+  shape <- get_shape(drn)
+  cons_rest <- calculate_cons_rest(drn, var)
+  
+  data_filtered <- sol %>%
+    select(id, solution_1, id_old, campaign) %>%
+    rename(WP4 = id_old)
+  
+  data_filtered <- data_filtered %>%
+    group_by(WP4) %>%
+    summarise(solution_1 = sum(solution_1)) %>%
+    select(WP4, solution_1) %>%
+    rename(ID = WP4)
+  
+  
+  int_curr <- read.table(paste0("data/data/regimes/", drn, "/current/intermit.csv"), sep = ",", header = TRUE)
+  id_col_reg = which(colnames(int_curr) == "Regime")
+  colnames(int_curr)[id_col_reg] = "RegimeC"
+  
+  int_future <- read.table(paste0("data/data/regimes/", drn, "/future/intermit.csv"), sep = ",", header = TRUE)
+  id_col_reg = which(colnames(int_future) == "Regime")
+  colnames(int_future)[id_col_reg] = "RegimeF"
+  
+  b_int <- left_join(data_filtered, int_curr, by = c("ID" = "WP4")) #join intermittence with freq 
+  b_int <- left_join(b_int, int_future, by = c("ID" = "WP4")) #join intermittence with freq 
+  
+  shape_var <- terra::merge(shape, b_int, by.x = "ID", by.y = "ID", all.x=TRUE)
+  
+  shape_var$inter = ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF == "perennial", "1", 
+                           ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF != "perennial", "10", "1,5"))
+  
+  
+  shape_var$regine_rea = ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF == "perennial", "perennial", 
+                                ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF != "perennial", "perennial -> intermittent",
+                                       "intermittent"))
+  
+  shape_var <- terra::merge(shape_var, cons_rest, by.x = "ID", by.y = "WP4", all.x=TRUE)
+  
+  ##palette
+  #levels(shape_var$solution_1) <- c(0,1)
+  
+  # Define two palettes
+  shape_var$manage <- ifelse(shape_var$total_difference_all*shape_var$solution_1 > 0, "Conservation", 
+                             ifelse(shape_var$total_difference_all*shape_var$solution_1 < 0, "Restoration", "No recomendation"))
+  
+  
+  # Subset the data using terra
+  conservation_data <- subset(shape_var, shape_var$manage == "Conservation")
+  restauration_data <- subset(shape_var, shape_var$manage == "Restoration")
+  Norecomendation_data <- subset(shape_var, shape_var$manage == "No recomendation")
+  
+  pal_cons <- colorFactor(palette="YlGn", domain=conservation_data$solution_1, na.color="orange")
+  pal_rec <- colorFactor(palette="Oranges", domain=restauration_data$solution_1, na.color="orange")
+  
+  pal_cons_modified <- ifelse(conservation_data$manage == "Conservation", pal_cons(conservation_data$solution_1), "gray30")
+  pal_rec_modified <- ifelse(restauration_data$manage == "Restoration", pal_rec(restauration_data$solution_1), "transparent")
+  
+  title_legend <- ""
+  
+  if(red){
+      
+    lng <- clicked_id[['lng']]  # La columna para longitud
+    lat <- clicked_id[['lat']]   # La columna para latitud
+      
+    popup_map <- sprintf(
+        "<strong>ID %s</strong><br/>
+         Value: %g <br/>
+         Type: %s <br/>
+         Potential for: %s <br/>",
+        clicked_id[['id']], 
+        shape_var[shape_var$ID == clicked_id[['id']], "solution_1"]$solution_1,
+        shape_var[shape_var$ID == clicked_id[['id']], "regine_rea"]$regine_rea,
+        shape_var[shape_var$ID == clicked_id[['id']], "manage"]$manage) %>% 
+        lapply(htmltools::HTML)
+      
+    if(clicked_id[['id']] %in% conservation_data$ID){
+      leafletProxy("map_opt", data = shape_var) %>%
+        addPolylines(data = conservation_data[conservation_data$ID == clicked_id[['id']], ],
+                     group = "Conservation",
+                     weight = 3,
+                     color = "red",
+                     fill = FALSE,
+                     opacity = 1,
+                     dashArray = ~inter,
+                     layerId = ~ID,
+                     highlightOptions = highlightOptions(
+                       weight = 5,
+                       color = "red",
+                       bringToFront = TRUE,
+                       sendToBack = TRUE)) %>%
+        addPopups(
+          lng = lng,
+          lat = lat,
+          popup = popup_map
+        )
+    }
+    if(clicked_id[['id']] %in% restauration_data$ID){  
+    leafletProxy("map_opt", data = shape_var) %>%
+      addPolylines(data = restauration_data[restauration_data$ID == clicked_id[['id']], ],
+                   group = "Restoration",
+                   weight = 3,
+                   color = "red",
+                   fill = FALSE,
+                   opacity = 1,
+                   dashArray = ~inter,
+                   layerId = ~ID,
+                   highlightOptions = highlightOptions(
+                     weight = 5,
+                     color = "red",
+                     bringToFront = TRUE,
+                     sendToBack = TRUE)) %>%
+      addPopups(
+        lng = lng,
+        lat = lat,
+        popup = popup_map
+      )
+    }
+    if(clicked_id[['id']] %in% Norecomendation_data$ID){
+    leafletProxy("map_opt", data = shape_var) %>%
+      addPolylines(data = Norecomendation_data[Norecomendation_data$ID == clicked_id[['id']], ],
+                   group = "Norecomendation",
+                   weight = 3,
+                   color = "red",
+                   fill = FALSE,
+                   opacity = 1,
+                   dashArray = ~inter,
+                   layerId = ~ID,
+                   highlightOptions = highlightOptions(
+                     weight = 5,
+                     color = "red",
+                     bringToFront = TRUE,
+                     sendToBack = TRUE)) %>%
+      addPopups(
+        lng = lng,
+        lat = lat,
+        popup = popup_map
+      )
+    }
+  }else{
+    if(clicked_id %in% conservation_data$ID){
+      
+      pal_cons_modified <- ifelse(conservation_data$manage == "Conservation", 
+                                  pal_cons(conservation_data[conservation_data$ID == clicked_id, "solution_1"]$solution_1), "gray30")
+      
+      leafletProxy("map_opt", data = shape_var) %>%
+        addPolylines(
+          data = conservation_data[conservation_data$ID == clicked_id, ],
+          group = "Conservation",
+          weight = 3,
+          color = pal_cons_modified,
+          opacity = 1,
+          fill = FALSE,
+          dashArray = ~inter,
+          layerId = ~ID,
+          highlightOptions = highlightOptions(
+            weight = 5,
+            color = "red",
+            bringToFront = TRUE,
+            sendToBack = TRUE)
+        )
+    }
+    if(clicked_id %in% restauration_data$ID){
+      
+      pal_rec_modified <- ifelse(restauration_data$manage == "Restoration", 
+                                 pal_rec(restauration_data[restauration_data$ID == clicked_id, "solution_1"]$solution_1), "transparent")
+      
+      leafletProxy("map_opt", data = shape_var) %>%
+        addPolylines(
+          data = restauration_data[restauration_data$ID == clicked_id, ],
+          group = "Restoration",
+          weight = 3,
+          color = pal_rec_modified,
+          opacity = 1,
+          fill = FALSE,
+          dashArray = ~inter,
+          layerId = ~ID,
+          highlightOptions = highlightOptions(
+            weight = 5,
+            color = "red",
+            bringToFront = TRUE,
+            sendToBack = TRUE)
+        )
+    }
+    if(clicked_id %in% Norecomendation_data$ID){
+      
+      leafletProxy("map_opt", data = shape_var) %>%
+        addPolylines(
+          data = Norecomendation_data[Norecomendation_data$ID == clicked_id, ],
+          group = "Norecomendation",
+          weight = 3,
+          color = "black",
+          opacity = 1,
+          fill = FALSE,
+          dashArray = ~inter,
+          layerId = ~ID,
+          highlightOptions = highlightOptions(
+            weight = 5,
+            color = "red",
+            bringToFront = TRUE,
+            sendToBack = TRUE)
+        )
+    }
+  }
+}
+  
 update_map_opt_ggplot <- function(drn, sol, var){
   
   shape <- get_shape(drn)
@@ -1118,21 +1556,54 @@ update_map_opt_ggplot <- function(drn, sol, var){
   
   shape_var = st_as_sf(shape_var)
   
-  p1 <- ggplot(shape_var) +
-    geom_sf(aes(color = manage, fill = manage, linetype = regine_rea), size = 0.5) +
-    scale_color_manual(values = c("Conservation" = "green", "Restoration" = "orange", "No recommendation" = "black")) +
-    scale_fill_manual(values = c("Conservation" = "green", "Restoration" = "orange", "No recommendation" = "black")) +
+  # p1 <- ggplot(shape_var) +
+  #   geom_sf(aes(color = manage, fill = manage, linetype = regine_rea), size = 0.5) +
+  #   scale_color_manual(values = c("Conservation" = "green", "Restoration" = "orange", "No recommendation" = "black")) +
+  #   scale_fill_manual(values = c("Conservation" = "green", "Restoration" = "orange", "No recommendation" = "black")) +
+  #   scale_linetype_manual(values = c("perennial" = "solid", 
+  #                                    "intermittent" = "dashed", 
+  #                                    "perennial -> intermittent" = "dotted")) + 
+  #   labs(title = "Map of Management Recommendations",
+  #        color = "Management Type",
+  #        fill = "Management Type",
+  #        linetype = "Regime Type") +
+  #   theme_minimal() +
+  #   theme(legend.position = "right") +
+  #   scale_size_continuous(range = c(0.5, 5)) +
+  #   guides(size = guide_legend(title = "Intermittence"))
+  
+  p1 <- ggplot() +
+    # Conservation layer
+    geom_sf(data = shape_var %>% filter(manage == "Conservation"),
+            aes(fill = solution_1, linetype = regine_rea), color = "black", size = 0.5) +
+    scale_fill_gradientn(
+      colors = c("lightgreen", "darkgreen"),  # Gradiente de verde para conservación
+      limits = c(0, 12),  # Define el rango de valores
+      name = "Solution Sum Conservation",
+      na.value = "grey"
+    ) +
+    
+    # Restoration layer
+    geom_sf(data = shape_var %>% filter(manage == "Restoration"),
+            aes(fill = solution_1, linetype = regine_rea), color = "black", size = 0.5) +
+    scale_fill_gradientn(
+      colors = c("orange", "darkorange"),  # Gradiente de naranja para restauración
+      limits = c(0, 12),  # Define el rango de valores
+      name = "Solution Sum Restoration",
+      na.value = "grey"
+    ) +
+    
+    # Line types for regime transitions
     scale_linetype_manual(values = c("perennial" = "solid", 
                                      "intermittent" = "dashed", 
                                      "perennial -> intermittent" = "dotted")) + 
     labs(title = "Map of Management Recommendations",
          color = "Management Type",
-         fill = "Management Type",
+         fill = "Solution Frequency",
          linetype = "Regime Type") +
     theme_minimal() +
     theme(legend.position = "right") +
-    scale_size_continuous(range = c(0.5, 5)) +
-    guides(size = guide_legend(title = "Intermittence"))
+    guides(fill = guide_colorbar(title = "Times in Solution"))
   
   return(p1)
 }

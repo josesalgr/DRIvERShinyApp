@@ -18,6 +18,8 @@ sidebar <- dashboardSidebar(
     conditionalPanel(
       condition = "input.tabs == 'tab_map'",
       
+      tags$p(tags$strong("Please select entries to visualize data"), style = "color: white; margin-left: 16px;"),
+      
       selectInput("drn_map", label = tags$span(
         "River network", 
         tags$i(
@@ -59,6 +61,8 @@ sidebar <- dashboardSidebar(
     ),
     conditionalPanel(
       condition = "input.tabs == 'tab_opt'",
+      
+      tags$p(tags$strong(HTML("Please select data and preferences <br/> to optimize")), style = "color: white; margin-left: 16px;"),
 
       selectInput("drn_opt", label = tags$span(
         "River network", 
@@ -93,7 +97,7 @@ sidebar <- dashboardSidebar(
       noUiSliderInput(
         inputId = "blm", 
         label = tags$span(
-          "Agreggation", 
+          "Aggregation", 
           tags$i(
             class = "glyphicon glyphicon-info-sign", 
             style = "color:#FFBF00;",
@@ -105,6 +109,14 @@ sidebar <- dashboardSidebar(
         color = "forestgreen", inline = FALSE,
         format = wNumbFormat(decimals = 2),
         height = "15px", width = "250px"
+      ),
+      
+      # Warning box at the end
+      tags$div(
+        class = "alert alert-warning",
+        style = "margin-top: 20px;",
+        tags$strong("Warning: "),
+        HTML("Setting a high aggregation value <br/> may significantly increase computation <br/> times.")
       ),
       
       absolutePanel(bottom = "5%", left = "15%",

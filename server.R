@@ -140,11 +140,17 @@ server <- function(input, output, session) {
   ## Select bottom River network in Data exploration tab
   observeEvent(input$drn_map, {
     
+
     if(input$drn_map != " "){
       
       # data tab
       # Remove previous Leaflet map
-      leafletProxy("map_data") %>% clearMarkers() %>% clearShapes()
+      leafletProxy("map_data") %>% clearMarkers() %>% 
+        clearShapes() %>% 
+        clearPopups() %>% 
+        clearControls()  # Para remover leyendas u otros controles añadidos
+      
+      clicked(NULL) 
       
       # Plot Leaflet map 
       print_shape(drns_short[which(drns_long == input$drn_map)],
@@ -195,14 +201,27 @@ server <- function(input, output, session) {
       id_range = which(input$range == campaign_list)
       drns = drns_short[which(drns_long == input$drn_map)]
       period = scale_list_short[which(scale_list == input$Scale)]
-      
+
       update_map_data(drns, 
                       variables_short[which(variables_long == input$Variable)],
                       id_range,
                       period,
                       input$Compare)
+      
+      click_data <- clicked()  # Obtener el clic actual
+      
+      # Caso 1: Si se hizo clic en un tramo de río (polígono)
+      if(!is.null(click_data[['id']])){  # Verificar si el clic tiene un 'id' (tramo de río)
+
+        update_map_data_click(drns,
+                              variables_short[which(variables_long == input$Variable)],
+                              id_range,
+                              period,
+                              input$Compare,
+                              click_data,
+                              red = TRUE)
+      }
     }
-    
   })
   
   ## Update Variable SelectInput
@@ -211,22 +230,19 @@ server <- function(input, output, session) {
     if(input$Variable != " " & input$drn_map != " "){
       
       # shinyjs::show("plotly1")
-
-      
       drns = drns_short[which(drns_long == input$drn_map)]
       period = scale_list_short[which(scale_list == input$Scale)]
-      
       
       # Enable range bar
       enable("range")
       
       # Enable compare bottom
-      if(period != scale_list_short[1]){
-        enable("Compare")
-      }
+      #if(period != scale_list_short[1]){
+      enable("Compare")
+      #}
       
       id_range = which(input$range == campaign_list)
-
+      
       update_map_data(drns, 
                    variables_short[which(variables_long == input$Variable)],
                    id_range,
@@ -236,6 +252,19 @@ server <- function(input, output, session) {
       # Show SelectInput "Scale"
       shinyjs::show("Scale")
       
+      click_data <- clicked()  # Obtener el clic actual
+
+      # Caso 1: Si se hizo clic en un tramo de río (polígono)
+      if(!is.null(click_data[['id']])){  # Verificar si el clic tiene un 'id' (tramo de río)
+
+        update_map_data_click(drns,
+                              variables_short[which(variables_long == input$Variable)],
+                              id_range,
+                              period,
+                              input$Compare,
+                              click_data,
+                              red = TRUE)
+      }
     }
     
   })
@@ -246,13 +275,13 @@ server <- function(input, output, session) {
     period = scale_list_short[which(scale_list == input$Scale)]
     
     # Enable compare bottom
-    if(period != scale_list_short[1]){
-      shinyjs::enable("Compare")
-    }
-    else{
-      updateCheckboxInput(session, "Compare", value = FALSE)
-      shinyjs::disable("Compare")
-    }
+    #if(period != scale_list_short[1]){
+    shinyjs::enable("Compare")
+    #}
+    #else{
+    #  updateCheckboxInput(session, "Compare", value = FALSE)
+    #  shinyjs::disable("Compare")
+    #}
     
     if(input$Variable != " " && !is.null(input$Variable) && input$drn_map != " "){
       
@@ -266,6 +295,20 @@ server <- function(input, output, session) {
                       id_range,
                       period,
                       input$Compare)
+      
+      click_data <- clicked()  # Obtener el clic actual
+      
+      # Caso 1: Si se hizo clic en un tramo de río (polígono)
+      if(!is.null(click_data[['id']])){  # Verificar si el clic tiene un 'id' (tramo de río)
+        
+        update_map_data_click(drns,
+                              variables_short[which(variables_long == input$Variable)],
+                              id_range,
+                              period,
+                              input$Compare,
+                              click_data,
+                              red = TRUE)
+      }
     }
     
   })
@@ -273,12 +316,12 @@ server <- function(input, output, session) {
   
   ## Update Compare SelectInput
   observeEvent(input$Compare, {
-    
     #if(input$Compare){
     if(input$Variable != " " && !is.null(input$Variable) && input$drn_map != " "){
       
       drns = drns_short[which(drns_long == input$drn_map)]
-      period = scale_list_short[which(scale_list == input$Scale)]
+      #period = scale_list_short[which(scale_list == input$Scale)]
+      period = "future"
       id_range = which(input$range == campaign_list)
       
       update_map_data(drns, 
@@ -286,44 +329,151 @@ server <- function(input, output, session) {
                       id_range,
                       period,
                       input$Compare)
+      
+      click_data <- clicked()  # Obtener el clic actual
+      
+      # Caso 1: Si se hizo clic en un tramo de río (polígono)
+      if(!is.null(click_data[['id']])){  # Verificar si el clic tiene un 'id' (tramo de río)
+      
+        update_map_data_click(drns,
+                              variables_short[which(variables_long == input$Variable)],
+                              id_range,
+                              period,
+                              input$Compare,
+                              click_data,
+                              red = TRUE)
+        }
     }
-    
   })
   
   
+  ## Crear una variable reactiva para guardar la selección
+  clicked <- reactiveVal()
+  
+  ## Manejar clic en un polígono (tramo de río)
+  observeEvent(input$map_data_shape_click, {
+    freezeReactiveValue(input, 'map_data_click')  # Evitar que el clic en el fondo lo sobreescriba
+    clicked(input$map_data_shape_click)           # Guardar clic en el polígono
+  })
+  
+  ## Manejar clic en el fondo (fuera de los tramos de río)
+  observeEvent(input$map_data_click, {
+    clicked(input$map_data_click)                 # Guardar clic en el fondo
+  })
+  
+
   ## Network time series (observed period)
   output[["plotly2"]] <- renderPlotly({
     
+    # Verificar si los inputs relevantes están presentes
     if(input$Variable != " " && !is.null(input$Variable) && input$drn_map != " " && input$Scale != " "){
       
-      click_shape <- input$map_data_shape_click
-      
-      id_range = which(input$range == campaign_list)
-      
-      is_in_map <- is_id(drns_short[which(drns_long == input$drn_map)], 
-                         variables_short[which(variables_long == input$Variable)],
-                         id_range,
-                         click_shape$id,
-                         scale_list_short[which(scale_list == input$Scale)])
-      
-      if(!is.null(click_shape) && is_in_map){
+      click_data <- clicked()  # Obtener el clic actual
+
+      # Caso 1: Si se hizo clic en un tramo de río (polígono)
+      if(!is.null(click_data[['id']])){  # Verificar si el clic tiene un 'id' (tramo de río)
+        
+        # Obtener el rango de la campaña
+        id_range = which(input$range == campaign_list)
+        
+        # Verificar si el clic está dentro del mapa y es válido
+        is_in_map <- is_id(drns_short[which(drns_long == input$drn_map)], 
+                           variables_short[which(variables_long == input$Variable)],
+                           id_range,
+                           click_data$id,
+                           scale_list_short[which(scale_list == input$Scale)])
+        
+        if(is_in_map){
+          # Generar la gráfica
           p1 <- figure_time_serie(variables_short[which(variables_long == input$Variable)], 
                                   variables_long[which(variables_long == input$Variable)], 
-                                  click_shape$id, 
+                                  click_data$id, 
                                   drns_short[which(drns_long == input$drn_map)],
                                   id_range, 
                                   scale_list_short[which(scale_list == input$Scale)],
                                   input$Compare)
-
-        if(input$Compare){
-          ggplotly(p1, width = 500, height = 300)
-        }else{
-          ggplotly(p1, width = 450, height = 300)
+          
+          # Renderizar la gráfica dependiendo si está en modo de comparación
+          if(input$Compare){
+            return(ggplotly(p1, width = 500, height = 300))
+          } else {
+            return(ggplotly(p1, width = 450, height = 300))
+          }
         }
+      } 
+      
+      # Caso 2: Si se hizo clic en el fondo (sin tramo seleccionado)
+      else {
+        
+        drns = drns_short[which(drns_long == input$drn_map)]
+        period = scale_list_short[which(scale_list == input$Scale)]
+        id_range = which(input$range == campaign_list)
+        
+        update_map_data_click(drns,
+                              variables_short[which(variables_long == input$Variable)],
+                              id_range,
+                              period,
+                              input$Compare,
+                              selected_line(),
+                              red = FALSE)
+        
+        
+        # Renderizar un gráfico en blanco cuando se hace clic en el fondo
+        blank_plot <- ggplot() + 
+          theme_minimal() +
+          ggtitle("Please select a river reach")  # Un mensaje opcional cuando no se selecciona nada
+
+        return(ggplotly(blank_plot, width = 450, height = 300))
       }
     }
   })
   
+  # Variable reactiva para almacenar la ID de la capa seleccionada
+  selected_line <- reactiveVal(NULL)
+  
+  # Escucha los eventos de clic en el mapa
+  observeEvent(input$map_data_shape_click, {
+    # Obtén la ID de la línea que fue seleccionada
+    
+    clicked_id <- input$map_data_shape_click$id
+    
+    click_data <- clicked() 
+    
+   
+    
+    if(!is.null(click_data[['id']])){
+      
+      if(input$Variable != " " && !is.null(input$Variable)){
+      
+        drns = drns_short[which(drns_long == input$drn_map)]
+        period = scale_list_short[which(scale_list == input$Scale)]
+        id_range = which(input$range == campaign_list)
+        
+        if (!is.null(selected_line())) {
+          update_map_data_click(drns, 
+                                variables_short[which(variables_long == input$Variable)],
+                                id_range,
+                                period,
+                                input$Compare,
+                                selected_line(),
+                                red = FALSE)
+        }
+        
+        update_map_data_click(drns,
+                              variables_short[which(variables_long == input$Variable)],
+                              id_range,
+                              period,
+                              input$Compare,
+                              click_data,
+                              red = TRUE)
+      }
+      
+    }
+
+    # Actualiza la ID de la línea seleccionada
+    selected_line(clicked_id)
+
+  })
   
   
   # OPTIMIZATION----------------------------------------------------------------
@@ -345,7 +495,20 @@ server <- function(input, output, session) {
   #   updateCoords(input$tabs, input$map_opt_center$lng, input$map_opt_center$lat, input$map_opt_zoom)
   # })
 
-
+  ## Crear una variable reactiva para guardar la selección
+  clicked_opt <- reactiveVal()
+  
+  ## Manejar clic en un polígono (tramo de río)
+  observeEvent(input$map_opt_shape_click, {
+    freezeReactiveValue(input, 'map_opt_click')  # Evitar que el clic en el fondo lo sobreescriba
+    clicked_opt(input$map_opt_shape_click)           # Guardar clic en el polígono
+  })
+  
+  ## Manejar clic en el fondo (fuera de los tramos de río)
+  observeEvent(input$map_opt_click, {
+    clicked_opt(input$map_opt_click)                 # Guardar clic en el fondo
+  })
+  
   
   ## Plot interactive map of the river network (data)
   output[["map_opt"]] <- renderLeaflet({
@@ -365,6 +528,8 @@ server <- function(input, output, session) {
         baseGroups = c("CartoDB", "Elevation", "Satellite","Without background"),
         options = layersControlOptions(collapsed = TRUE)
       ) %>% leafem::addMouseCoordinates() 
+    
+    
     
     if(sync_first){
       
@@ -438,19 +603,48 @@ server <- function(input, output, session) {
   )
   
   ## Network time series (observed period)
+  # output[["plotly3"]] <- renderPlotly({
+  #   
+  #   click_shape <- input$map_opt_shape_click
+  #   
+  #   if(!is.null(click_shape) && input$drn_opt != " " && cons_optimize == 1){
+  # 
+  #     state <- input$`features-stats_weights`
+  #     weights <- state$weights
+  #     
+  #     if(!is.null(weights)){
+  #       p1 <- figure_targets_reached(drns_short[which(drns_long == input$drn_opt)],
+  #                               weights, 
+  #                               click_shape$id)
+  #       
+  #       if (!is.null(p1)) {
+  #         ggplotly(p1, width = 550, height = 300) %>%
+  #           layout(
+  #             margin = list(
+  #               b = 0  # bottom margin
+  #             )
+  #           )
+  #       }
+  #     }
+  #   }
+  # })
+  
+  
+  
+  ## Network time series (observed period)
   output[["plotly3"]] <- renderPlotly({
     
-    click_shape <- input$map_opt_shape_click
+    click_data <- clicked_opt()  # Obtener el clic actual
     
-    if(!is.null(click_shape) && input$drn_opt != " " && cons_optimize == 1){
-
+    if(!is.null(click_data[['id']]) && input$drn_opt != " " && cons_optimize == 1){
+      
       state <- input$`features-stats_weights`
       weights <- state$weights
       
       if(!is.null(weights)){
         p1 <- figure_targets_reached(drns_short[which(drns_long == input$drn_opt)],
-                                weights, 
-                                click_shape$id)
+                                     weights, 
+                                     click_data$id)
         
         if (!is.null(p1)) {
           ggplotly(p1, width = 550, height = 300) %>%
@@ -461,8 +655,68 @@ server <- function(input, output, session) {
             )
         }
       }
-    }
+    }else {
+      
+      state <- input$`features-stats_weights`
+      weights <- state$weights
+      
+      if(input$drn_opt != " " && cons_optimize == 1 && !is.null(selected_line_opt())){
+        update_map_opt_click(drns_short[which(drns_long == input$drn_opt)],
+                              last_sol,
+                              weights,
+                              selected_line_opt(),
+                              red = FALSE)
+        
+      }
+        
+        # Renderizar un gráfico en blanco cuando se hace clic en el fondo
+        blank_plot <- ggplot() + 
+          theme_minimal() +
+          ggtitle("Please select a river reach after optimization")  # Un mensaje opcional cuando no se selecciona nada
+        
+        return(ggplotly(blank_plot, width = 500, height = 300))
+      }
   })
+  
+  # Variable reactiva para almacenar la ID de la capa seleccionada
+  selected_line_opt <- reactiveVal(NULL)
+  
+  # Escucha los eventos de clic en el mapa
+  observeEvent(input$map_opt_shape_click, {
+    # Obtén la ID de la línea que fue seleccionada
+    clicked_id <- input$map_opt_shape_click$id
+    click_data <- clicked_opt() 
+
+    if(!is.null(click_data[['id']])){
+
+      if(input$drn_opt != " " && cons_optimize == 1){
+        
+        state <- input$`features-stats_weights`
+        weights <- state$weights
+
+        if (!is.null(selected_line_opt())) {
+          update_map_opt_click(drns_short[which(drns_long == input$drn_opt)],
+                                last_sol,
+                                weights,
+                                selected_line_opt(),
+                                red = FALSE)
+        }
+        
+        update_map_opt_click(drns_short[which(drns_long == input$drn_opt)],
+                              last_sol,
+                              weights,
+                              click_data,
+                              red = TRUE)
+      }
+      
+    }
+    
+    # Actualiza la ID de la línea seleccionada
+    selected_line_opt(clicked_id)
+    
+  })
+  
+  
   
   
   ## Network time series (observed period)
@@ -475,6 +729,14 @@ server <- function(input, output, session) {
       p1 <- figure_inter_reached(drns_short[which(drns_long == input$drn_opt)])
 
     }
+    else{
+      # Renderizar un gráfico en blanco cuando se hace clic en el fondo
+      p1 <- ggplotly(ggplot() + 
+        theme_minimal() +
+        ggtitle("Please optimize to know the % by selected river reaches type"), width = 550, height = 300)  # Un mensaje opcional cuando no se selecciona nada
+    }
+    
+    return(p1)
   })
 
  
