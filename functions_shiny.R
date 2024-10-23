@@ -1,7 +1,7 @@
 
 read_shp <- function(DRN){
   # path to indicator file
-  path <- paste0("data/shp/",DRN,"/small_river_network.shp")
+  path <- paste0("data/shp/",DRN,"/river_network.shp")
   
   # read shapefile
   shp <- st_read(path)
@@ -1522,8 +1522,7 @@ update_map_opt_ggplot <- function(drn, sol, var){
     summarise(solution_1 = sum(solution_1)) %>%
     select(WP4, solution_1) %>%
     rename(ID = WP4)
-  
-  
+
   int_curr <- read.table(paste0("data/data/regimes/", drn, "/current/intermit.csv"), sep = ",", header = TRUE)
   id_col_reg = which(colnames(int_curr) == "Regime")
   colnames(int_curr)[id_col_reg] = "RegimeC"
@@ -1537,9 +1536,8 @@ update_map_opt_ggplot <- function(drn, sol, var){
   
   shape_var <- terra::merge(shape, b_int, by.x = "ID", by.y = "ID", all.x=TRUE)
   
-  shape_var$inter = ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF == "perennial", 1, 
-                           ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF != "perennial", "1,5",
-                                  10))
+  shape_var$inter = ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF == "perennial", "1", 
+                           ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF != "perennial", "10", "1,5"))
   
   shape_var$regine_rea = ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF == "perennial", "perennial", 
                                 ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF != "perennial", "perennial -> intermittent",
@@ -1556,54 +1554,56 @@ update_map_opt_ggplot <- function(drn, sol, var){
   
   shape_var = st_as_sf(shape_var)
   
-  # p1 <- ggplot(shape_var) +
-  #   geom_sf(aes(color = manage, fill = manage, linetype = regine_rea), size = 0.5) +
-  #   scale_color_manual(values = c("Conservation" = "green", "Restoration" = "orange", "No recommendation" = "black")) +
-  #   scale_fill_manual(values = c("Conservation" = "green", "Restoration" = "orange", "No recommendation" = "black")) +
-  #   scale_linetype_manual(values = c("perennial" = "solid", 
-  #                                    "intermittent" = "dashed", 
-  #                                    "perennial -> intermittent" = "dotted")) + 
-  #   labs(title = "Map of Management Recommendations",
-  #        color = "Management Type",
-  #        fill = "Management Type",
-  #        linetype = "Regime Type") +
-  #   theme_minimal() +
-  #   theme(legend.position = "right") +
-  #   scale_size_continuous(range = c(0.5, 5)) +
-  #   guides(size = guide_legend(title = "Intermittence"))
-  
-  p1 <- ggplot() +
-    # Conservation layer
-    geom_sf(data = shape_var %>% filter(manage == "Conservation"),
-            aes(fill = solution_1, linetype = regine_rea), color = "black", size = 0.5) +
-    scale_fill_gradientn(
-      colors = c("lightgreen", "darkgreen"),  # Gradiente de verde para conservación
-      limits = c(0, 12),  # Define el rango de valores
-      name = "Solution Sum Conservation",
-      na.value = "grey"
-    ) +
-    
-    # Restoration layer
-    geom_sf(data = shape_var %>% filter(manage == "Restoration"),
-            aes(fill = solution_1, linetype = regine_rea), color = "black", size = 0.5) +
-    scale_fill_gradientn(
-      colors = c("orange", "darkorange"),  # Gradiente de naranja para restauración
-      limits = c(0, 12),  # Define el rango de valores
-      name = "Solution Sum Restoration",
-      na.value = "grey"
-    ) +
-    
-    # Line types for regime transitions
-    scale_linetype_manual(values = c("perennial" = "solid", 
-                                     "intermittent" = "dashed", 
-                                     "perennial -> intermittent" = "dotted")) + 
+  p1 <- ggplot(shape_var) +
+    geom_sf(aes(color = manage, fill = manage, linetype = regine_rea), size = 0.5) +
+    scale_color_manual(values = c("Conservation" = "green", "Restoration" = "orange", "No recommendation" = "black")) +
+    scale_fill_manual(values = c("Conservation" = "green", "Restoration" = "orange", "No recommendation" = "black")) +
+    scale_linetype_manual(values = c("perennial" = "solid",
+                                     "intermittent" = "dashed",
+                                     "perennial -> intermittent" = "dotted")) +
     labs(title = "Map of Management Recommendations",
          color = "Management Type",
-         fill = "Solution Frequency",
+         fill = "Management Type",
          linetype = "Regime Type") +
     theme_minimal() +
     theme(legend.position = "right") +
-    guides(fill = guide_colorbar(title = "Times in Solution"))
+    scale_size_continuous(range = c(0.5, 5)) +
+    guides(size = guide_legend(title = "Intermittence"))
+
+
+  
+  # p1 <- ggplot() +
+  #   # Conservation layer
+  #   geom_sf(data = shape_var %>% filter(manage == "Conservation"),
+  #           aes(fill = solution_1, linetype = regine_rea), color = "black", size = 0.5) +
+  #   scale_fill_gradientn(
+  #     colors = c("lightgreen", "darkgreen"),  # Gradiente de verde para conservación
+  #     limits = c(0, 12),  # Define el rango de valores
+  #     name = "Solution Sum Conservation",
+  #     na.value = "grey"
+  #   ) 
+    
+    # # Restoration layer
+    # geom_sf(data = shape_var %>% filter(manage == "Restoration"),
+    #         aes(fill = solution_1, linetype = regine_rea), color = "black", size = 0.5) +
+    # scale_fill_gradientn(
+    #   colors = c("orange", "darkorange"),  # Gradiente de naranja para restauración
+    #   limits = c(0, 12),  # Define el rango de valores
+    #   name = "Solution Sum Restoration",
+    #   na.value = "grey"
+    # ) +
+    # 
+    # # Line types for regime transitions
+    # scale_linetype_manual(values = c("perennial" = "solid", 
+    #                                  "intermittent" = "dotted", 
+    #                                  "perennial -> intermittent" = "dashed")) + 
+    # labs(title = "Map of Management Recommendations",
+    #      color = "Management Type",
+    #      fill = "Solution Frequency",
+    #      linetype = "Regime Type") +
+    # theme_minimal() +
+    # theme(legend.position = "right") 
+    # #guides(fill = guide_colorbar(title = "Times in Solution"))
   
   return(p1)
 }
@@ -1866,6 +1866,10 @@ figure_inter_reached_ggplot <- function(drn){
     coord_polar("y") +  # Transformar a gráfico de pastel
     scale_fill_manual(values = c("#D3D3D3", "#808080", "blue", "red")) +  # Colores personalizados
     labs(title = "% Regime", fill = "Regime") +  # Título y leyenda
+    # Agregar etiquetas con porcentajes
+    geom_text(aes(label = paste0(round(total_solution_1, 1), "%")), 
+              position = position_stack(vjust = 0.5),
+              color = "white") +
     theme_minimal() +  # Tema minimalista
     theme(
       axis.title.x = element_blank(),

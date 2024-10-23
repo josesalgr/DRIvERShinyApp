@@ -733,7 +733,7 @@ server <- function(input, output, session) {
       # Renderizar un gráfico en blanco cuando se hace clic en el fondo
       p1 <- ggplotly(ggplot() + 
         theme_minimal() +
-        ggtitle("Please optimize to know the % by selected river reaches type"), width = 550, height = 300)  # Un mensaje opcional cuando no se selecciona nada
+        ggtitle("Please optimize first"), width = 550, height = 300)  # Un mensaje opcional cuando no se selecciona nada
     }
     
     return(p1)
@@ -749,15 +749,13 @@ server <- function(input, output, session) {
       if(cons_optimize == 1){
         
         sol = last_sol[, c("solution_1")]
-        print(last_model)
-        
         repr <- last_model$feature_abundances_in_planning_units()
-        targ <- last_model$feature_targets()
+        targ <- last_model$targets$data$targets$target
 
         repr = as.data.frame(repr)
         repr$cost <- round(repr$cost, 3)
         repr$variable <- rownames(repr)
-        repr$target = round(targ$value, 3)
+        repr$target = round(targ, 3)
         
         repr <- repr %>%
           mutate(
@@ -767,83 +765,133 @@ server <- function(input, output, session) {
           mutate(variable = sub("_future$", "", variable)) %>%
           group_by(variable) %>%
           summarise(
-            current = max(current, na.rm = TRUE), 
-            future = max(future, na.rm = TRUE),
-            target = max(target, na.rm = TRUE)
+            Totalcurrent = max(current, na.rm = TRUE), 
+            Totalfuture = max(future, na.rm = TRUE),
+            Target = max(target, na.rm = TRUE)
           ) %>%
           mutate(variable_long = variables_long[match(variable, variables_short)]) %>%
-          select(variable_long, current, future, target) %>%
-          rename(Variable = variable_long)
+          select(variable_long, Totalcurrent, Totalfuture, Target) %>%
+          rename(Feature = variable_long)
         
         features_names <- last_model$feature_names()
         features_names <- variables_long[match(features_names, variables_short)] 
         features_names <- paste0(na.omit(features_names), collapse = ", ")
         
-        n_line = -3.5
+        pdf(file, width = 8, height = 10)  # Adjust the size for better control
         
-        pdf(file)
+        # Create the layout
+        layout <- rbind(c(1, 1),
+                        c(2, 2),
+                        c(3, 3))
         
-        # Insertar texto entre gráficos
-        plot.new()  # Crear un nuevo lienzo para el texto
-        title("REPORT", cex = 1.5, line = -1, col = "black") # Texto centrado en la página
+        # Title and Basic Info
+        grid.newpage()
+        pushViewport(viewport(layout = grid.layout(nrow = 3, ncol = 1)))
         
-        mtext(paste0("River network: ", input$drn_opt), side = 3, line = n_line, adj = 0)
-        
-        n_line = n_line-1.2
-        mtext(paste0("Number of planning units: ", last_model$number_of_planning_units()), side = 3, line = n_line, adj = 0)
-
-        wrapped_text <- strwrap(paste0("Features selected: ", features_names), width = 80)
-        n_line = n_line-1.2
+        # Title Section
+        pushViewport(viewport(layout.pos.row = 1))
+        grid.text("REPORT", x = 0.5, y = 0.9, gp = gpar(fontsize = 18, fontface = "bold"))
+        grid.text(paste0("River network: ", input$drn_opt), 
+                  x = 0.1, y = 0.7, just = "left", gp = gpar(fontsize = 12))
+        grid.text(paste0("Number of planning units: ", last_model$number_of_planning_units()), 
+                  x = 0.1, y = 0.6, just = "left", gp = gpar(fontsize = 12))
+        grid.text(paste0("Aggregation level: ", input$blm), 
+                  x = 0.1, y = 0.5, just = "left", gp = gpar(fontsize = 12))
+        wrapped_text <- strwrap(paste0("Features selected: ", features_names), width = 100)
         for (i in seq_along(wrapped_text)) {
-          mtext(wrapped_text[i], side = 3, line = n_line, adj = 0)
-          n_line = n_line- 1
+          grid.text(wrapped_text[i], x = 0.1, y = 0.45 - i * 0.05, just = "left", gp = gpar(fontsize = 12))
         }
+        #popViewport()
         
-        n_line = n_line-0.2
-        mtext(paste0("Aggregation level: ", input$blm), side = 3, line = n_line, adj = 0)
-        
-        
-        #mtext(paste0("Features selected: ", features_names), side = 3, line = -3.5, adj = 0)
-        
-        
-        
-        plot.new() 
-        # Insertar la tabla en el PDF
-        mtext(paste0("Representativeness "), side = 3, line = -3.5, adj = 0)
+        # Table Section
+        #pushViewport(viewport(layout.pos.row = 2))
+        # Ajustar la posición de la tabla
+        grid.text(paste0("Features information: "), 
+                  x = 0.1, y = 0.0, just = "left", gp = gpar(fontsize = 12))
+        pushViewport(viewport(y = -0.6, height = unit(0.4, "npc")))  # Ajustar el valor de `y` para controlar la posición vertical
         grid.table(repr)
+        popViewport()
         
+        
+        # Sección de Plots
         state <- input$`features-stats_weights`
         weights <- state$weights
-        
         p1 <- update_map_opt_ggplot(drns_short[which(drns_long == input$drn_opt)],
                               last_sol,
                               weights)
-
+        
         print(p1)
         
         p1 <- figure_inter_reached_ggplot(drns_short[which(drns_long == input$drn_opt)])
-        
+
         print(p1)
         
-        click_shape <- input$map_opt_shape_click
-        
-        if(!is.null(click_shape) && input$drn_opt != " "){
-          
-          state <- input$`features-stats_weights`
-          weights <- state$weights
-          
-          if(!is.null(weights)){
-            p2 <- figure_targets_reached(drns_short[which(drns_long == input$drn_opt)],
-                                         weights, 
-                                         click_shape$id)
-          }
-          
-          print(p2)
-        }
-        
         dev.off()
+        
+        # n_line = -3.5
+        # pdf(file)
+        # 
+        # # Insertar texto entre gráficos
+        # plot.new()  # Crear un nuevo lienzo para el texto
+        # title("REPORT", cex = 1.5, line = -1, col = "black") # Texto centrado en la página
+        # 
+        # mtext(paste0("River network: ", input$drn_opt), side = 3, line = n_line, adj = 0)
+        # 
+        # n_line = n_line-1.2
+        # mtext(paste0("Number of planning units: ", last_model$number_of_planning_units()), side = 3, line = n_line, adj = 0)
+        # 
+        # wrapped_text <- strwrap(paste0("Features selected: ", features_names), width = 80)
+        # n_line = n_line-1.2
+        # for (i in seq_along(wrapped_text)) {
+        #   mtext(wrapped_text[i], side = 3, line = n_line, adj = 0)
+        #   n_line = n_line- 1
+        # }
+        # 
+        # n_line = n_line-0.2
+        # mtext(paste0("Aggregation level: ", input$blm), side = 3, line = n_line, adj = 0)
+        # 
+        # 
+        # #mtext(paste0("Features selected: ", features_names), side = 3, line = -3.5, adj = 0)
+        # 
+        # 
+        # 
+        # plot.new() 
+        # # Insertar la tabla en el PDF
+        # mtext(paste0("Representativeness "), side = 3, line = -3.5, adj = 0)
+        # grid.table(repr)
+        # 
+        # state <- input$`features-stats_weights`
+        # weights <- state$weights
+        # 
+        # p1 <- update_map_opt_ggplot(drns_short[which(drns_long == input$drn_opt)],
+        #                       last_sol,
+        #                       weights)
+        # 
+        # print(p1)
+        # 
+        # p1 <- figure_inter_reached_ggplot(drns_short[which(drns_long == input$drn_opt)])
+        # 
+        # print(p1)
+        # 
+        # click_shape <- input$map_opt_shape_click
+        # 
+        # if(!is.null(click_shape) && input$drn_opt != " "){
+        #   
+        #   state <- input$`features-stats_weights`
+        #   weights <- state$weights
+        #   
+        #   if(!is.null(weights)){
+        #     p2 <- figure_targets_reached(drns_short[which(drns_long == input$drn_opt)],
+        #                                  weights, 
+        #                                  click_shape$id)
+        #   }
+        #   
+        #   print(p2)
+        # }
+        # 
+        # dev.off()
       } else {
-        showNotification("Imposible to generate PDF: You need to run first a model.", type = "error")
+        showNotification("Imposible to generate PDF: You need to optimize first.", type = "error")
       }
     }
   )

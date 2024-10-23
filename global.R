@@ -12,6 +12,7 @@ library(patchwork)
 library(leaflet)
 library(pals)
 library(gridExtra)
+library(grid)
 
 library(htmlwidgets)
 library(terra)
@@ -34,7 +35,7 @@ library(shinyWidgets)
 
 #-------------------------------------------------------------------------------
 
-
+library(ggnewscale)
 library(prioritizr)
 library(Rsymphony)
 library(stringr)
