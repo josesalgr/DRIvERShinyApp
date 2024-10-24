@@ -823,7 +823,7 @@ server <- function(input, output, session) {
         print(p1)
         
         p1 <- figure_inter_reached_ggplot(drns_short[which(drns_long == input$drn_opt)])
-
+        
         print(p1)
         
         dev.off()

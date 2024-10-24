@@ -22,7 +22,7 @@ figure_map <- function(drn){
   
   p_map <-leaflet() %>%
     addTiles() %>%
-    addProviderTiles(providers$OpenStreetMap) %>%
+    addProviderTiles(providers$OpenStreetMap) %>% 
     addPolylines(data = river_network, color = "darkblue",opacity = 1, weight=2) %>%
     addScaleBar(position="bottomright")
   return(p_map)
@@ -1545,6 +1545,65 @@ update_map_opt_ggplot <- function(drn, sol, var){
   
   shape_var <- terra::merge(shape_var, cons_rest, by.x = "ID", by.y = "WP4", all.x=TRUE)
   
+  
+  
+  
+  
+  
+  
+  
+  b_int <- left_join(data_filtered, int_curr, by = c("ID" = "WP4")) #join intermittence with freq 
+  b_int <- left_join(b_int, int_future, by = c("ID" = "WP4")) #join intermittence with freq 
+  
+  shape_var <- terra::merge(shape, b_int, by.x = "ID", by.y = "ID", all.x=TRUE)
+  
+  shape_var$inter = ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF == "perennial", "1", 
+                           ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF != "perennial", "10", "1,5"))
+  
+  
+  shape_var$regine_rea = ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF == "perennial", "perennial", 
+                                ifelse(shape_var$RegimeC == "perennial" & shape_var$RegimeF != "perennial", "perennial -> intermittent",
+                                       "intermittent"))
+  
+  shape_var <- terra::merge(shape_var, cons_rest, by.x = "ID", by.y = "WP4", all.x=TRUE)
+  
+  ##palette
+  #levels(shape_var$solution_1) <- c(0,1)
+  
+  # Define two palettes
+  shape_var$manage <- ifelse(shape_var$total_difference_all*shape_var$solution_1 > 0, "Conservation", 
+                             ifelse(shape_var$total_difference_all*shape_var$solution_1 < 0, "Restoration", "No recomendation"))
+  
+  
+  # Subset the data using terra
+  conservation_data <- subset(shape_var, shape_var$manage == "Conservation")
+  restauration_data <- subset(shape_var, shape_var$manage == "Restoration")
+  Norecomendation_data <- subset(shape_var, shape_var$manage == "No recomendation")
+  
+  pal_cons <- colorFactor(palette="YlGn", domain=conservation_data$solution_1, na.color="orange")
+  pal_rec <- colorFactor(palette="Oranges", domain=restauration_data$solution_1, na.color="orange")
+  
+  
+  pal_cons_modified <- ifelse(conservation_data$manage == "Conservation", pal_cons(conservation_data$solution_1), "gray30")
+  pal_rec_modified <- ifelse(restauration_data$manage == "Restoration", pal_rec(restauration_data$solution_1), "transparent")
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   ##palette
   #levels(shape_var$solution_1) <- c(0,1)
   
@@ -1559,8 +1618,8 @@ update_map_opt_ggplot <- function(drn, sol, var){
     scale_color_manual(values = c("Conservation" = "green", "Restoration" = "orange", "No recommendation" = "black")) +
     scale_fill_manual(values = c("Conservation" = "green", "Restoration" = "orange", "No recommendation" = "black")) +
     scale_linetype_manual(values = c("perennial" = "solid",
-                                     "intermittent" = "dashed",
-                                     "perennial -> intermittent" = "dotted")) +
+                                     "intermittent" = "dotted",
+                                     "perennial -> intermittent" = "dashed")) +
     labs(title = "Map of Management Recommendations",
          color = "Management Type",
          fill = "Management Type",
@@ -1569,9 +1628,8 @@ update_map_opt_ggplot <- function(drn, sol, var){
     theme(legend.position = "right") +
     scale_size_continuous(range = c(0.5, 5)) +
     guides(size = guide_legend(title = "Intermittence"))
-
-
   
+
   # p1 <- ggplot() +
   #   # Conservation layer
   #   geom_sf(data = shape_var %>% filter(manage == "Conservation"),
@@ -1582,7 +1640,7 @@ update_map_opt_ggplot <- function(drn, sol, var){
   #     name = "Solution Sum Conservation",
   #     na.value = "grey"
   #   ) 
-    
+  #   
     # # Restoration layer
     # geom_sf(data = shape_var %>% filter(manage == "Restoration"),
     #         aes(fill = solution_1, linetype = regine_rea), color = "black", size = 0.5) +
@@ -1859,15 +1917,18 @@ figure_inter_reached_ggplot <- function(drn){
   
   b_int <- data_filtered %>%
     group_by(inter) %>%
-    summarize(total_solution_1 = sum(Regime))
-  
+    summarize(total_solution_1 = sum(Regime)) %>%
+    ungroup() %>%
+    mutate(total_sum = sum(total_solution_1), 
+           perc_total = total_solution_1 / total_sum)
+
   p1 <- ggplot(b_int, aes(x = "", y = total_solution_1, fill = inter)) +
     geom_bar(stat = "identity", width = 1) +  # Gráfico de barras, con width = 1
     coord_polar("y") +  # Transformar a gráfico de pastel
     scale_fill_manual(values = c("#D3D3D3", "#808080", "blue", "red")) +  # Colores personalizados
     labs(title = "% Regime", fill = "Regime") +  # Título y leyenda
     # Agregar etiquetas con porcentajes
-    geom_text(aes(label = paste0(round(total_solution_1, 1), "%")), 
+    geom_text(aes(label = paste0(round(perc_total*100, 1), "%")), 
               position = position_stack(vjust = 0.5),
               color = "white") +
     theme_minimal() +  # Tema minimalista
