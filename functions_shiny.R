@@ -882,7 +882,7 @@ calculate_opt_inputs <- function(drn, var){
         quantiles_var <- quantile(data_filtered[[var_short]], probs = c(0.5, 0.75, 0.90), na.rm = TRUE)
 
         data_filtered <- data_filtered %>%
-          mutate(value = ifelse(data_filtered[[var_short]] > quantiles_var[1], 1, 0)) %>%
+          mutate(value = ifelse(data_filtered[[var_short]] >= quantiles_var[1], 1, 0)) %>%
           #select(-c(!!var_short)) %>%
           rename(!!paste0(var_short, "_original") := var_short) %>%
           rename(!!var_short := value)
@@ -905,7 +905,7 @@ calculate_opt_inputs <- function(drn, var){
         quantiles_var <- quantile(data_aux_filtered[[var_short]], probs = c(0.5, 0.75, 0.90), na.rm = TRUE)
         
         data_aux_filtered <- data_aux_filtered %>%
-          mutate(value = ifelse(data_aux_filtered[[var_short]] > quantiles_var[1], 1, 0)) %>%
+          mutate(value = ifelse(data_aux_filtered[[var_short]] >= quantiles_var[1], 1, 0)) %>%
           #select(-c(!!var_short)) %>%
           rename(!!paste0(var_short, "_original") := var_short) %>%
           rename(!!var_short := value)
@@ -917,8 +917,8 @@ calculate_opt_inputs <- function(drn, var){
   }
 
   puvspr_dat_current <- data_filtered %>%
-    tidyr::pivot_longer(-c(WP4, id_old, campaign), names_to = "species", values_to = "amount") %>%
-    filter(amount != 0)
+    tidyr::pivot_longer(-c(WP4, id_old, campaign), names_to = "species", values_to = "amount") #%>%
+    #filter(amount != 0)
   
   colnames(puvspr_dat_current) <- c("pu", "id_old", "campaign", "species", "amount")
   puvspr_dat_current$pu <- as.numeric(puvspr_dat_current$pu)
@@ -944,7 +944,7 @@ calculate_opt_inputs <- function(drn, var){
 
   boundary_dat <- boundary_dat %>%
     filter(!is.na(boundary)) %>%
-    filter(boundary > 0.5)
+    filter(boundary >= 0.1)
 
   ##############################################################################
   #Future-------------------------------------------------------------------------
@@ -1071,12 +1071,17 @@ optimizing <- function(drn, var, blm){
 
   input_data <- calculate_opt_inputs(drn, var)
   
+  # write.csv(input_data$pu_dat, file = "pu_dat.csv", sep = ",", row.names = FALSE)
+  # write.csv(input_data$spec_dat, file = "spec_dat.csv", sep = ",", row.names = FALSE)
+  # write.csv(input_data$puvspr_dat, file = "puvspr_dat.csv", sep = ",", row.names = FALSE)
+  # write.csv(input_data$boundary_dat, file = "boundary_dat.csv", sep = ",", row.names = FALSE)
+  
   p <- prioritizr::marxan_problem(input_data$pu_dat, 
                                   input_data$spec_dat, 
                                   input_data$puvspr_dat, 
                                   input_data$boundary_dat, 
                                   blm = blm) %>%
-    add_rsymphony_solver(gap = 0.10, time_limit = 50)
+    add_rsymphony_solver(gap = 0.10, time_limit = 150)
   
   sol <- solve(p, force = TRUE)
   
@@ -1093,11 +1098,12 @@ optimizing <- function(drn, var, blm){
 calculate_cons_rest <- function(drn, var){
   
   input_data <- calculate_opt_inputs(drn, var)
-  
+
   data_filtered_future <- input_data$puvspr_dat_future %>%
-    filter(!species %in% paste0(variables_short_percentile, "_future") | grepl("_original_", species)) %>%
-    mutate(species = ifelse(grepl(paste0(variables_short_percentile, collapse = "|"), species) & grepl("_original_", species),
-                            sub("_original_", "_", species), species)) %>%
+    filter(!species %in% paste0(variables_short_percentile, "_original_future")) %>%
+    #filter(!species %in% paste0(variables_short_percentile, "_future") | grepl("_original_", species)) %>%
+    # mutate(species = ifelse(grepl(paste0(variables_short_percentile, collapse = "|"), species) & grepl("_original_", species),
+    #                         sub("_original_", "_", species), species)) %>%
     rename(WP4 = id_old) %>%
     rename(name = species) %>%
     select(WP4, name, amount, campaign) %>%
@@ -1106,34 +1112,85 @@ calculate_cons_rest <- function(drn, var){
     mutate(name = gsub("_future$", "", name))
   
   data_filtered_current <- input_data$puvspr_dat_current %>%
-      filter(!species %in% variables_short_percentile | grepl("_original", species)) %>%
-      mutate(species = ifelse(grepl(paste0(variables_short_percentile, collapse = "|"), species) & grepl("_original", species),
-                              sub("_original", "", species), species)) %>%
+      filter(!species %in% paste0(variables_short_percentile, "_original")) %>%
+      # filter(!species %in% variables_short_percentile | grepl("_original", species)) %>%
+      # mutate(species = ifelse(grepl(paste0(variables_short_percentile, collapse = "|"), species) & grepl("_original", species),
+      #                         sub("_original", "", species), species)) %>%
       rename(WP4 = id_old) %>%
       rename(name = species) %>%
       select(WP4, name, amount, campaign) %>%
       mutate(period = "current") %>%
       left_join(input_data$spec_dat, by = c("name" = "name")) 
-
+  
   data_species <- rbind(data_filtered_future, data_filtered_current)
   
   # Group by WP4, campaign, name, and period, then summarize the amount
   df_summarized <- data_species %>%
     select(WP4, name, amount, campaign, period) %>%
-    group_by(WP4, campaign, name, period) %>%
-    summarize(total_amount = sum(amount)) 
+    group_by(WP4, name, period) %>%
+    summarize(total_amount = mean(amount)) 
+  
+  # Filtrar los valores de co2
+  co2_values <- df_summarized$total_amount[df_summarized$name == "co2"]
+  # 
+  # # Calcular los valores normalizados
+  normalized_co2 <- (co2_values - min(co2_values)) / (max(co2_values) - min(co2_values))
+  # 
+  # # Asignar los valores normalizados al dataframe
+  df_summarized$total_amount[df_summarized$name == "co2"] <- normalized_co2
+  
+  # Filtrar los valores de dem
+  # dem_values <- df_summarized$total_amount[df_summarized$name == "dem"]
+  # 
+  # # Calcular los valores normalizados
+  # normalized_dem <- (dem_values - min(dem_values)) / (max(dem_values) - min(dem_values))
+  # 
+  # # Asignar los valores normalizados al dataframe
+  # df_summarized$total_amount[df_summarized$name == "dem"] <- normalized_dem
+  
+  
+  
+  # df_wide <- df_summarized %>%
+  #   tidyr::pivot_wider(names_from = period, values_from = total_amount, names_prefix = "period_") %>%
+  #   mutate(difference = period_future - period_current) %>%
+  #   group_by(WP4, name) %>%
+  #   summarize(total_difference = mean(difference), .groups = 'drop') 
+  # 
   
   df_wide <- df_summarized %>%
     tidyr::pivot_wider(names_from = period, values_from = total_amount, names_prefix = "period_") %>%
-    mutate(difference = period_future - period_current) %>%
+    mutate(difference = period_future - period_current) |> 
+    select(WP4, name, difference)
+  
+  print(df_wide)
+  
+  df_wide <- df_wide %>%
+    #filter(name %in% variables_short_sd) |> 
     group_by(WP4, name) %>%
-    summarize(total_difference = mean(difference), .groups = 'drop') 
-    
+    summarize(
+      total_difference = mean(difference, na.rm = TRUE), # Media ignorando NA
+      .groups = 'drop'
+    )
+  
+  # df_wide_nosd <- df_wide %>%
+  #   filter(!name %in% variables_short_sd) |> 
+  #   group_by(WP4, name) %>%
+  #   summarize(
+  #     total_difference = mean(difference, na.rm = TRUE), # Media ignorando NA
+  #     .groups = 'drop'
+  #   )
+  
+  #df_wide <- rbind(df_wide_sd, df_wide_nosd)
+
   # Spread the periods into separate columns to calculate the difference
   df_wide <- df_wide %>%
     group_by(WP4) %>%
     summarize(total_difference_all = sum(total_difference, na.rm = T), .groups = 'drop')
 
+  # write.csv(df_wide, "df_wide_export.csv", row.names = FALSE)
+  # 
+  # print(df_wide)
+  
   return(df_wide)
 }
 

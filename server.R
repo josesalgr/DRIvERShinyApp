@@ -571,6 +571,7 @@ server <- function(input, output, session) {
                    input$blm)
         
         cons_optimize <<- 1
+        preview_weights <<- weights
         
       }
       resetLoadingButton("optimize")
@@ -641,12 +642,14 @@ server <- function(input, output, session) {
       state <- input$`features-stats_weights`
       weights <- state$weights
       
-      if(!is.null(weights)){
+      if(!is.null(weights) & identical(weights, preview_weights)){
         p1 <- figure_targets_reached(drns_short[which(drns_long == input$drn_opt)],
                                      weights, 
                                      click_data$id)
         
         if (!is.null(p1)) {
+          review_plot3 <<- 0
+          
           ggplotly(p1, width = 550, height = 300) %>%
             layout(
               margin = list(
@@ -654,6 +657,14 @@ server <- function(input, output, session) {
               )
             )
         }
+      }
+      else{
+        # Renderizar un gráfico en blanco cuando se hace clic en el fondo
+        blank_plot <- ggplot() + 
+          theme_minimal() +
+          ggtitle("Please re-optimize to visualize the result")  # Un mensaje opcional cuando no se selecciona nada
+        
+        return(ggplotly(blank_plot, width = 500, height = 300))
       }
     }else {
       

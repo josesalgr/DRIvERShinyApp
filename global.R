@@ -99,7 +99,7 @@ variables_long <- c(" ","Predicted functional diversity",
                     "Flood regulation in riparian areas",
                     "Flood regulation in slopes")
 
-scale_list <- c("Current (2021)", "Projection (2040 - 2070)")
+scale_list <- c("Current (2021)", "Future (2040 - 2070)")
 scale_list_short <- c("current", "future")
 
 campaign_list <- c("Jan-Feb", "Mar-Apr", "May-Jun", "Jul-Aug", "Sep-Oct", "Nov-Dec")
@@ -119,6 +119,7 @@ gcm_short <- c("gfdl-esm4", "ipsl-cm6a-lr", "mpi-esm1-2-hr", "mri-esm2-0", "ukes
 last_sol = c()
 last_model = c()
 cons_optimize = 0
+preview_weights = list()
 
 
 css <- sass(sass_file("www/css/styles.scss"))
